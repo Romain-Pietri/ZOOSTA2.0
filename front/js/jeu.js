@@ -1,4 +1,5 @@
-
+const sk= require('socket_manager.js'); 
+const hell = hello();
 var config = {
     type: Phaser.AUTO,
     scale: {
@@ -410,6 +411,9 @@ function create(){
 
 
 function update(){
+    const atm = this
+    hell.then(function (value) {
+        console.log(value);
 
     //console.log(time);
     
@@ -427,12 +431,12 @@ function update(){
     posXTest.setText(game.input.mousePointer.x);
     posYTest.setText(game.input.mousePointer.y);
 
-    if(this.menu1.visible == false){
+    if(atm.menu1.visible == false){
         for(let i = 0; i < 8; i++){
-            this.animals[i].visible = false;
+            atm.animals[i].visible = false;
         }
         for(let i = 0; i < 8; i++){
-            this.animals2[i].visible = false;
+            atm.animals2[i].visible = false;
         }
     }
 
@@ -440,76 +444,76 @@ function update(){
 
     // ====== AFFICHAGE FENETRES avec switch ====== AFFICHAGE FENETRES avec switch ======
     //MENU ECHAP
-    if(this.echap.isDown && switchEchap == false)
+    if(atm.echap.isDown && switchEchap == false)
     {
-        if(this.menu1.visible == true){
-            this.menu1.visible = false;
+        if(atm.menu1.visible == true){
+            atm.menu1.visible = false;
             for(let i = 0; i < 4; i++){
-                this.myntab[i].visible = false;
+                atm.myntab[i].visible = false;
             }
             for(let i = 0; i < 4; i++){
-                this.persotab[i].visible = false;
+                atm.persotab[i].visible = false;
             }
             for(let i = 0; i < 8; i++){
-                this.animals[i].visible = false;
+                atm.animals[i].visible = false;
             }
             for(let i = 0; i < 8; i++){
-                this.animals2[i].visible = false;
+                atm.animals2[i].visible = false;
             }
             switchEchap = true;
         }
-        else if(this.menu0.visible == false)
+        else if(atm.menu0.visible == false)
         {
-            this.menu0.visible = true;
-            this.resume.visible = true;
-            this.settings.visible = true;
-            this.quit.visible = true;
+            atm.menu0.visible = true;
+            atm.resume.visible = true;
+            atm.settings.visible = true;
+            atm.quit.visible = true;
             switchEchap = true;
         }
         else
         {
-            this.menu0.visible = false;
-            this.resume.visible = false;
-            this.settings.visible = false;
-            this.quit.visible = false;
+            atm.menu0.visible = false;
+            atm.resume.visible = false;
+            atm.settings.visible = false;
+            atm.quit.visible = false;
             switchEchap = true;
         }
     }
-    else if(this.echap.isUp && switchEchap == true)
+    else if(atm.echap.isUp && switchEchap == true)
     {
         switchEchap = false;
     }
 
     //MENU PERSONNEL
-    if(this.M.isDown && switchM == false)
+    if(atm.M.isDown && switchM == false)
     {
-        if(this.menu1.visible == false)
+        if(atm.menu1.visible == false)
         {
-            this.menu1.visible = true;
+            atm.menu1.visible = true;
             for(let i = 0; i < 4; i++){
-                this.persotab[i].visible = true;
+                atm.persotab[i].visible = true;
             }
             switchM = true;
         }
         else
         {
-            this.menu1.visible = false;
+            atm.menu1.visible = false;
             for(let i = 0; i < 4; i++){
-                this.persotab[i].visible = false;
+                atm.persotab[i].visible = false;
             }
             switchM = true;
         }
     }
-    else if(this.M.isUp && switchM == true)
+    else if(atm.M.isUp && switchM == true)
     {
         switchM = false;
     }
     //MENU ENCLOS COCHONGS
     if(cocos == true)
     {
-        this.menu1.visible = true;
+        atm.menu1.visible = true;
         for(let i = 0; i < 4; i++){
-            this.myntab[i].visible = true;
+            atm.myntab[i].visible = true;
         }
         
         cocos = false;
@@ -517,9 +521,9 @@ function update(){
     //MENU ENCLOS GOATS
     if(gogos == true)
     {
-        this.menu1.visible = true;
+        atm.menu1.visible = true;
         for(let i = 0; i < 4; i++){
-            this.animals[i].visible = true;
+            atm.animals[i].visible = true;
         }
 
         gogos = false;
@@ -527,9 +531,9 @@ function update(){
     //MENU ENCLOS POULETS
     if(poul == true)
     {
-        this.menu1.visible = true;
+        atm.menu1.visible = true;
         for(let i = 4; i < 6; i++){
-            this.animals[i].visible = true;
+            atm.animals[i].visible = true;
         }
 
         poul = false;
@@ -537,9 +541,9 @@ function update(){
     //MENU ENCLOS POULETS
     if(ice == true)
     {
-        this.menu1.visible = true;
+        atm.menu1.visible = true;
         for(let i = 6; i < 8; i++){
-            this.animals[i].visible = true;
+            atm.animals[i].visible = true;
         }
 
         ice = false;
@@ -550,47 +554,48 @@ function update(){
 
 //PAS BESOIN DE MODIF JE PENSE (ce sera pas gardé de toute façon)
     //LOL BAR XP
-    if(this.P.isDown && switchP == false)
+    if(atm.P.isDown && switchP == false)
     {
         frameP = (frameP+1)%19;
-        this.anim_xp.setFrame(frameP);
+        atm.anim_xp.setFrame(frameP);
         //targetXP.setFrame(framePlus);
         switchP = true;
     }
-    else if(this.P.isUp && switchP == true)
+    else if(atm.P.isUp && switchP == true)
     {
         switchP = false;
     }
 
-    if(this.spacebar.isDown && switchSpace == false)
+    if(atm.spacebar.isDown && switchSpace == false)
     {
-        this.player.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
+        atm.player.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
         switchSpace = true;
     }
-    else if(this.spacebar.isUp && switchSpace == true)
+    else if(atm.spacebar.isUp && switchSpace == true)
     {
         switchSpace = false;
     }
     
 
-    this.player.setVelocityX(0);
-    this.player.setVelocityY(0);
-    if (this.cursors.left.isDown)
+    atm.player.setVelocityX(0);
+    atm.player.setVelocityY(0);
+    if (atm.cursors.left.isDown)
     {
-        this.player.setVelocityX(-100);
+        atm.player.setVelocityX(-100);
     }
-    if (this.cursors.right.isDown)
+    if (atm.cursors.right.isDown)
     {
-        this.player.setVelocityX(100);
+        atm.player.setVelocityX(100);
     }
-    if (this.cursors.up.isDown)
+    if (atm.cursors.up.isDown)
     {
-        this.player.setVelocityY(-100);
+        atm.player.setVelocityY(-100);
     }
-    if (this.cursors.down.isDown)
+    if (atm.cursors.down.isDown)
     {
-        this.player.setVelocityY(100);
+        atm.player.setVelocityY(100);
     }
+});
 }
 
 

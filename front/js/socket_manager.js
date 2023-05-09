@@ -61,3 +61,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     });
+export {hello};
