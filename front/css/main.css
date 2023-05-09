@@ -1,0 +1,104 @@
+body {
+      background-color: #F8F8F8;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+	  background-image: url('bg_zoosta.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+	}
+
+
+    #passport-form {
+      max-width: 500px;
+      margin: 50px auto;
+      background-color: #FDF5E6;
+      border: 7px solid #A0522D;
+      padding: 20px 50px;
+      border-radius: 50px;
+    }
+
+    #passport-form h2 {
+      text-align: center;
+      font-size: 25px;
+      color: #A0522D;
+      text-shadow: 1px 1px #F8F8F8;
+      margin-bottom: 30px;
+	  text-decoration : underline;
+    }
+
+    #passport-form label {
+      display: block;
+      font-weight: bold;
+      color: #A0522D;
+    }
+
+    #passport-form input[type="text"], #passport-form input[type="email"], #passport-form input[type="password"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #F8F8F8;
+      border-radius: 10px;
+    }
+
+    #passport-form input[type="submit"] {
+      background-color: #A0522D;
+      color: #F8F8F8;
+      font-size: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 2px 2px #A0522D;
+    }
+
+    #passport-form input[type="submit"]:hover {
+      background-color: #D3D012;
+      color: #A0522D;
+      box-shadow: none;
+    }
+
+    .form-field {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-field input[type="text"], .form-field input[type="email"], .form-field input[type="password"] {
+      border: none;
+      background-color: transparent;
+      border-bottom: 2px solid #A0522D;
+      transition: all 0.2s ease-in-out;
+      padding-right: 50px;
+    }
+
+    .form-field label {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #A0522D;
+      pointer-events: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .form-field input[type="text"]:focus, .form-field input[type="email"]:focus, .form-field input[type="password"]:focus {
+      outline: none;
+      border-bottom: 2px solid #555;
+    }
+
+    .form-field input[type="text"]:focus + label, .form-field input[type="email"]:focus + label, .form-field input[type="password"]:focus + label {
+      color: #555;
+      transform: translateY(-150%);
+      font-size: 12px;
+    }
+
+    #DivErreur{
+        color : red;
+        text-align : center;
+    }
