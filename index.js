@@ -67,9 +67,6 @@ bdd_connect.config_db();
 
 (async ()=> {
     const [nom, prenom] = await get_nom.get_depute();
-    console.log(nom);
-    console.log("shit");
-    console.log(prenom);
     for( var i = 0; i < 100; i++){//randomise les nom pour eviter les problemes d'usurpation d'identité ou autre
         rand1 = Math.floor(Math.random() * nom.length);
         rand2 = Math.floor(Math.random() * nom.length);
@@ -173,15 +170,6 @@ app.use(express.static(__dirname + '/front/'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/front/html/jeu.html');
 });
-
-app.get('/accueil', (req, res) => {
-    res.sendFile(__dirname + '/front/html/accueil.html');
-});
-
-app.get('/inscription', (req, res) => {
-    res.sendFile(__dirname + '/front/html/inscription.html');
-});
-
 app.get('/jeu', (req, res) => {
     res.sendFile(__dirname + '/front/html/jeu.html');
 });
