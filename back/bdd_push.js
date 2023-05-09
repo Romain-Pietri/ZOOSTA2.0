@@ -153,14 +153,7 @@ function push_animaux(){
     }
 }
 //get save bdd/json
-function get_save() {
-    connection.query("Select * from SAVE"), function (err, results, fields) {
-        if (err) throw err;
-        console.log("results : ", results);
-    }
-}
-
-
+ 
 
 
 
@@ -219,6 +212,6 @@ module.exports = {
     push_into_db: push_into_db,
     new_game: new_game,
     push_animaux: push_animaux,
-    get_save:get_save,
+    //get_save:get_save,
 
 }

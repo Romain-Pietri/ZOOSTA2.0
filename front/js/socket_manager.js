@@ -1,19 +1,4 @@
-function hello(){
-    const data= fetch('/hello', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"hello je veux les data" : "merci "})
-    }
-    )
-    .then(response => response.json())
-    .then(data => {
-        return data
-        }
-    );
-    return data;
-}
+
 
 document.addEventListener("DOMContentLoaded", function() {
     hell=hello();
