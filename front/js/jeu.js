@@ -1,19 +1,4 @@
-function hello(){
-    const data= fetch('/hello', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"hello je veux les data" : "merci "})
-    }
-    )
-    .then(response => response.json())
-    .then(data => {
-        return data
-        }
-    );
-    return data;
-}
+const sk = require('socket_manager.js'); 
 const hell = hello();
 var config = {
     type: Phaser.AUTO,
@@ -65,7 +50,7 @@ let ice = false;
 
 function preload(){
     this.load.image('player','../img/Prof_Tilleul.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.image('background','../img/map_v2.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('background','../img/map.png', { frameWidth: 32, frameHeight: 48 });
 
     this.load.image('enclos_cochongs','../img/enclos_cochongs.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('enclos_goats','../img/enclos_goats.png', { frameWidth: 32, frameHeight: 48 });
