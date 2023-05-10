@@ -91,8 +91,8 @@ function popularitetot_nbanimaux(save){
             popularitetot+= animaux[save.ec_na[i][j]-1].popularite;
         }
     }
-    console.log("total animaux : ", nbanimaux)
-    console.log("popularite : ",popularitetot)
+    //console.log("total animaux : ", nbanimaux)
+    //console.log("popularite : ",popularitetot)
     return [nbanimaux,popularitetot]
 }
 function gain_visiteur(nbanimaux,popularitetot){
@@ -105,6 +105,16 @@ function gain_argent(nbvisit,nbanimaux,popularitetot){
 
 }
 
+function depense(save,animaux){
+    let depense=0;
+    for(let i=0; i<save.ec_na.length; i++){
+        for(let j=0 ; j<save.ec_na[i].length; j++){
+            //console.log(animaux[save.ec_na[i][j]-1].popularite)
+            depense+= animaux[save.ec_na[i][j]-1].depense;
+        }
+    }
+    return depense
+}
 var config = {
     type: Phaser.AUTO,
     scale: {
@@ -553,13 +563,13 @@ function update(){
    
     if(compteurtick2 == 0){
         [nbanimaux,popularitetot]= popularitetot_nbanimaux(save)
-        console.log(nbanimaux,popularitetot)
+        //console.log(nbanimaux,popularitetot)
         xps = (xps+40)%1000;
         nbvisit=gain_visiteur(nbanimaux,popularitetot)
         //console.log(nbvisit,nbanimaux,popularitetot)
-        
-        coins +=gain_argent(nbvisit,nbanimaux,popularitetot)
-        
+        const gaintemp= gain_argent(nbvisit,nbanimaux,popularitetot)-depense(save,animaux)
+        console.log("bénef :", gaintemp )
+        coins += gaintemp;
         
         console.log("coins : ", coins)
         console.log("nbvist : ", nbvisit)
