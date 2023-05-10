@@ -36,95 +36,46 @@ function db_save_into_tab(save){
     const niveau = save.niveau;
     const coins = save.argent
     const cumul= save.cumul_argent;
-    const ec_1 = save.ec_1;
-    const ec_2 = save.ec_2;
-    const ec_3 = save.ec_3;
-    const ec_4 = save.ec_4;
-    const ec_5 = save.ec_5;
-    const ec_6 = save.ec_6;
-    const ec_7 = save.ec_7;
-    const ec_8 = save.ec_8;
-    const ec_9 = save.ec_9;
-    const ec_10 = save.ec_10;
-    const ec_11 = save.ec_11;
-    const ec_12 = save.ec_12;
-    const ec_13 = save.ec_13;
-    const ec_14 = save.ec_14;
-    const ec_na_1 = ec_n_to_tab(save.ec_na_1);
-    const ec_na_2 = ec_n_to_tab(save.ec_na_2);
-    const ec_na_3 = ec_n_to_tab(save.ec_na_3);  
-    const ec_na_4 = ec_n_to_tab(save.ec_na_4);
-    const ec_na_5 = ec_n_to_tab(save.ec_na_5);
-    const ec_na_6 = ec_n_to_tab(save.ec_na_6);
-    const ec_na_7 = ec_n_to_tab(save.ec_na_7);
-    const ec_na_8 = ec_n_to_tab(save.ec_na_8);
-    const ec_na_9 = ec_n_to_tab(save.ec_na_9);
-    const ec_na_10 = ec_n_to_tab(save.ec_na_10);
-    const ec_na_11 = ec_n_to_tab(save.ec_na_11);
-    const ec_na_12 = ec_n_to_tab(save.ec_na_12);
-    const ec_na_13 = ec_n_to_tab(save.ec_na_13);
-    const ec_na_14 = ec_n_to_tab(save.ec_na_14);
-    const ec_nm_1 = ec_n_to_tab(save.ec_nm_1);
-    const ec_nm_2 = ec_n_to_tab(save.ec_nm_2);
-    const ec_nm_3 = ec_n_to_tab(save.ec_nm_3);
-    const ec_nm_4 = ec_n_to_tab(save.ec_nm_4);
-    const ec_nm_5 = ec_n_to_tab(save.ec_nm_5);
-    const ec_nm_6 = ec_n_to_tab(save.ec_nm_6);
-    const ec_nm_7 = ec_n_to_tab(save.ec_nm_7);
-    const ec_nm_8 = ec_n_to_tab(save.ec_nm_8);
-    const ec_nm_9 = ec_n_to_tab(save.ec_nm_9);
-    const ec_nm_10 = ec_n_to_tab(save.ec_nm_10);
-    const ec_nm_11 = ec_n_to_tab(save.ec_nm_11);
-    const ec_nm_12 = ec_n_to_tab(save.ec_nm_12);
-    const ec_nm_13 = ec_n_to_tab(save.ec_nm_13);
-    const ec_nm_14 = ec_n_to_tab(save.ec_nm_14);
+    const ec = [save.ec_1,save.ec_2,save.ec_3,save.ec_4,save.ec_5,save.ec_6,save.ec_7,save.ec_8,save.ec_9,save.ec_10,save.ec_11,save.ec_12,save.ec_13,save.ec_14];
+    let ec_na= []
+    ec_na.push( ec_n_to_tab(save.ec_na_1));
+    ec_na.push( ec_n_to_tab(save.ec_na_2));
+    ec_na.push( ec_n_to_tab(save.ec_na_3));
+    ec_na.push( ec_n_to_tab(save.ec_na_4));
+    ec_na.push( ec_n_to_tab(save.ec_na_5));
+    ec_na.push( ec_n_to_tab(save.ec_na_6));
+    ec_na.push( ec_n_to_tab(save.ec_na_7));
+    ec_na.push( ec_n_to_tab(save.ec_na_8));
+    ec_na.push( ec_n_to_tab(save.ec_na_9));
+    ec_na.push( ec_n_to_tab(save.ec_na_10));
+    ec_na.push( ec_n_to_tab(save.ec_na_11));
+    ec_na.push( ec_n_to_tab(save.ec_na_12));
+    ec_na.push( ec_n_to_tab(save.ec_na_13));
+    ec_na.push( ec_n_to_tab(save.ec_na_14));
+    let ec_nm= []
+    ec_nm.push( ec_n_to_tab(save.ec_nm_1));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_2));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_3));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_4));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_5));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_6));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_7));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_8));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_9));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_10));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_11));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_12));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_13));
+    ec_nm.push( ec_n_to_tab(save.ec_nm_14));
+
     return {
 
         niveau : niveau,
         coins : coins,
         cumul : cumul,
-        ec_1 : ec_1,
-        ec_2 : ec_2,
-        ec_3 : ec_3,
-        ec_4 : ec_4,
-        ec_5 : ec_5,
-        ec_6 : ec_6,
-        ec_7 : ec_7,
-        ec_8 : ec_8,
-        ec_9 : ec_9,
-        ec_10 : ec_10,
-        ec_11 : ec_11,
-        ec_12 : ec_12,
-        ec_13 : ec_13,
-        ec_14 : ec_14,
-        ec_na_1 : ec_na_1,
-        ec_na_2 : ec_na_2,
-        ec_na_3 : ec_na_3,
-        ec_na_4 : ec_na_4,
-        ec_na_5 : ec_na_5,
-        ec_na_6 : ec_na_6,
-        ec_na_7 : ec_na_7,
-        ec_na_8 : ec_na_8,
-        ec_na_9 : ec_na_9,
-        ec_na_10 : ec_na_10,
-        ec_na_11 : ec_na_11,
-        ec_na_12 : ec_na_12,
-        ec_na_13 : ec_na_13,
-        ec_na_14 : ec_na_14,
-        ec_nm_1 : ec_nm_1,
-        ec_nm_2 : ec_nm_2,
-        ec_nm_3 : ec_nm_3,
-        ec_nm_4 : ec_nm_4,
-        ec_nm_5 : ec_nm_5,
-        ec_nm_6 : ec_nm_6,
-        ec_nm_7 : ec_nm_7,
-        ec_nm_8 : ec_nm_8,
-        ec_nm_9 : ec_nm_9,
-        ec_nm_10 : ec_nm_10,
-        ec_nm_11 : ec_nm_11,
-        ec_nm_12 : ec_nm_12,
-        ec_nm_13 : ec_nm_13,
-        ec_nm_14 : ec_nm_14        
+        ec : ec,
+        ec_na : ec_na,
+        ec_nm : ec_nm   
     }
 }
 const hell = hello();
@@ -567,7 +518,7 @@ function update(){
                         console.log(animaux[i]);
                     }
                 }
-            coins = last_save.argent;
+            coins = save.argent;
         }
     }
 
