@@ -79,6 +79,31 @@ function db_save_into_tab(save){
     }
 }
 const hell = hello();
+function popularitetot_nbanimaux(save){
+    let nbanimaux = 0;
+    for(let i = 0; i <save.ec_na.length; i++){
+        nbanimaux += save.ec_na[i].length;
+    }
+    let popularitetot=0
+    for(let i=0; i<save.ec_na.length; i++){
+        for(let j=0 ; j<save.ec_na[i].length; j++){
+            //console.log(animaux[save.ec_na[i][j]-1].popularite)
+            popularitetot+= animaux[save.ec_na[i][j]-1].popularite;
+        }
+    }
+    console.log("total animaux : ", nbanimaux)
+    console.log("popularite : ",popularitetot)
+    return [nbanimaux,popularitetot]
+}
+function gain_visiteur(nbanimaux,popularitetot){
+    return Math.round(((popularitetot/nbanimaux)*10/100)+(Math.random()*50));
+}
+
+function gain_argent(nbvisit,nbanimaux,popularitetot){
+    
+    return Math.round( (100*nbvisit*(popularitetot/(nbanimaux*100))));
+
+}
 
 var config = {
     type: Phaser.AUTO,
@@ -107,6 +132,7 @@ var config = {
 // ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
 var game = new Phaser.Game(config);
 var compteurtick = 0;
+let compteurtick2=0;
 var random = 0;
 let posXTest = "";
 let posYTest = "";
@@ -128,6 +154,7 @@ let gogos = false;
 let poul = false;
 let ice = false;
 
+let nbanimaux;
 let charger = false;
 let animaux;
 let hashtags;
@@ -518,35 +545,30 @@ function update(){
                         console.log(animaux[i]);
                     }
                 }
-            coins = save.argent;
+            coins = save.coins;
         }
     }
 
     //console.log(time);
-    let nbanimaux = 0;
-    for(let i = 0; i <=14-1; i++){
-        nbanimaux += save.ec_na[i].length;
-    }
-    let popularitetot=0
-    for(let i=0; i<save.ec_na.length; i++){
-        for(let j=0 ; j<save.ec_na[i].length; j++){
-            console.log(save.ec_na[i][j])
-            popularitetot+= animaux[save.ec_na[i][j]-1].popularite;
-        }
-    }
-    console.log("total animaux : ", nbanimaux)
-    console.log("popularite : ",popularitetot)
-    if(compteurtick == 0){
-        random = Math.floor(Math.random() * 4); //inutile
-        coins += 1;
-        nbvisit += random*random;
+   
+    if(compteurtick2 == 0){
+        [nbanimaux,popularitetot]= popularitetot_nbanimaux(save)
+        console.log(nbanimaux,popularitetot)
         xps = (xps+40)%1000;
+        nbvisit=gain_visiteur(nbanimaux,popularitetot)
+        //console.log(nbvisit,nbanimaux,popularitetot)
+        
+        coins +=gain_argent(nbvisit,nbanimaux,popularitetot)
+        
+        
+        console.log("coins : ", coins)
+        console.log("nbvist : ", nbvisit)
         coinText.setText(coins);
         nbvisitText.setText(nbvisit);
         xpText.setText(xps + ' / 1000');
     }
     compteurtick = (compteurtick + 1)%20;
-
+    compteurtick2=(compteurtick2+1)%200;
     posXTest.setText(game.input.mousePointer.x);
     posYTest.setText(game.input.mousePointer.y);
 
