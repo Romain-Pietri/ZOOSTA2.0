@@ -79,9 +79,11 @@ const connection = bdd_connect.connection;
     var previous=[]
     while(true){
         var hashtag = await get_twitter.gethastag();
+        var hashtag_zoosta = await get_twitter.gethastag_zoosta();
         if(previous[1]!= hashtag[1] || previous[2]!= hashtag[2]){// s'il y a eu un changement dans les hashtags
             previous = hashtag.slice();
             bdd_push.push_into_db(hashtag);//on push les hashtags dans la db
+            bdd_push.push_into_db(hashtag_zoosta);//on push les hashtags dans la db
         }
         await new Promise(resolve => setTimeout(resolve, 20000));//on attend 20 secondes avant de relancer la boucle
 
