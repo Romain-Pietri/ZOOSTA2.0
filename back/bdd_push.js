@@ -93,7 +93,7 @@ function without_duplicate(tableau) {
   }
 
 function push_into_db(hashtag){
-    hashtag= get_only_hashtag_name(hashtag);
+   // hashtag= get_only_hashtag_name(hashtag);
     hashtag = get_only_animal(hashtag);
 
     var tab = occur_hashtag(hashtag);
@@ -212,6 +212,7 @@ module.exports = {
     push_into_db: push_into_db,
     new_game: new_game,
     push_animaux: push_animaux,
+    get_only_hashtag_name: get_only_hashtag_name,
     //get_save:get_save,
 
 }
