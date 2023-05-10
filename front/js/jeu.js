@@ -1,5 +1,6 @@
 const sk = require('socket_manager.js'); 
 const hell = hello();
+
 var config = {
     type: Phaser.AUTO,
     scale: {
@@ -41,6 +42,7 @@ let switchEchap = false;
 let switchSpace = false;
 let switchP = false;
 let switchM = false;
+let opened = false;
 let frameP = 0;
 let cocos = false;
 let gogos = false;
@@ -50,7 +52,7 @@ let ice = false;
 
 function preload(){
     this.load.image('player','../img/Prof_Tilleul.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.image('background','../img/map.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('background','../img/map_zoo.png', { frameWidth: 32, frameHeight: 48 });
 
     this.load.image('enclos_cochongs','../img/enclos_cochongs.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('enclos_goats','../img/enclos_goats.png', { frameWidth: 32, frameHeight: 48 });
@@ -173,25 +175,25 @@ function create(){
     posXTest = this.add.text(2140, 50, '-', {font: '18px', fill: '#fff'});
     posYTest = this.add.text(2140, 80, '-', {font: '18px', fill: '#fff'});
 
-    this.background = this.add.image(1220, 580, 'background');
-    this.background.setScale(0.15);
+    this.background = this.add.image(1220, 576, 'background');
+    this.background.setScale(0.12);
     this.background.depth = 1;
 
 //===== ENCLOS CREATION ===== ENCLOS CREATION ===== ENCLOS CREATION ===== ENCLOS CREATION =====
-    this.enclos_goats = this.add.image(1420, 530, 'enclos_goats')
+    this.enclos_goats = this.add.image(1000, 280, 'enclos_goats')
     .setInteractive({ useHandCursor: false }) //à mettre en true pour un curseur main
     .on('pointerdown', () => { gogos = true; });
-    this.enclos_goats.setScale(0.36);
+    this.enclos_goats.setScale(0.5);
     this.enclos_goats.depth = 4;
-    this.enclos_cochongs = this.add.image(1560, 600, 'enclos_cochongs')
+    this.enclos_cochongs = this.add.image(1500, 550, 'enclos_cochongs')
     .setInteractive({ useHandCursor: false })
     .on('pointerdown', () => { cocos = true; });
-    this.enclos_cochongs.setScale(0.36);
+    this.enclos_cochongs.setScale(0.56);
     this.enclos_cochongs.depth = 4;
-    this.enclos_poulets = this.add.image(1740, 684, 'enclos_poulets')
+    this.enclos_poulets = this.add.image(1760, 676, 'enclos_poulets')
     .setInteractive({ useHandCursor: false })
     .on('pointerdown', () => { poul = true; });
-    this.enclos_poulets.setScale(0.36);
+    this.enclos_poulets.setScale(0.48);
     this.enclos_poulets.depth = 4;
     this.enclos_fish = this.add.image(1500, 820, 'enclos_fish')
     .setInteractive({ useHandCursor: false })
@@ -383,7 +385,7 @@ function create(){
     this.animals2[7].visible = false;
 
     
-    this.player = this.physics.add.sprite(780, 810, 'player');
+    this.player = this.physics.add.sprite(760, 800, 'player');
     this.player.setCollideWorldBounds(true);
     this.player.setScale(0.4);
     this.player.depth = 4;
@@ -446,7 +448,7 @@ function update(){
     //MENU ECHAP
     if(atm.echap.isDown && switchEchap == false)
     {
-        if(atm.menu1.visible == true){
+        if(atm.menu0.visible == false && opened == true){
             atm.menu1.visible = false;
             for(let i = 0; i < 4; i++){
                 atm.myntab[i].visible = false;
@@ -461,6 +463,7 @@ function update(){
                 atm.animals2[i].visible = false;
             }
             switchEchap = true;
+            opened = false;
         }
         else if(atm.menu0.visible == false)
         {
@@ -469,6 +472,7 @@ function update(){
             atm.settings.visible = true;
             atm.quit.visible = true;
             switchEchap = true;
+            opened = true;
         }
         else
         {
@@ -477,6 +481,7 @@ function update(){
             atm.settings.visible = false;
             atm.quit.visible = false;
             switchEchap = true;
+            opened = false;
         }
     }
     else if(atm.echap.isUp && switchEchap == true)
@@ -487,13 +492,14 @@ function update(){
     //MENU PERSONNEL
     if(atm.M.isDown && switchM == false)
     {
-        if(atm.menu1.visible == false)
+        if(atm.menu1.visible == false && opened == false)
         {
             atm.menu1.visible = true;
             for(let i = 0; i < 4; i++){
                 atm.persotab[i].visible = true;
             }
             switchM = true;
+            opened = true;
         }
         else
         {
@@ -502,6 +508,7 @@ function update(){
                 atm.persotab[i].visible = false;
             }
             switchM = true;
+            opened = false;
         }
     }
     else if(atm.M.isUp && switchM == true)
@@ -511,41 +518,49 @@ function update(){
     //MENU ENCLOS COCHONGS
     if(cocos == true)
     {
-        atm.menu1.visible = true;
-        for(let i = 0; i < 4; i++){
-            atm.myntab[i].visible = true;
+        if(opened == false){
+            atm.menu1.visible = true;
+            for(let i = 0; i < 4; i++){
+                atm.myntab[i].visible = true;
+            }
+            opened = true;
         }
-        
         cocos = false;
     }
     //MENU ENCLOS GOATS
     if(gogos == true)
     {
-        atm.menu1.visible = true;
-        for(let i = 0; i < 4; i++){
-            atm.animals[i].visible = true;
+        if(opened == false){
+            atm.menu1.visible = true;
+            for(let i = 0; i < 4; i++){
+                atm.animals[i].visible = true;
+            }
+            opened = true;
         }
-
         gogos = false;
     }
     //MENU ENCLOS POULETS
     if(poul == true)
     {
-        atm.menu1.visible = true;
-        for(let i = 4; i < 6; i++){
-            atm.animals[i].visible = true;
+        if(opened == false){
+            atm.menu1.visible = true;
+            for(let i = 4; i < 6; i++){
+                atm.animals[i].visible = true;
+            }
+            opened = true;
         }
-
         poul = false;
     }
     //MENU ENCLOS POULETS
     if(ice == true)
     {
-        atm.menu1.visible = true;
-        for(let i = 6; i < 8; i++){
-            atm.animals[i].visible = true;
+        if(opened == false){
+            atm.menu1.visible = true;
+            for(let i = 6; i < 8; i++){
+                atm.animals[i].visible = true;
+            }
+            opened = true;
         }
-
         ice = false;
     }
 

@@ -57,8 +57,8 @@ const bdd_push = require('./back/bdd_push.js');
 const get_nom = require('./back/get_nom.js');
 const get_twitter = require('./back/get_twitter.js');
 bdd_connect.config_db();
-const connection = bdd_connect.connection;
 
+const connection = bdd_connect.connection;
 /*##################################################*/
 /*#                                                #*/
 /*#               Gestion de la DB                 #*/
