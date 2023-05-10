@@ -22,11 +22,11 @@ function ec_n_to_tab(ec_n){
     if(ec_n != null){
         for(let i=0;i<ec_n.length;i++){
             if(ec_n[i]==" "){
-                tab.push(ec_n.slice(last_space,i));
+                tab.push(parseInt(ec_n.slice(last_space,i)));
                 last_space=i+1;
             }
         }
-        tab.push(ec_n.slice(last_space,ec_n.length));
+        tab.push(parseInt(ec_n.slice(last_space,ec_n.length)));
     }
     return tab;
 
@@ -52,7 +52,7 @@ function db_save_into_tab(save){
     const ec_14 = save.ec_14;
     const ec_na_1 = ec_n_to_tab(save.ec_na_1);
     const ec_na_2 = ec_n_to_tab(save.ec_na_2);
-    const ec_na_3 = ec_n_to_tab(save.ec_na_3);
+    const ec_na_3 = ec_n_to_tab(save.ec_na_3);  
     const ec_na_4 = ec_n_to_tab(save.ec_na_4);
     const ec_na_5 = ec_n_to_tab(save.ec_na_5);
     const ec_na_6 = ec_n_to_tab(save.ec_na_6);
