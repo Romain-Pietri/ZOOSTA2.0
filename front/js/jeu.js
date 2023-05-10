@@ -523,7 +523,19 @@ function update(){
     }
 
     //console.log(time);
-    
+    let nbanimaux = 0;
+    for(let i = 0; i <=14-1; i++){
+        nbanimaux += save.ec_na[i].length;
+    }
+    let popularitetot=0
+    for(let i=0; i<save.ec_na.length; i++){
+        for(let j=0 ; j<save.ec_na[i].length; j++){
+            console.log(save.ec_na[i][j])
+            popularitetot+= animaux[save.ec_na[i][j]-1].popularite;
+        }
+    }
+    console.log("total animaux : ", nbanimaux)
+    console.log("popularite : ",popularitetot)
     if(compteurtick == 0){
         random = Math.floor(Math.random() * 4); //inutile
         coins += 1;
