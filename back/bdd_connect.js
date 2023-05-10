@@ -51,7 +51,19 @@ function config_db(){
         }
     );
 
-
+    //verifie si la table save est vide, si oui, on la remplie avec les valeurs par defaut
+    connection.query('SELECT * FROM SAVE', function(err, results, fields) {
+        if (err) throw err;
+        if(results.length == 0){
+            console.log("Creation d'un compte")
+            connection.query('INSERT INTO SAVE (niveau) VALUES (1)', function(err, results, fields) {
+            if (err) throw err;
+                //console.log('Value inserted');
+                }
+            );
+        }
+        }
+    );
 }
 
 //export la fonction config_db
