@@ -46,4 +46,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     });
-export {hello};
+module.exports = { hello };

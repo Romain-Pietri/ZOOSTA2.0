@@ -14,6 +14,119 @@ function hello(){
     );
     return data;
 }
+
+function ec_n_to_tab(ec_n){
+    let tab=[];
+    //ec_n est une string de la forme 1 2 14 ... et ca devrait donner tab=[1,2,14,...]
+    let last_space=0;
+    if(ec_n != null){
+        for(let i=0;i<ec_n.length;i++){
+            if(ec_n[i]==" "){
+                tab.push(ec_n.slice(last_space,i));
+                last_space=i+1;
+            }
+        }
+        tab.push(ec_n.slice(last_space,ec_n.length));
+    }
+    return tab;
+
+}
+function db_save_into_tab(save){
+    //prend tout les element de save et renvoie un objet save
+    const niveau = save.niveau;
+    const coins = save.argent
+    const cumul= save.cumul_argent;
+    const ec_1 = save.ec_1;
+    const ec_2 = save.ec_2;
+    const ec_3 = save.ec_3;
+    const ec_4 = save.ec_4;
+    const ec_5 = save.ec_5;
+    const ec_6 = save.ec_6;
+    const ec_7 = save.ec_7;
+    const ec_8 = save.ec_8;
+    const ec_9 = save.ec_9;
+    const ec_10 = save.ec_10;
+    const ec_11 = save.ec_11;
+    const ec_12 = save.ec_12;
+    const ec_13 = save.ec_13;
+    const ec_14 = save.ec_14;
+    const ec_na_1 = ec_n_to_tab(save.ec_na_1);
+    const ec_na_2 = ec_n_to_tab(save.ec_na_2);
+    const ec_na_3 = ec_n_to_tab(save.ec_na_3);
+    const ec_na_4 = ec_n_to_tab(save.ec_na_4);
+    const ec_na_5 = ec_n_to_tab(save.ec_na_5);
+    const ec_na_6 = ec_n_to_tab(save.ec_na_6);
+    const ec_na_7 = ec_n_to_tab(save.ec_na_7);
+    const ec_na_8 = ec_n_to_tab(save.ec_na_8);
+    const ec_na_9 = ec_n_to_tab(save.ec_na_9);
+    const ec_na_10 = ec_n_to_tab(save.ec_na_10);
+    const ec_na_11 = ec_n_to_tab(save.ec_na_11);
+    const ec_na_12 = ec_n_to_tab(save.ec_na_12);
+    const ec_na_13 = ec_n_to_tab(save.ec_na_13);
+    const ec_na_14 = ec_n_to_tab(save.ec_na_14);
+    const ec_nm_1 = ec_n_to_tab(save.ec_nm_1);
+    const ec_nm_2 = ec_n_to_tab(save.ec_nm_2);
+    const ec_nm_3 = ec_n_to_tab(save.ec_nm_3);
+    const ec_nm_4 = ec_n_to_tab(save.ec_nm_4);
+    const ec_nm_5 = ec_n_to_tab(save.ec_nm_5);
+    const ec_nm_6 = ec_n_to_tab(save.ec_nm_6);
+    const ec_nm_7 = ec_n_to_tab(save.ec_nm_7);
+    const ec_nm_8 = ec_n_to_tab(save.ec_nm_8);
+    const ec_nm_9 = ec_n_to_tab(save.ec_nm_9);
+    const ec_nm_10 = ec_n_to_tab(save.ec_nm_10);
+    const ec_nm_11 = ec_n_to_tab(save.ec_nm_11);
+    const ec_nm_12 = ec_n_to_tab(save.ec_nm_12);
+    const ec_nm_13 = ec_n_to_tab(save.ec_nm_13);
+    const ec_nm_14 = ec_n_to_tab(save.ec_nm_14);
+    return {
+
+        niveau : niveau,
+        coins : coins,
+        cumul : cumul,
+        ec_1 : ec_1,
+        ec_2 : ec_2,
+        ec_3 : ec_3,
+        ec_4 : ec_4,
+        ec_5 : ec_5,
+        ec_6 : ec_6,
+        ec_7 : ec_7,
+        ec_8 : ec_8,
+        ec_9 : ec_9,
+        ec_10 : ec_10,
+        ec_11 : ec_11,
+        ec_12 : ec_12,
+        ec_13 : ec_13,
+        ec_14 : ec_14,
+        ec_na_1 : ec_na_1,
+        ec_na_2 : ec_na_2,
+        ec_na_3 : ec_na_3,
+        ec_na_4 : ec_na_4,
+        ec_na_5 : ec_na_5,
+        ec_na_6 : ec_na_6,
+        ec_na_7 : ec_na_7,
+        ec_na_8 : ec_na_8,
+        ec_na_9 : ec_na_9,
+        ec_na_10 : ec_na_10,
+        ec_na_11 : ec_na_11,
+        ec_na_12 : ec_na_12,
+        ec_na_13 : ec_na_13,
+        ec_na_14 : ec_na_14,
+        ec_nm_1 : ec_nm_1,
+        ec_nm_2 : ec_nm_2,
+        ec_nm_3 : ec_nm_3,
+        ec_nm_4 : ec_nm_4,
+        ec_nm_5 : ec_nm_5,
+        ec_nm_6 : ec_nm_6,
+        ec_nm_7 : ec_nm_7,
+        ec_nm_8 : ec_nm_8,
+        ec_nm_9 : ec_nm_9,
+        ec_nm_10 : ec_nm_10,
+        ec_nm_11 : ec_nm_11,
+        ec_nm_12 : ec_nm_12,
+        ec_nm_13 : ec_nm_13,
+        ec_nm_14 : ec_nm_14        
+    }
+}
 const hell = hello();
 
 var config = {
@@ -63,6 +176,13 @@ let cocos = false;
 let gogos = false;
 let poul = false;
 let ice = false;
+
+let charger = false;
+let animaux;
+let hashtags;
+let save;
+
+
 
 
 function preload(){
@@ -430,7 +550,26 @@ function create(){
 function update(){
     const atm = this
     hell.then(function (value) {
-        console.log(value);
+        if(charger == false){
+            console.log(value);
+            charger = true;
+            animaux = value.animaux;
+            hashtags = value.hashtags;
+            save  = db_save_into_tab(value.last_save);
+            console.log(animaux);
+            console.log(hashtags);
+            console.log(save);
+            //parcours les animaux
+            for(let i = 0; i < animaux.length; i++){
+                for(let j =0 ; j<hashtags.length; j++){
+                    if(animaux[i].nom.toLowerCase()==hashtags[j].hashtag.toLowerCase()){
+                        animaux[i].popularite+=50*hashtags[j].number;
+                        console.log(animaux[i]);
+                    }
+                }
+            coins = last_save.argent;
+        }
+    }
 
     //console.log(time);
     
