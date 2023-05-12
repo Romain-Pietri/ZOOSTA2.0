@@ -14,7 +14,7 @@ function hello(){
     );
     return data;
 }
-
+const hell = hello();
 function ec_n_to_tab(ec_n){
     let tab=[];
     //ec_n est une string de la forme 1 2 14 ... et ca devrait donner tab=[1,2,14,...]
@@ -78,7 +78,7 @@ function db_save_into_tab(save){
         ec_nm : ec_nm   
     }
 }
-const hell = hello();
+
 function popularitetot_nbanimaux(save){
     let nbanimaux = 0;
     for(let i = 0; i <save.ec_na.length; i++){
@@ -182,7 +182,7 @@ let charger = false;
 let animaux;
 let hashtags;
 let save;
-
+let visiteurs;
 
 
 
@@ -556,10 +556,13 @@ function update(){
             charger = true;
             animaux = value.animaux;
             hashtags = value.hashtags;
+            visiteurs = value.visiteurs;
             save  = db_save_into_tab(value.last_save);
             console.log(animaux);
             console.log(hashtags);
             console.log(save);
+            console.log("visiteurs");
+            console.log(visiteurs);
             //parcours les animaux
             for(let i = 0; i < animaux.length; i++){
                 for(let j =0 ; j<hashtags.length; j++){

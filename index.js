@@ -152,14 +152,23 @@ app.post('/hello', (req, res) => {
         resolve(results);
       });
     });
-  
-    Promise.all([last_save, animaux, hashtags])
-      .then(([last_save, animaux, hashtags]) => {
+  const visiteurs = new Promise((resolve, reject) => {
+      connection.query('SELECT nom,prenom FROM visiteur', (error, results, fields) => {
+        if (error) reject(error);
+        console.log(results)
+        resolve(results);
+      });
+    });
+    
+    Promise.all([last_save, animaux, hashtags, visiteurs])
+      .then(([last_save, animaux, hashtags,visiteurs]) => {
+        
         // Envoyer les résultats en réponse
         res.json({
           last_save: last_save,
           animaux: animaux,
-          hashtags: hashtags
+          hashtags: hashtags,
+          visiteurs: visiteurs,
         });
       })
       .catch(error => {
