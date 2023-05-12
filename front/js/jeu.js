@@ -113,6 +113,12 @@ function depense(save,animaux){
             depense+= animaux[save.ec_na[i][j]-1].depense;
         }
     }
+    for(let k=0; k<save.ec_mn.length; k++){
+        for(let l=0 ; l<save.ec_mn[k].length; l++){
+            //console.log(animaux[save.ec_na[i][j]-1].popularite)
+            depense+= animaux[save.ec_mn[k][l]-1].depense *(50/100);
+        }
+    }
     return depense
 }
 var config = {
