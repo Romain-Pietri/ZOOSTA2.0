@@ -46,7 +46,7 @@ async function gethastag_zoosta(){
     const hashtag = await page.$$eval('a[href*="hashtag"]', as => as.map(a => decodeURIComponent(a.href)));//recupere les hashtag dans les liens href du html et les convertit pour avoir les accent ! 
 
     await browser.close();
-    console.log(hashtag);
+    //console.log(hashtag);
     return hashtag;
 }
 

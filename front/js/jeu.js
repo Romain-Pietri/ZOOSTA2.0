@@ -96,16 +96,21 @@ function popularitetot_nbanimaux(save){
     return [nbanimaux,popularitetot]
 }
 function gain_visiteur(nbanimaux,popularitetot){
+    if(nbanimaux==0){
+        return 0;
+    }
     return Math.round(((popularitetot/nbanimaux)*10/100)+(Math.random()*50));
 }
 
 function gain_argent(nbvisit,nbanimaux,popularitetot){
-    
+    if(nbanimaux==0){
+        return 0;
+    }
     return Math.round( (100*nbvisit*(popularitetot/(nbanimaux*100))));
 
 }
 
-function depense(save,animaux){
+function depensee(save,animaux){
     let depense=0;
     for(let i=0; i<save.ec_na.length; i++){
         for(let j=0 ; j<save.ec_na[i].length; j++){
@@ -113,13 +118,15 @@ function depense(save,animaux){
             depense+= animaux[save.ec_na[i][j]-1].depense;
         }
     }
-    for(let k=0; k<save.ec_mn.length; k++){
-        for(let l=0 ; l<save.ec_mn[k].length; l++){
+    
+    for(let k=0; k<save.ec_nm.length; k++){
+        for(let l=0 ; l<save.ec_nm[k].length; l++){
             //console.log(animaux[save.ec_na[i][j]-1].popularite)
-            depense+= animaux[save.ec_mn[k][l]-1].depense *(50/100);
+            depense+= animaux[save.ec_nm[k][l]-1].depense ;
+            
         }
     }
-    return Math.round(depense);
+    return Math.round( depense);
 }
 var config = {
     type: Phaser.AUTO,
@@ -573,14 +580,14 @@ function update(){
         xps = (xps+40)%1000;
         nbvisit=gain_visiteur(nbanimaux,popularitetot)
         //console.log(nbvisit,nbanimaux,popularitetot)
-        const gaintemp= gain_argent(nbvisit,nbanimaux,popularitetot)-depense(save,animaux)
+        const gaintemp= gain_argent(nbvisit,nbanimaux,popularitetot)-depensee(save,animaux)
         console.log("bénef :", gaintemp )
         coins += gaintemp;
         
         console.log("coins : ", coins)
         console.log("nbvist : ", nbvisit)
         coinText.setText(coins);
-        nbvisitText.setText(nbvisit);
+        nbvisitText.setText(nbvisit);   
         xpText.setText(xps + ' / 1000');
     }
     compteurtick = (compteurtick + 1)%20;

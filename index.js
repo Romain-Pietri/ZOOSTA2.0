@@ -57,8 +57,26 @@ const bdd_push = require('./back/bdd_push.js');
 const get_nom = require('./back/get_nom.js');
 const get_twitter = require('./back/get_twitter.js');
 bdd_connect.config_db();
+
 //bdd_push.push_animaux()
 const connection = bdd_connect.connection;
+
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let wich_save = 1;
+rl.question('Entrez le numéro de sauvegarde \n', (save) => {
+  wich_save = parseInt(save);
+  console.log(`Vous avez choisi la sauvegarde ${save}`);
+  rl.close();
+});
+
+
+
 /*##################################################*/
 /*#                                                #*/
 /*#               Gestion de la DB                 #*/
@@ -115,14 +133,14 @@ app.post('/new_game', (req, res) => {
 
 app.post('/hello', (req, res) => {
     const last_save = new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM SAVE ORDER BY id DESC LIMIT 1', (error, results, fields) => {
+      // Récupérer le dernier élément de la table save avec l'id de wich_save
+      connection.query('SELECT * FROM SAVE WHERE id = ?', [wich_save], (error, results, fields) => {
         if (error) reject(error);
         resolve(results[0]);
       });
     });
-  
     const animaux = new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM animaux', (error, results, fields) => {
+    connection.query('SELECT * FROM animaux', (error, results, fields) => {
         if (error) reject(error);
         resolve(results);
       });
