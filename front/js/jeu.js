@@ -119,7 +119,7 @@ function depense(save,animaux){
             depense+= animaux[save.ec_mn[k][l]-1].depense *(50/100);
         }
     }
-    return depense
+    return Math.round(depense);
 }
 var config = {
     type: Phaser.AUTO,
