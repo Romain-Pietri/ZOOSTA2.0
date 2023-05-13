@@ -93,7 +93,7 @@ function without_duplicate(tableau) {
   }
 
 function push_into_db(hashtag){
-   // hashtag= get_only_hashtag_name(hashtag);
+    hashtag= get_only_hashtag_name(hashtag);
     hashtag = get_only_animal(hashtag);
 
     var tab = occur_hashtag(hashtag);
@@ -152,7 +152,59 @@ function push_animaux(){
         );
     }
 }
+//get save bdd/json
+ 
 
+
+
+/*let cactious = {
+    id,
+    argent,
+    cumul_argent,
+    niveau,
+    ec_1,
+    ec_2,
+    ec_3,
+    ec_4,
+    ec_5,
+    ec_6,
+    ec_7,
+    ec_8,
+    ec_9,
+    ec_10,
+    ec_11,
+    ec_12,
+    ec_13,
+    ec_14,
+    ec_na_1,
+    ec_na_2,
+    ec_na_3,
+    ec_na_4,
+    ec_na_5,
+    ec_na_6,
+    ec_na_7,
+    ec_na_8,
+    ec_na_9,
+    ec_na_10,
+    ec_na_11,
+    ec_na_12,
+    ec_na_13,
+    ec_na_14,
+    ec_nm_1,
+    ec_nm_2,
+    ec_nm_3,
+    ec_nm_4,
+    ec_nm_5,
+    ec_nm_6,
+    ec_nm_7,
+    ec_nm_8,
+    ec_nm_9,
+    ec_nm_10,
+    ec_nm_11,
+    ec_nm_12,
+    ec_nm_13,
+    ec_nm_14,
+}*/
 
 //export
 module.exports = {
@@ -160,7 +212,6 @@ module.exports = {
     push_into_db: push_into_db,
     new_game: new_game,
     push_animaux: push_animaux,
-    get_only_hashtag_name: get_only_hashtag_name,
     //get_save:get_save,
 
 }

@@ -58,25 +58,7 @@ const get_nom = require('./back/get_nom.js');
 const get_twitter = require('./back/get_twitter.js');
 bdd_connect.config_db();
 
-//bdd_push.push_animaux()
 const connection = bdd_connect.connection;
-
-const readline = require('readline');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-let wich_save = 1;
-rl.question('Entrez le numéro de sauvegarde \n', (save) => {
-  wich_save = parseInt(save);
-  console.log(`Vous avez choisi la sauvegarde ${save}`);
-  rl.close();
-});
-
-
-
 /*##################################################*/
 /*#                                                #*/
 /*#               Gestion de la DB                 #*/
@@ -97,14 +79,9 @@ rl.question('Entrez le numéro de sauvegarde \n', (save) => {
     var previous=[]
     while(true){
         var hashtag = await get_twitter.gethastag();
-        hashtag= bdd_push.get_only_hashtag_name(hashtag);
-        var hashtag_zoosta = await get_twitter.gethastag_zoosta();
-        bdd_push.get_only_hashtag_name(hashtag_zoosta);
-        let hashtag_tot = []
         if(previous[1]!= hashtag[1] || previous[2]!= hashtag[2]){// s'il y a eu un changement dans les hashtags
             previous = hashtag.slice();
-            hashtag_tot = hashtag.concat(hashtag_zoosta);
-            bdd_push.push_into_db(hashtag_tot);
+            bdd_push.push_into_db(hashtag);//on push les hashtags dans la db
         }
         await new Promise(resolve => setTimeout(resolve, 20000));//on attend 20 secondes avant de relancer la boucle
 
@@ -133,14 +110,14 @@ app.post('/new_game', (req, res) => {
 
 app.post('/hello', (req, res) => {
     const last_save = new Promise((resolve, reject) => {
-      // Récupérer le dernier élément de la table save avec l'id de wich_save
-      connection.query('SELECT * FROM SAVE WHERE id = ?', [wich_save], (error, results, fields) => {
+      connection.query('SELECT * FROM SAVE ORDER BY id DESC LIMIT 1', (error, results, fields) => {
         if (error) reject(error);
         resolve(results[0]);
       });
     });
+  
     const animaux = new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM animaux', (error, results, fields) => {
+      connection.query('SELECT * FROM animaux', (error, results, fields) => {
         if (error) reject(error);
         resolve(results);
       });
@@ -152,23 +129,14 @@ app.post('/hello', (req, res) => {
         resolve(results);
       });
     });
-  const visiteurs = new Promise((resolve, reject) => {
-      connection.query('SELECT nom,prenom FROM visiteur', (error, results, fields) => {
-        if (error) reject(error);
-        console.log(results)
-        resolve(results);
-      });
-    });
-    
-    Promise.all([last_save, animaux, hashtags, visiteurs])
-      .then(([last_save, animaux, hashtags,visiteurs]) => {
-        
+  
+    Promise.all([last_save, animaux, hashtags])
+      .then(([last_save, animaux, hashtags]) => {
         // Envoyer les résultats en réponse
         res.json({
           last_save: last_save,
           animaux: animaux,
-          hashtags: hashtags,
-          visiteurs: visiteurs,
+          hashtags: hashtags
         });
       })
       .catch(error => {
