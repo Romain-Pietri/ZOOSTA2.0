@@ -1,4 +1,5 @@
 
+
 // ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
 let nbanimaux;
 let charger = false;
@@ -6,6 +7,7 @@ let animaux;
 let hashtags;
 let save;
 let visiteurs;
+let popularitetot;
 
 var compteurtick2 = 0;
 var random = 0;
@@ -171,8 +173,11 @@ function depensee(save,animaux){
     return Math.round( depense);
 }
 
-
-//##### SCENES ##### SCENES ##### SCENES ##### SCENES ##### SCENES ##### SCENES ##### SCENES ##### SCENES #####
+//##############################################################################################################
+//##############################################################################################################
+//##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##
+//##############################################################################################################
+//##############################################################################################################
 class Boot extends Phaser.Scene {
     constructor () {
         super({ key:'Boot'});
@@ -448,9 +453,19 @@ class HUD extends Phaser.Scene{
     constructor () {
         super({ key:'HUD'});
     }
+    preload() { 
+/*
+        this.load.scenePlugin({
+            key: 'rexuiplugin',
+            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',
+            sceneKey: 'rexUI'
+        });
+        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
+*/
+    }
     create(){
         /*
-        var config = {
+        var config2 = {
             key: 'bar_xp_anim',
             frames: this.anims.generateFrameNumbers('xps', {
                 start: 0,
@@ -461,10 +476,10 @@ class HUD extends Phaser.Scene{
             repeat: -1
         };
         */
-        //this.anims.create(config);
+        //this.anims.create(config2);
         //this.add.sprite(960, 50, "xps").play("bar_xp_anim");
-        this.anim_xp = this.add.image(1220, 48, 'xps'); //peut-être à garder
-        this.anim_xp.setScale(1.2);
+        this.anim_xp = this.add.image(1224, 50, 'xps'); //peut-être à garder
+        this.anim_xp.setScale(1.4);
         this.anim_xp.depth = 14;
         
         this.coin = this.add.image(260, 52, 'coin');
@@ -474,15 +489,13 @@ class HUD extends Phaser.Scene{
 
         
         coinText = this.add.text(360, 32, '1000', {font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
-        xpText = this.add.text(1680, 32, '0/1000', {font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
-        lvlText = this.add.text(720, 30, '0', {font: '48px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
+        xpText = this.add.text(1740, 32, '0 / 1000', {font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
+        lvlText = this.add.text(660, 30, '0', {font: '48px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
         nbvisitText = this.add.text(60, 1000, '0', {font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
 
         posXTest = this.add.text(2180, 40, '-', {font: '18px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
         posYTest = this.add.text(2180, 70, '-', {font: '18px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
-        
-        
-        
+                
         
         this.menu0 = this.add.image(1214, 560, 'menu0');
         this.menu0.setScale(2);
@@ -494,7 +507,14 @@ class HUD extends Phaser.Scene{
         this.menu1.depth = 10;
         this.menu1.visible = false;
 
-        this.but_plus = this.add.image(1842, 808, 'butplus');
+        this.but_plus = this.add.image(1842, 808, 'butplus')
+        .setInteractive({ useHandCursor: true })
+        .on('pointerover', () => {
+            this.but_plus.setScale(0.64);
+        })
+        .on('pointerout', () => {
+            this.but_plus.setScale(0.6);
+        });
         this.but_plus.setScale(0.6);
         this.but_plus.depth = 10;
         this.but_plus.visible = false;
@@ -570,12 +590,12 @@ class HUD extends Phaser.Scene{
         this.animals[0] = this.add.image(750, 400, 'koala')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[0].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[0].setTint(0xffaaff),
             this.animals[0].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[0].setTint(0xffffff),
-            this.animals[0].setScale(0.5);;
+            this.animals[0].setScale(0.5);
         });
         this.animals[0].setScale(0.5);
         this.animals[0].depth = 11;
@@ -584,12 +604,12 @@ class HUD extends Phaser.Scene{
         this.animals[1] = this.add.image(1400, 400, 'panda')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[1].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[1].setTint(0xffaaff),
             this.animals[1].setScale(0.54);;
         })
         .on('pointerout', () => {
             this.animals[1].setTint(0xffffff),
-            this.animals[1].setScale(0.5);;
+            this.animals[1].setScale(0.5);
         });
         this.animals[1].setScale(0.5);
         this.animals[1].depth = 11;
@@ -598,12 +618,12 @@ class HUD extends Phaser.Scene{
         this.animals[2] = this.add.image(750, 760, 'panda_roux')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[2].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[2].setTint(0xffaaff),
             this.animals[2].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[2].setTint(0xffffff),
-            this.animals[2].setScale(0.5);;
+            this.animals[2].setScale(0.5);
         });
         this.animals[2].setScale(0.5);
         this.animals[2].depth = 11;
@@ -612,12 +632,12 @@ class HUD extends Phaser.Scene{
         this.animals[3] = this.add.image(1400, 760, 'renne')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[3].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[3].setTint(0xffaaff),
             this.animals[3].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[3].setTint(0xffffff),
-            this.animals[3].setScale(0.5);;
+            this.animals[3].setScale(0.5);
         });
         this.animals[3].setScale(0.5);
         this.animals[3].depth = 11;
@@ -626,12 +646,12 @@ class HUD extends Phaser.Scene{
         this.animals[4] = this.add.image(750, 400, 'fennec')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[4].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[4].setTint(0xffaaff),
             this.animals[4].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[4].setTint(0xffffff),
-            this.animals[4].setScale(0.5);;
+            this.animals[4].setScale(0.5);
         });
         this.animals[4].setScale(0.5);
         this.animals[4].depth = 11;
@@ -640,12 +660,12 @@ class HUD extends Phaser.Scene{
         this.animals[5] = this.add.image(750, 760, 'girafe')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[5].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[5].setTint(0xffaaff),
             this.animals[5].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[5].setTint(0xffffff),
-            this.animals[5].setScale(0.5);;
+            this.animals[5].setScale(0.5);
         });
         this.animals[5].setScale(0.5);
         this.animals[5].depth = 11;
@@ -654,12 +674,12 @@ class HUD extends Phaser.Scene{
         this.animals[6] = this.add.image(750, 400, 'manchot')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[6].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[6].setTint(0xffaaff),
             this.animals[6].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[6].setTint(0xffffff),
-            this.animals[6].setScale(0.5);;
+            this.animals[6].setScale(0.5);
         });
         this.animals[6].setScale(0.5);
         this.animals[6].depth = 11;
@@ -668,12 +688,12 @@ class HUD extends Phaser.Scene{
         this.animals[7] = this.add.image(750, 760, 'paon')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[7].setTint(0xff0000,0xff0000,0xffffff,0xffffff),
+            this.animals[7].setTint(0xffaaff),
             this.animals[7].setScale(0.54);
         })
         .on('pointerout', () => {
             this.animals[7].setTint(0xffffff),
-            this.animals[7].setScale(0.5);;
+            this.animals[7].setScale(0.5);
         });
         this.animals[7].setScale(0.5);
         this.animals[7].depth = 11;
@@ -683,45 +703,92 @@ class HUD extends Phaser.Scene{
         this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-        
+
+
+//TEST POUR LE SCROLL DE L'ENCLOS ET DE LA BOUTIQUE
+/*
+        const COLOR_PRIMARY = 0x4e342e;
+        const COLOR_LIGHT = 0x7b5e57;
+        const COLOR_DARK = 0x260e04;
+
+        let scrollablePanel = this.rexUI.add.scrollablePanel({
+            x: 400,
+            y: 300,
+            width: 320,
+            height: 460,
+
+            scrollMode: 0,
+
+            background: this.rexUI.add.roundRectangle(0, 0, 2, 2, 10, COLOR_PRIMARY),
+
+            panel: {
+                child: createGrid(this),
+                mask: {
+                    mask: true,
+                    padding: 1,
+                }
+            },
+
+            slider: {
+                track: this.rexUI.add.roundRectangle(0, 0, 20, 10, 10, 0x0000bb),
+                thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 13, 0x00bb00),
+                //position: 'left'
+            },
+
+            mouseWheelScroller: {
+                focus: false,
+                speed: 0.5
+            },
+
+            header: this.rexUI.add.label({
+                height: 30,
+
+                orientation: 0,
+                background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_DARK),
+                text: this.add.text(0, 0, 'Header'),
+            }),
+
+            footer: this.rexUI.add.label({
+                height: 30,
+
+                orientation: 0,
+                background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_DARK),
+                text: this.add.text(0, 0, 'Footer'),
+            }),
+
+            space: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10,
+
+                panel: 10,
+                header: 10,
+                footer: 10,
+            }
+        }).layout()
+
+        let print = this.add.text(0, 0, '');
+
+        scrollablePanel
+            .setChildrenInteractive()
+            .on('child.click', function (child, pointer, event) {
+                print.text += `Click ${child.text}\n`;
+            })
+            .on('child.pressstart', function (child, pointer, event) {
+                print.text += `Press ${child.text}\n`;
+            })
+*/
     }
     update(){
         posXTest.setText(game.input.mousePointer.x);
         posYTest.setText(game.input.mousePointer.y);
         
         
-        
-        
         atm = this;
         hell.then(function(value) {
             //console.log(value);
             //console.log(time);
-
-            if(compteurtick2 == 0){
-                random = Math.floor(Math.random() * 4); //presque inutile
-                coins += 1;
-                nbvisit += random*random;
-                xps = (xps+100)%1000;
-                coinText.setText(coins);
-                nbvisitText.setText(nbvisit);
-                xpText.setText(xps + ' / 1000');
-                if(xps == 0){
-                    level++;
-                    lvlText.setText(level);
-                }
-    
-                [nbanimaux,popularitetot] = popularitetot_nbanimaux(save);
-                //console.log(nbanimaux,popularitetot);
-                nbvisit = gain_visiteur(nbanimaux,popularitetot);
-                //console.log(nbvisit,nbanimaux,popularitetot);
-                const gaintemp = gain_argent(nbvisit,nbanimaux,popularitetot)-depensee(save,animaux);
-                console.log("bénef : ", gaintemp);
-                coins += gaintemp;
-                console.log("coins : ", coins);
-                console.log("nbvist : ", nbvisit);
-            }
-            compteurtick2 = (compteurtick2+1)%200;
-
 
             if(charger == false){
                 console.log(value);
@@ -746,6 +813,32 @@ class HUD extends Phaser.Scene{
                 coins = save.coins;
                 }
             }
+
+            if(compteurtick2 == 0){
+                random = Math.floor(Math.random() * 4); //presque inutile
+                coins += 1;
+                nbvisit += random*random;
+                xps = (xps+100)%1000;
+                coinText.setText(coins);
+                nbvisitText.setText(nbvisit);
+                xpText.setText(xps + ' / 1000');
+                if(xps == 0){
+                    level++;
+                    lvlText.setText(level);
+                }
+    
+                [nbanimaux,popularitetot] = popularitetot_nbanimaux(save);
+                //console.log(nbanimaux,popularitetot);
+                nbvisit = gain_visiteur(nbanimaux,popularitetot);
+                //console.log(nbvisit,nbanimaux,popularitetot);
+                const gaintemp = gain_argent(nbvisit,nbanimaux,popularitetot)-depensee(save,animaux);
+                console.log("bénef : ", gaintemp);
+                coins += gaintemp;
+                console.log("coins : ", coins);
+                console.log("nbvist : ", nbvisit);
+            }
+            compteurtick2 = (compteurtick2+1)%10;
+            
             
             if(atm.menu1.visible == false){
                 for(let i = 0; i < 8; i++){
@@ -761,6 +854,7 @@ class HUD extends Phaser.Scene{
             {
                 if(atm.menu0.visible == false && opened == true){
                     atm.menu1.visible = false;
+                    atm.but_plus.visible = false;
                     for(let i = 0; i < 4; i++){
                         atm.myntab[i].visible = false;
                     }
@@ -803,6 +897,7 @@ class HUD extends Phaser.Scene{
                 if(atm.menu1.visible == false && opened == false)
                 {
                     atm.menu1.visible = true;
+                    atm.but_plus.visible = true;
                     for(let i = 0; i < 4; i++){
                         atm.persotab[i].visible = true;
                     }
@@ -812,6 +907,7 @@ class HUD extends Phaser.Scene{
                 else
                 {
                     atm.menu1.visible = false;
+                    atm.but_plus.visible = false;
                     for(let i = 0; i < 4; i++){
                         atm.persotab[i].visible = false;
                     }
@@ -828,6 +924,7 @@ class HUD extends Phaser.Scene{
             {
                 if(opened == false){
                     atm.menu1.visible = true;
+                    atm.but_plus.visible = true;
                     for(let i = 0; i < 4; i++){
                         atm.myntab[i].visible = true;
                     }
@@ -840,6 +937,7 @@ class HUD extends Phaser.Scene{
             {
                 if(opened == false){
                     atm.menu1.visible = true;
+                    atm.but_plus.visible = true;
                     for(let i = 0; i < 4; i++){
                         atm.animals[i].visible = true;
                     }
@@ -852,6 +950,7 @@ class HUD extends Phaser.Scene{
             {
                 if(opened == false){
                     atm.menu1.visible = true;
+                    atm.but_plus.visible = true;
                     for(let i = 4; i < 6; i++){
                         atm.animals[i].visible = true;
                     }
@@ -864,6 +963,7 @@ class HUD extends Phaser.Scene{
             {
                 if(opened == false){
                     atm.menu1.visible = true;
+                    atm.but_plus.visible = true;
                     for(let i = 6; i < 8; i++){
                         atm.animals[i].visible = true;
                     }
@@ -891,6 +991,43 @@ class HUD extends Phaser.Scene{
 }
 
 
+/*let createGrid = function (scene) {
+    // Create table body
+    let sizer = scene.rexUI.add.fixWidthSizer({
+        space: {
+            left: 3,
+            right: 3,
+            top: 3,
+            bottom: 3,
+            item: 8,
+            line: 8,
+        },
+    })
+        .addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_DARK))
+
+    for (let i = 0; i < 30; i++) {
+        sizer.add(scene.rexUI.add.label({
+            width: 60, height: 60,
+
+            background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
+            text: scene.add.text(0, 0, `${i}`, {
+                fontSize: 18
+            }),
+
+            align: 'center',
+            space: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10,
+            }
+        }));
+    }
+
+    return sizer;
+}*/
+
+
 
 let config = {
     type: Phaser.AUTO,
@@ -902,10 +1039,15 @@ let config = {
         width: 2438,
         height: 1080
     },
+    /*plugins: {
+        scene: [{
+            key: 'rexUI',
+            plugin: UIPlugin,
+            mapping: 'rexUI'
+        }
+        ]
+    },*/
     scene: [
-        //new BootScene({ key: 'boot' }), // implied { active: true }
-        //new GameScene({ key: 'game'}), // implied { active: false }
-        //new HUDScene({ key: 'hud' }) // implied { active: false }
         Boot,
         Game,
         HUD
