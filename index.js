@@ -1,8 +1,17 @@
+// Description: Fichier principal du serveur
+
+// Importation des modules
 const express = require('express');
 const app = express();
 const opn = require('opn');
 const http = require('http').Server(app);
 const mysql = require('mysql')
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const puppeteer = require('puppeteer');
+const readline = require('readline');
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 const session = require("express-session")({
 // CIR2-chat encode in sha256
     secret: "eb8fcc253281389225b4f7872f2336918ddc7f689e1fc41b64d5c4f378cdc438",
@@ -13,53 +22,32 @@ const session = require("express-session")({
         secure: false
     }
 });
-
-
-const bodyParser = require('body-parser');
-
-
-/**** Project configuration ****/
-
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-// Init of express, to point our assets
 app.use(express.static(__dirname + 'front'));
 app.use(urlencodedParser);
 app.use(session);
 app.use(jsonParser);
 
 
-
-// Détection de si nous sommes en production, pour sécuriser en https
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
-    session.cookie.secure = true // serve secure cookies
-}
-
 //  RECUP DATA FROM WEBSITE
-const puppeteer = require('puppeteer');
 
 //recupere les module du dossier back
 const bdd_connect = require('./back/bdd_connect.js');
 const bdd_push = require('./back/bdd_push.js');
 const get_nom = require('./back/get_nom.js');
 const get_twitter = require('./back/get_twitter.js');
+//on cree les tables si elles n'existent pas
 bdd_connect.config_db();
 
-//bdd_push.push_animaux()
-const connection = bdd_connect.connection;
+const connection = bdd_connect.connection;//recupere la connection a la db
 
-const readline = require('readline');
-
-const rl = readline.createInterface({
+const rl = readline.createInterface({//pour recuperer le numero de sauvegarde
   input: process.stdin,
   output: process.stdout
 });
 
 let wich_save = 1;
 let question_rep=false;
-rl.question('\n', (save) => {
+rl.question('\n', (save) => {//recupere le numero de sauvegarde
   if(save==""){
     save=1;
   }
@@ -69,7 +57,9 @@ rl.question('\n', (save) => {
   }
   console.log("\x1b[32m%s\x1b[0m",`Vous avez choisi la sauvegarde ${save}`);
   question_rep=true;
-  rl.close();
+  if(question_rep){
+    rl.close();
+  }
 });
 
 
@@ -81,26 +71,28 @@ rl.question('\n', (save) => {
 /*##################################################*/
 
 
-(async ()=> {
+(async ()=> {//recupere les donnees et les push dans la db
     console.log("\x1b[35m%s\x1b[0m","Lancement du serveur");
     console.log("\x1b[34m%s\x1b[0m","Récupération des données")
     console.log("\x1b[33m%s\x1b[0m","Récupération des nom et prénom des députés")
+    //partie nom
     const [nom, prenom] = await get_nom.get_depute();
     console.log("\x1b[32m%s\x1b[0m","Visiteurs récupérés")
-    for( var i = 0; i < 100; i++){//randomise les nom pour eviter les problemes d'usurpation d'identité ou autre
+
+    for( var i = 0; i < 100; i++){//randomise les no
         rand1 = Math.floor(Math.random() * nom.length);
         rand2 = Math.floor(Math.random() * nom.length);
         rand3 = Math.floor(Math.random() * prenom.length);
         var nom_prenom = get_nom.mix_nom_prenom(nom[rand1],nom[rand2],prenom[rand3]);
         bdd_push.push_visiteur(nom_prenom.split(" ")[1], nom_prenom.split(" ")[0]);
     }
+
     console.log("\x1b[32m%s\x1b[0m","Députés récupérés")
     console.log("\x1b[33m%s\x1b[0m","Récupération des hashtags")
-  
+    //partie twitter
     var hashtag = await get_twitter.gethastag();
     hashtag= bdd_push.get_only_hashtag_name(hashtag);
     console.log("\x1b[32m%s\x1b[0m","50%")
-
     var hashtag_zoosta = await get_twitter.gethastag_zoosta();
     hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
     console.log("\x1b[32m%s\x1b[0m","100%")
@@ -108,9 +100,8 @@ rl.question('\n', (save) => {
     hashtag_tot = hashtag.concat(hashtag_zoosta);
     bdd_push.push_into_db(hashtag_tot);
     if(!question_rep){
-    console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
+      console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
     }
-    //catch le temps que la question soit repondu
     let time_question1 = 0;
     let time_question2 = 0;
     while(!question_rep){
@@ -127,7 +118,7 @@ rl.question('\n', (save) => {
         wich_save=1;
       }
     }
-    opn('http://localhost:4300/');
+    opn('http://localhost:4300/');//ouvre le navigateur sur la page du jeu
 
 
 })();
@@ -138,19 +129,6 @@ rl.question('\n', (save) => {
 /*#                  Connexion                     #*/
 /*#                                                #*/
 /*##################################################*/
-app.post('/new_game', (req, res) => {
-    bdd_push.new_game();
-    console.log("new game");
-    //recupere le dernier element de la table save
-    connection.query('SELECT * FROM SAVE ORDER BY id DESC LIMIT 1', function(err, results, fields) {
-        if (err) throw err;
-        //console.log(results[0]);
-        res.send(results[0]);
-        }
-    );
-});
-
-
 app.post('/hello', (req, res) => {
     const last_save = new Promise((resolve, reject) => {
       // Récupérer le dernier élément de la table save avec l'id de wich_save
@@ -165,19 +143,21 @@ app.post('/hello', (req, res) => {
         resolve(results[0]);
       });
     });
+    //recupere les animaux  
     const animaux = new Promise((resolve, reject) => {
     connection.query('SELECT * FROM animaux', (error, results, fields) => {
         if (error) reject(error);
         resolve(results);
       });
     });
-  
+    //recupere les hashtags
     const hashtags = new Promise((resolve, reject) => {
       connection.query('SELECT * FROM hashtag', (error, results, fields) => {
         if (error) reject(error);
         resolve(results);
       });
     });
+    //recupere les visiteurs
   const visiteurs = new Promise((resolve, reject) => {
       connection.query('SELECT nom,prenom FROM visiteur', (error, results, fields) => {
         if (error) reject(error);
@@ -205,19 +185,6 @@ app.post('/hello', (req, res) => {
   });
   
 
-
-app.post('/show_load', (req, res) => {
-    //recupere toutes les sauvegardes
-    connection.query('SELECT * FROM SAVE', function(err, results, fields) {
-        if (err) throw err;
-        //console.log(results);
-        res.send(results);
-        }
-    );
-    
-});
-
-
 //coucou
 
 /*##################################################*/
@@ -228,15 +195,13 @@ app.post('/show_load', (req, res) => {
 
 app.use(express.static(__dirname + '/front/'));
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => {//cree la route pour la page d'accueil
     res.sendFile(__dirname + '/front/html/jeu.html');
 });
-app.get('/jeu', (req, res) => {
-    res.sendFile(__dirname + '/front/html/jeu.html');
-});
+
 
 
 http.listen(4300, () => {
-    console.log("\x1b[36m%s\x1b[0m",'Serveur lancé sur le port 4300');
+    console.log("\x1b[36m%s\x1b[0m",'Serveur lancé sur le port 4300');//lance le serveur
 });
 

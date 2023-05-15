@@ -1,7 +1,5 @@
 const puppeteer = require('puppeteer');
 
-
-
 /*##################################################*/
 /*#                                                #*/
 /*#               Gestion des hashtags             #*/
