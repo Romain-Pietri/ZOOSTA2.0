@@ -23,7 +23,9 @@ git clone https://github.com/Romain-Pietri/ZOOSTA2.0
 ```bash
 npm install
 ```
-3. Make sur you have the right password for your database in the file 'back/bdd_connect.js'
+3. Get all our images from our google drive
+
+4. Make sur you have the right password for your database in the file 'back/bdd_connect.js'
 ```javascript
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -32,17 +34,17 @@ const connection = mysql.createConnection({
     database: 'ZOOSTA'
   });
 ```
-4. Create the database
+5. Create the database
 ```bash
 CREATE DATABASE ZOOSTA;
 ```
-5. Run the script
+6. Run the script
 ```bash
 node index.js
 ```
 After few seconds, you're getting redirected to the website on your browser.
 
-6. Enjoy !
+7. Enjoy !
 
 ---
 
