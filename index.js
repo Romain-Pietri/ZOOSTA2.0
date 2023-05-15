@@ -1,6 +1,7 @@
 
 const express = require('express');
 const app = express();
+const opn = require('opn');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mysql = require('mysql')
@@ -107,7 +108,9 @@ rl.question('Entrez le numéro de sauvegarde \n', (save) => {
       //console.log(hashtag_tot)
       // await new Promise(resolve => setTimeout(resolve, 20000));//on attend 20 secondes avant de relancer la boucle
 
-    
+
+
+      opn('http://localhost:4300/');
 
 })();
 
