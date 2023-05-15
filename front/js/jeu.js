@@ -797,7 +797,10 @@ class Menu extends Phaser.Scene{
             }
 
             if(compteurtick2 == 0){
+<<<<<<< HEAD
+=======
                 
+>>>>>>> master
                 xps = (xps+100)%1000;
                 coinText.setText(coins);
                 nbvisitText.setText(nbvisit);
