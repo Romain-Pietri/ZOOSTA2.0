@@ -94,21 +94,20 @@ rl.question('Entrez le numéro de sauvegarde \n', (save) => {
         bdd_push.push_visiteur(nom_prenom.split(" ")[1], nom_prenom.split(" ")[0]);
     }
 
-    var previous=[]
-    while(true){
-        var hashtag = await get_twitter.gethastag();
-        hashtag= bdd_push.get_only_hashtag_name(hashtag);
-        var hashtag_zoosta = await get_twitter.gethastag_zoosta();
-        bdd_push.get_only_hashtag_name(hashtag_zoosta);
-        let hashtag_tot = []
-        if(previous[1]!= hashtag[1] || previous[2]!= hashtag[2]){// s'il y a eu un changement dans les hashtags
-            previous = hashtag.slice();
-            hashtag_tot = hashtag.concat(hashtag_zoosta);
-            bdd_push.push_into_db(hashtag_tot);
-        }
-        await new Promise(resolve => setTimeout(resolve, 20000));//on attend 20 secondes avant de relancer la boucle
+    
+      var hashtag = await get_twitter.gethastag();
+      hashtag= bdd_push.get_only_hashtag_name(hashtag);
+      var hashtag_zoosta = await get_twitter.gethastag_zoosta();
+      hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
+      let hashtag_tot = []
+      //if(previous[1]!= hashtag[1] || previous[2]!= hashtag[2]){// s'il y a eu un changement dans les hashtags
+          
+      hashtag_tot = hashtag.concat(hashtag_zoosta);
+      bdd_push.push_into_db(hashtag_tot);
+      //console.log(hashtag_tot)
+      // await new Promise(resolve => setTimeout(resolve, 20000));//on attend 20 secondes avant de relancer la boucle
 
-    }
+    
 
 })();
 
