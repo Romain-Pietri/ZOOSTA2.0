@@ -59,9 +59,15 @@ const rl = readline.createInterface({
 
 let wich_save = 1;
 let question_rep=false;
-rl.question('Entrez le numéro de sauvegarde \n', (save) => {
+rl.question('\n', (save) => {
+  if(save==""){
+    save=1;
+  }
   wich_save = parseInt(save);
-  console.log(`Vous avez choisi la sauvegarde ${save}`);
+  if(wich_save<1){
+    wich_save=1;
+  }
+  console.log("\x1b[32m%s\x1b[0m",`Vous avez choisi la sauvegarde ${save}`);
   question_rep=true;
   rl.close();
 });
@@ -76,34 +82,50 @@ rl.question('Entrez le numéro de sauvegarde \n', (save) => {
 
 
 (async ()=> {
-    console.log("Lancement du serveur");
-    console.log("Récupération des données")
-    console.log("Récupération des nom et prénom des députés")
+    console.log("\x1b[35m%s\x1b[0m","Lancement du serveur");
+    console.log("\x1b[34m%s\x1b[0m","Récupération des données")
+    console.log("\x1b[33m%s\x1b[0m","Récupération des nom et prénom des députés")
     const [nom, prenom] = await get_nom.get_depute();
+    console.log("\x1b[32m%s\x1b[0m","Visiteurs récupérés")
     for( var i = 0; i < 100; i++){//randomise les nom pour eviter les problemes d'usurpation d'identité ou autre
-        console.log(i.toString(),"%")
         rand1 = Math.floor(Math.random() * nom.length);
         rand2 = Math.floor(Math.random() * nom.length);
         rand3 = Math.floor(Math.random() * prenom.length);
         var nom_prenom = get_nom.mix_nom_prenom(nom[rand1],nom[rand2],prenom[rand3]);
         bdd_push.push_visiteur(nom_prenom.split(" ")[1], nom_prenom.split(" ")[0]);
     }
-    console.log("Députés récupérés")
-    console.log("Récupération des hashtags")
+    console.log("\x1b[32m%s\x1b[0m","Députés récupérés")
+    console.log("\x1b[33m%s\x1b[0m","Récupération des hashtags")
   
     var hashtag = await get_twitter.gethastag();
     hashtag= bdd_push.get_only_hashtag_name(hashtag);
-    console.log("50%")
+    console.log("\x1b[32m%s\x1b[0m","50%")
 
     var hashtag_zoosta = await get_twitter.gethastag_zoosta();
     hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
-    console.log("100%")
+    console.log("\x1b[32m%s\x1b[0m","100%")
     let hashtag_tot = [];       
     hashtag_tot = hashtag.concat(hashtag_zoosta);
     bdd_push.push_into_db(hashtag_tot);
+    if(!question_rep){
+    console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
+    }
+    //catch le temps que la question soit repondu
+    let time_question1 = 0;
+    let time_question2 = 0;
     while(!question_rep){
-      console.log("Veuillez entrer le numéro de sauvegarde",'color: blue;')
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        time_question1++;
+        time_question2++;
+      await new Promise(resolve => setTimeout(resolve, 100));
+      if(time_question1>20){
+        console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
+        time_question1=0;
+      }
+      if(time_question2>200){
+        console.log("\x1b[33m%s\x1b[0m","Vous n'avez pas répondu, la sauvegarde 1 a été choisie")
+        question_rep=true;
+        wich_save=1;
+      }
     }
     opn('http://localhost:4300/');
 
@@ -215,6 +237,6 @@ app.get('/jeu', (req, res) => {
 
 
 http.listen(4300, () => {
-    console.log('Serveur lancé sur le port 4300');
+    console.log("\x1b[36m%s\x1b[0m",'Serveur lancé sur le port 4300');
 });
 
