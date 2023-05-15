@@ -797,8 +797,8 @@ class Menu extends Phaser.Scene{
             }
 
             if(compteurtick2 == 0){
-                random = Math.floor(Math.random() * 4); //presque inutile
-                nbvisit += random*random;
+                nbvisit += gain_visiteur(nbanimaux,popularitetot);
+                coins += gain_argent(nbvisit,nbanimaux,popularitetot)-depensee(save,animaux);
                 xps = (xps+100)%1000;
                 coinText.setText(coins);
                 nbvisitText.setText(nbvisit);
