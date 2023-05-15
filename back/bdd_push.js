@@ -98,15 +98,15 @@ function push_into_db(hashtag){
 
     var tab = occur_hashtag(hashtag);
     tab = without_duplicate(tab);
-    console.log(tab);
+    //console.log(tab);
     connection.query('DROP TABLE hashtag', function(err, results, fields) {
         if (err) throw err;
-        console.log('Table dropped');
+        //console.log('Table dropped');
         }
     );
     connection.query('CREATE TABLE IF NOT EXISTS hashtag (  id INT NOT NULL AUTO_INCREMENT, number INT NOT NULL ,hashtag varchar(255), primary key(id))', function(err, results, fields) {
         if (err) throw err;
-        console.log('Table created');
+        //console.log('Table created');
         }
     );
     for(let i=0 ; i<tab.length ; i++){
@@ -144,7 +144,7 @@ function push_animaux(){
     animaux =  fs.readFileSync("./JSON/Animaux.json");
     animaux = JSON.parse(animaux);//convertit en objet
     for(let i=0 ; i<animaux.length ; i++){
-        console.log(animaux[i]);
+        //console.log(animaux[i]);
         connection.query('INSERT INTO animaux (id,nom, enclos, alimentation, niveau, popularite, prix, depense, description) VALUES ('+animaux[i].id+',"'+animaux[i].Nom+'", '+animaux[i].Type+', "'+animaux[i].Alimentation+'", '+animaux[i].Niveau+', '+animaux[i].Popularite+', '+animaux[i].Prix+', '+animaux[i].Depense+', "'+animaux[i].Description+'")', function(err, results, fields) {
             if (err) throw err;
             //console.log('Value inserted');

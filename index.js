@@ -1,9 +1,7 @@
-
 const express = require('express');
 const app = express();
 const opn = require('opn');
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
 const mysql = require('mysql')
 const session = require("express-session")({
 // CIR2-chat encode in sha256
@@ -17,9 +15,8 @@ const session = require("express-session")({
 });
 
 
-const sharedsession = require("express-socket.io-session");
 const bodyParser = require('body-parser');
-const { body, validationResult } = require('express-validator');
+
 
 /**** Project configuration ****/
 
@@ -32,11 +29,7 @@ app.use(urlencodedParser);
 app.use(session);
 app.use(jsonParser);
 
-// Configure socket io with session middleware
-io.use(sharedsession(session, {
-    // Session automatiquement sauvegardée en cas de modification
-    autoSave: true
-}));
+
 
 // Détection de si nous sommes en production, pour sécuriser en https
 if (app.get('env') === 'production') {
@@ -46,11 +39,6 @@ if (app.get('env') === 'production') {
 
 //  RECUP DATA FROM WEBSITE
 const puppeteer = require('puppeteer');
-
-
-
-
-
 
 //recupere les module du dossier back
 const bdd_connect = require('./back/bdd_connect.js');
@@ -70,9 +58,11 @@ const rl = readline.createInterface({
 });
 
 let wich_save = 1;
+let question_rep=false;
 rl.question('Entrez le numéro de sauvegarde \n', (save) => {
   wich_save = parseInt(save);
   console.log(`Vous avez choisi la sauvegarde ${save}`);
+  question_rep=true;
   rl.close();
 });
 
@@ -86,24 +76,37 @@ rl.question('Entrez le numéro de sauvegarde \n', (save) => {
 
 
 (async ()=> {
+    console.log("Lancement du serveur");
+    console.log("Récupération des données")
+    console.log("Récupération des nom et prénom des députés")
     const [nom, prenom] = await get_nom.get_depute();
     for( var i = 0; i < 100; i++){//randomise les nom pour eviter les problemes d'usurpation d'identité ou autre
+        console.log(i.toString(),"%")
         rand1 = Math.floor(Math.random() * nom.length);
         rand2 = Math.floor(Math.random() * nom.length);
         rand3 = Math.floor(Math.random() * prenom.length);
         var nom_prenom = get_nom.mix_nom_prenom(nom[rand1],nom[rand2],prenom[rand3]);
         bdd_push.push_visiteur(nom_prenom.split(" ")[1], nom_prenom.split(" ")[0]);
     }
+    console.log("Députés récupérés")
+    console.log("Récupération des hashtags")
+  
+    var hashtag = await get_twitter.gethastag();
+    hashtag= bdd_push.get_only_hashtag_name(hashtag);
+    console.log("50%")
 
-    
-      var hashtag = await get_twitter.gethastag();
-      hashtag= bdd_push.get_only_hashtag_name(hashtag);
-      var hashtag_zoosta = await get_twitter.gethastag_zoosta();
-      hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
-      let hashtag_tot = [];       
-      hashtag_tot = hashtag.concat(hashtag_zoosta);
-      bdd_push.push_into_db(hashtag_tot);
-      opn('http://localhost:4300/');
+    var hashtag_zoosta = await get_twitter.gethastag_zoosta();
+    hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
+    console.log("100%")
+    let hashtag_tot = [];       
+    hashtag_tot = hashtag.concat(hashtag_zoosta);
+    bdd_push.push_into_db(hashtag_tot);
+    while(!question_rep){
+      console.log("Veuillez entrer le numéro de sauvegarde",'color: blue;')
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    opn('http://localhost:4300/');
+
 
 })();
 
@@ -131,6 +134,12 @@ app.post('/hello', (req, res) => {
       // Récupérer le dernier élément de la table save avec l'id de wich_save
       connection.query('SELECT * FROM SAVE WHERE id = ?', [wich_save], (error, results, fields) => {
         if (error) reject(error);
+        if(results.length == 0){
+            console.log("La sauvegarde n'existe pas, nouvelle partie");
+            //renvoie la sauvegarde 1
+            bdd_push.new_game();
+            resolve({id: 1,argent: 10000,cumul_argent: 10000,niveau: 1,ec_1: 0,ec_2: 0,ec_3: 0,ec_4: 0,ec_5: 0,ec_6: 0,ec_7: 0,ec_8: 0,ec_9: 0,ec_10: 0,ec_11: 0,ec_12: 0,ec_13: 0,ec_14: 0,ec_na_1: null,ec_na_2: null,ec_na_3: null,ec_na_4: null,ec_na_5: null,ec_na_6: null,ec_na_7: null,ec_na_8: null,ec_na_9: null,ec_na_10: null,ec_na_11: null,ec_na_12: null,ec_na_13: null,ec_na_14: null,ec_nm_1: null,ec_nm_2: null,ec_nm_3: null,ec_nm_4: null,ec_nm_5: null,ec_nm_6: null,ec_nm_7: null,ec_nm_8: null,ec_nm_9: null,ec_nm_10: null,ec_nm_11: null,ec_nm_12: null,ec_nm_13: null,ec_nm_14: null})
+        }
         resolve(results[0]);
       });
     });
@@ -150,7 +159,7 @@ app.post('/hello', (req, res) => {
   const visiteurs = new Promise((resolve, reject) => {
       connection.query('SELECT nom,prenom FROM visiteur', (error, results, fields) => {
         if (error) reject(error);
-        console.log(results)
+        //console.log(results)
         resolve(results);
       });
     });
