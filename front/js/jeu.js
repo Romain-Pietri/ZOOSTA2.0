@@ -8,11 +8,20 @@ let save;
 let visiteurs;
 let popularitetot;
 
-var compteurtick2 = 0;
-var random = 0;
+let compteurtick2 = 0;
+let random = 0;
+let hauttick = 0;
+let bastick = 0;
+let droitetick = 0;
+let gauchetick = 0;
+let FrameUp = 0;
+let FrameDown = 0;
+let FrameRight = 0;
+let FrameLeft = 0;
 let posXTest = "";
 let posYTest = "";
 let stepCam = 1;
+let menuactive = false;
 let width = 2438;
 let height = 1080;
 let width2 = width/2;
@@ -174,7 +183,17 @@ function depensee(save,animaux){
 
 //##############################################################################################################
 //##############################################################################################################
+//##############################################################################################################
 //##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##     SCENES     ##
+//##############################################################################################################
+//##############################################################################################################
+//##############################################################################################################
+
+
+
+//##############################################################################################################
+//##############################################################################################################
+//###     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ###
 //##############################################################################################################
 //##############################################################################################################
 class Boot extends Phaser.Scene {
@@ -188,6 +207,7 @@ class Boot extends Phaser.Scene {
         
         this.load.image('coin','../img/coin.png', { frameWidth: 32, frameHeight: 48 });
         this.load.spritesheet('xps','../img/sprite_bar_xp.png', { frameWidth: 700, frameHeight: 17 });
+        this.load.spritesheet('visiteur','../img/visiteur.png', { frameWidth: 48, frameHeight: 106 });
         this.load.image('menu0','../img/menu_bleu.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('resume','../img/resume.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('settings','../img/settings.png', { frameWidth: 32, frameHeight: 48 });
@@ -224,11 +244,13 @@ class Boot extends Phaser.Scene {
         this.scene.start('HUD');
         this.scene.start('Menu');
     }
-    update(){
-        
-    }
 }
 
+//##############################################################################################################
+//##############################################################################################################
+//###     GAME     ####     GAME     ####     GAME     ####     GAME     ####     GAME     ####     GAME     ###
+//##############################################################################################################
+//##############################################################################################################
 class Game extends Phaser.Scene{
     constructor () {
         super({ key:'Game'});
@@ -328,7 +350,6 @@ class Game extends Phaser.Scene{
         
         
 
-
         this.cameras.main.setZoom(1);
         
         /* de côté ça peut aider
@@ -339,12 +360,12 @@ class Game extends Phaser.Scene{
         
     //Ajout des contrôles de la caméra
         this.input.on("wheel", function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
-            if(stepCam > 1  && stepCam <= 16 && deltaY > 0) {
+            if(stepCam > 1  && stepCam <= 16 && deltaY > 0 && opened == false) {
                 stepCam = stepCam / 2;
                 this.cameras.main.setZoom(stepCam);
                 //console.log(stepCam, "dezoom");
             }
-            if(stepCam >= 1  && stepCam < 16 && deltaY < 0){
+            if(stepCam >= 1  && stepCam < 16 && deltaY < 0 && opened == false){
                 stepCam = stepCam * 2;
                 this.cameras.main.setZoom(stepCam);
                 //console.log(stepCam, "zoom");
@@ -398,10 +419,27 @@ class Game extends Phaser.Scene{
         //################################
         
         
-        this.player = this.physics.add.sprite(760, 800, 'player');
-        //this.player.setCollideWorldBounds(true);
+        /*this.player = this.physics.add.sprite(760, 800, 'player');
+        this.player.setCollideWorldBounds(true);
         this.player.setScale(0.2);
-        this.player.depth = 4;
+        this.player.depth = 4;*/
+
+        
+        /*var config3 = {
+            key: 'visiteur',
+            frames: this.anims.generateFrameNumbers('visiteur', {
+                start: 0,
+                end: 12,
+                first: 0
+            }),
+            frameRate: 8,
+            repeat: -1
+        };*/
+        //this.anims.create(config3);
+        //this.add.sprite(1000, 400, "visiteur").play("visiteur");
+        this.visiteur = this.physics.add.image(1000, 600, 'visiteur');
+        this.visiteur.setScale(0.32);
+        this.visiteur.depth = 14;
         
         
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -411,28 +449,56 @@ class Game extends Phaser.Scene{
     }
     update(){
         
-        this.player.setVelocityX(0);
-        this.player.setVelocityY(0);
+        this.visiteur.setVelocityX(0);
+        this.visiteur.setVelocityY(0);
         if (this.cursors.left.isDown)
         {
-            this.player.setVelocityX(-100);
+            this.visiteur.setVelocityX(-100);
+            this.visiteur.setVelocityY(-50);
+            if(gauchetick == 0){
+                //6 7 8
+                FrameLeft = (FrameLeft+1)%3+6;
+                this.visiteur.setFrame(FrameLeft)
+            }
+            gauchetick = (gauchetick+1)%8;
         }
         if (this.cursors.right.isDown)
         {
-            this.player.setVelocityX(100);
+            this.visiteur.setVelocityX(100);
+            this.visiteur.setVelocityY(50);
+            if(droitetick == 0){
+                //3 4 5
+                FrameRight = (FrameRight+1)%3+3;
+                this.visiteur.setFrame(FrameRight)
+            }
+            droitetick = (droitetick+1)%8;
         }
         if (this.cursors.up.isDown)
         {
-            this.player.setVelocityY(-100);
+            this.visiteur.setVelocityX(100);
+            this.visiteur.setVelocityY(-50);
+            if(hauttick == 0){
+                //9 10 11
+                FrameUp = (FrameUp+1)%3+9;
+                this.visiteur.setFrame(FrameUp)
+            }
+            hauttick = (hauttick+1)%8;
         }
         if (this.cursors.down.isDown)
         {
-            this.player.setVelocityY(100);
+            this.visiteur.setVelocityX(-100);
+            this.visiteur.setVelocityY(50);
+            if(bastick == 0){
+                //0 1 2
+                FrameDown = (FrameDown+1)%3;
+                this.visiteur.setFrame(FrameDown)
+            }
+            bastick = (bastick+1)%8;
         }
 
         if(this.spacebar.isDown && switchSpace == false)
             {
-                this.player.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
+                this.visiteur.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
                 switchSpace = true;
             }
             else if(this.spacebar.isUp && switchSpace == true)
@@ -442,6 +508,11 @@ class Game extends Phaser.Scene{
     }
 }
 
+//##############################################################################################################
+//##############################################################################################################
+//###     HUD     #####     HUD     #####     HUD     #####     HUD     #####     HUD     #####     HUD     ####
+//##############################################################################################################
+//##############################################################################################################
 class HUD extends Phaser.Scene{
     constructor () {
         super({ key:'HUD'});
@@ -465,6 +536,7 @@ class HUD extends Phaser.Scene{
         this.anim_xp.setScale(1.4);
         this.anim_xp.depth = 14;
         
+
         this.coin = this.add.image(260, 52, 'coin');
         this.coin.setScale(0.8);
         this.coin.state = 1000;
@@ -479,8 +551,6 @@ class HUD extends Phaser.Scene{
         posXTest = this.add.text(2180, 40, '-', {font: '18px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
         posYTest = this.add.text(2180, 70, '-', {font: '18px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
                 
-        
-        
         
         this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
@@ -551,15 +621,46 @@ class HUD extends Phaser.Scene{
         posXTest.setText(game.input.mousePointer.x);
         posYTest.setText(game.input.mousePointer.y);
         
-        
+        //PAS BESOIN DE MODIF JE PENSE (ce sera pas gardé de toute façon)
+            //BAR XP
+            if(this.P.isDown && switchP == false)
+            {
+                frameP = (frameP+1)%19;
+                this.anim_xp.setFrame(frameP);
+                //targetXP.setFrame(framePlus);
+                switchP = true;
+            }
+            else if(this.P.isUp && switchP == true)
+            {
+                switchP = false;
+            }   
     }
 }
 
+//##############################################################################################################
+//##############################################################################################################
+//###     MENU     ####     MENU     ####     MENU     ####     MENU     ####     MENU     ####     MENU     ###
+//##############################################################################################################
+//##############################################################################################################
 class Menu extends Phaser.Scene{
     constructor () {
         super({ key:'Menu'});
     }
     create(){
+        this.cameras.second = this.cameras.add();
+        this.cameras.second.setZoom(1);
+
+        let xMask = 0;
+        let yMask = 0;
+        let widthMask = 2000;
+        let heightMask = 940;
+
+        // Ajoutez une zone d'affichage avec un masque pour définir la zone visible
+        const viewport = this.add.container(xMask, yMask);
+        const mask = this.add.graphics().fillRect(xMask, yMask, widthMask, heightMask);
+        viewport.mask = new Phaser.Display.Masks.GeometryMask(this, mask);
+
+
         this.menu0 = this.add.image(1214, 560, 'menu0');
         this.menu0.setScale(2);
         this.menu0.depth = 10;
@@ -569,6 +670,7 @@ class Menu extends Phaser.Scene{
         this.menu1.setScale(1.2);
         this.menu1.depth = 10;
         this.menu1.visible = false;
+        //viewport.add(this.menu1);
 
         this.but_plus = this.add.image(1842, 808, 'butplus')
         .setInteractive({ useHandCursor: true })
@@ -628,24 +730,28 @@ class Menu extends Phaser.Scene{
         this.myntab[0].setScale(0.6);
         this.myntab[0].depth = 11;
         this.myntab[0].visible = false;
+        //viewport.add(this.myntab[0]);
         this.myntab[1] = this.add.image(1400, 400, 'myn2')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => { console.log("yolo"); });
         this.myntab[1].setScale(0.6);
         this.myntab[1].depth = 11;
         this.myntab[1].visible = false;
+        //viewport.add(this.myntab[1]);
         this.myntab[2] = this.add.image(750, 760, 'myn3')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => { console.log("yolo"); });
         this.myntab[2].setScale(1.2);
         this.myntab[2].depth = 11;
         this.myntab[2].visible = false;
+        //viewport.add(this.myntab[2]);
         this.myntab[3] = this.add.image(1400, 760, 'myn4')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => { console.log("yolo"); });
         this.myntab[3].setScale(1.2);
         this.myntab[3].depth = 11;
         this.myntab[3].visible = false;
+        //viewport.add(this.myntab[3]);
         
         //===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS =====
         this.animals = [];
@@ -765,8 +871,22 @@ class Menu extends Phaser.Scene{
         this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
+
+        this.input.on("wheel", function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
+            if(this.menu0.visible == false){
+                this.cameras.second.scrollY -= deltaY;
+                this.menu1.setTint(0x000099);
+                this.menu1.visible = false;
+            }
+            if(this.cameras.second.scrollY == 0){
+                this.menu1.setTint(0xffffff);
+                this.menu1.visible = true;
+            }
+        }, this);
+
     }
     update(){
+        
         atm = this;
         hell.then(function(value) {
             //console.log(value);
@@ -819,7 +939,7 @@ class Menu extends Phaser.Scene{
             compteurtick2 = (compteurtick2+1)%10;
             
             
-            if(atm.menu1.visible == false){
+            if(opened == false){
                 for(let i = 0; i < 8; i++){
                     atm.animals[i].visible = false;
                 }
@@ -949,21 +1069,7 @@ class Menu extends Phaser.Scene{
                     opened = true;
                 }
                 glace = false;
-            }
-            
-            //PAS BESOIN DE MODIF JE PENSE (ce sera pas gardé de toute façon)
-            //BAR XP
-            if(atm.P.isDown && switchP == false)
-            {
-                frameP = (frameP+1)%19;
-                atm.anim_xp.setFrame(frameP);
-                //targetXP.setFrame(framePlus);
-                switchP = true;
-            }
-            else if(atm.P.isUp && switchP == true)
-            {
-                switchP = false;
-            }            
+            }  
             
         });
     }
@@ -996,5 +1102,4 @@ let config = {
 };
 
 let game = new Phaser.Game(config);
-
 

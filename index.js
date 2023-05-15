@@ -11,6 +11,7 @@ const jsonParser = bodyParser.json();
 const puppeteer = require('puppeteer');
 const readline = require('readline');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const ProgressBar = require('cli-progress');
 
 const session = require("express-session")({
 // CIR2-chat encode in sha256
@@ -62,7 +63,8 @@ rl.question('\n', (save) => {//recupere le numero de sauvegarde
   }
 });
 
-
+const progressBar = new ProgressBar.SingleBar({}, ProgressBar.Presets.shades_classic);
+const total_progress = 100;
 
 /*##################################################*/
 /*#                                                #*/
@@ -72,13 +74,16 @@ rl.question('\n', (save) => {//recupere le numero de sauvegarde
 
 
 (async ()=> {//recupere les donnees et les push dans la db
-    console.log("\x1b[35m%s\x1b[0m","Lancement du serveur");
-    console.log("\x1b[34m%s\x1b[0m","Récupération des données")
-    console.log("\x1b[33m%s\x1b[0m","Récupération des nom et prénom des députés")
+    //console.log("\x1b[35m%s\x1b[0m","Lancement du serveur");
+    //console.log("\x1b[34m%s\x1b[0m","Récupération des données")
+    //console.log("\x1b[33m%s\x1b[0m","Récupération des nom et prénom des députés")
+    await new Promise(resolve => setTimeout(resolve, 10));
+    progressBar.start(total_progress, 0);
+    progressBar.update(10);
     //partie nom
     const [nom, prenom] = await get_nom.get_depute();
-    console.log("\x1b[32m%s\x1b[0m","Visiteurs récupérés")
-
+    //console.log("\x1b[32m%s\x1b[0m","Visiteurs récupérés")
+    progressBar.update(30);
     for( var i = 0; i < 100; i++){//randomise les no
         rand1 = Math.floor(Math.random() * nom.length);
         rand2 = Math.floor(Math.random() * nom.length);
@@ -86,22 +91,27 @@ rl.question('\n', (save) => {//recupere le numero de sauvegarde
         var nom_prenom = get_nom.mix_nom_prenom(nom[rand1],nom[rand2],prenom[rand3]);
         bdd_push.push_visiteur(nom_prenom.split(" ")[1], nom_prenom.split(" ")[0]);
     }
-
-    console.log("\x1b[32m%s\x1b[0m","Députés récupérés")
-    console.log("\x1b[33m%s\x1b[0m","Récupération des hashtags")
+    progressBar.update(40);
+    //console.log("\x1b[33m%s\x1b[0m","Récupération des hashtags")
     //partie twitter
     var hashtag = await get_twitter.gethastag();
     hashtag= bdd_push.get_only_hashtag_name(hashtag);
-    console.log("\x1b[32m%s\x1b[0m","50%")
+    progressBar.update(60);
+    //console.log("\x1b[32m%s\x1b[0m","50%")
     var hashtag_zoosta = await get_twitter.gethastag_zoosta();
     hashtag_zoosta = bdd_push.get_only_hashtag_name(hashtag_zoosta);
-    console.log("\x1b[32m%s\x1b[0m","100%")
+    progressBar.update(70);
+    //console.log("\x1b[32m%s\x1b[0m","100%")
     let hashtag_tot = [];       
     hashtag_tot = hashtag.concat(hashtag_zoosta);
+    progressBar.update(80);
     bdd_push.push_into_db(hashtag_tot);
-    if(!question_rep){
-      console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
-    }
+    progressBar.update(90);
+    //console.log("\x1b[32m%s\x1b[0m","Hashtags récupérés")
+    progressBar.update(100);
+    progressBar.stop();
+    //enleve la barre de chargement
+
     let time_question1 = 0;
     let time_question2 = 0;
     while(!question_rep){
