@@ -1,5 +1,4 @@
 
-
 // ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
 let nbanimaux;
 let charger = false;
@@ -182,6 +181,7 @@ class Boot extends Phaser.Scene {
     constructor () {
         super({ key:'Boot'});
     }
+
     preload(){
         this.load.image('player','../img/Prof_Tilleul.png', { frameWidth: 32, frameHeight: 48 });
         //this.load.image('background','../img/map_zoo.png', { frameWidth: 32, frameHeight: 48 });
@@ -208,21 +208,13 @@ class Boot extends Phaser.Scene {
         this.load.image('nicotine','../img/nicotine.png', { frameWidth: 32, frameHeight: 48 });
         
         this.load.image('koala','../img/koala.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('koala2','../img/koala2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('panda','../img/panda.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('panda2','../img/panda2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('panda_roux','../img/panda_roux.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('panda_roux2','../img/panda_roux2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('renne','../img/renne.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('renne2','../img/renne2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('fennec','../img/fennec.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('fennec2','../img/fennec2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('girafe','../img/girafe.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('girafe2','../img/girafe2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('manchot','../img/manchot.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('manchot2','../img/manchot2.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('paon','../img/paon.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.image('paon2','../img/paon2.png', { frameWidth: 32, frameHeight: 48 });
         
         this.load.image("base_tile",'../map/tile.png',{ frameWidth: 32, frameHeight: 32 });
         this.load.tilemapTiledJSON('mapData','../map/map_m.tmj', { frameWidth: 32, frameHeight: 48 });
@@ -230,9 +222,10 @@ class Boot extends Phaser.Scene {
     create(){
         this.scene.start('Game');
         this.scene.start('HUD');
+        this.scene.start('Menu');
     }
     update(){
-        //this.scene.launch('Game').launch('HUD').remove();
+        
     }
 }
 
@@ -453,16 +446,6 @@ class HUD extends Phaser.Scene{
     constructor () {
         super({ key:'HUD'});
     }
-    preload() { 
-/*
-        this.load.scenePlugin({
-            key: 'rexuiplugin',
-            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',
-            sceneKey: 'rexUI'
-        });
-        this.load.scenePlugin('rexuiplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js', 'rexUI', 'rexUI');
-*/
-    }
     create(){
         /*
         var config2 = {
@@ -478,7 +461,7 @@ class HUD extends Phaser.Scene{
         */
         //this.anims.create(config2);
         //this.add.sprite(960, 50, "xps").play("bar_xp_anim");
-        this.anim_xp = this.add.image(1224, 50, 'xps'); //peut-être à garder
+        this.anim_xp = this.add.image(1224, 50, 'xps');
         this.anim_xp.setScale(1.4);
         this.anim_xp.depth = 14;
         
@@ -497,6 +480,86 @@ class HUD extends Phaser.Scene{
         posYTest = this.add.text(2180, 70, '-', {font: '18px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
                 
         
+        
+        
+        this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+
+//TEST POUR LE SCROLL DE L'ENCLOS ET DE LA BOUTIQUE
+
+/*
+        let xMask = 400;
+        let yMask = 200;
+        let xScroll = 2000;
+        let yScroll = 190;
+        let widthMask = 1600;
+        let heightMask = 800;
+
+        // Ajoutez une zone d'affichage avec un masque pour définir la zone visible
+        const viewport = this.add.container(xMask, yMask);
+        const mask = this.add.graphics().fillRect(xMask, yMask, widthMask, heightMask);
+        viewport.mask = new Phaser.Display.Masks.GeometryMask(this, mask);
+
+        // Ajoutez votre contenu à la zone d'affichage
+        const image = this.add.image(700, 800, 'myn1');
+        viewport.add(image);
+
+        // Créez une barre de défilement verticale
+        const scrollbarWidth = 32;
+        const scrollbar = this.add.graphics().fillStyle(0xaaaaaa).fillRect(xScroll, yScroll, scrollbarWidth, heightMask);
+        scrollbar.alpha = 0.4;
+
+        // Définissez la hauteur de la barre de défilement en fonction du contenu
+        const contentHeight = 1200 //hauteur totale de votre contenu
+        const viewportHeight = 600 //hauteur visible du contenu
+        const scrollbarHeight = Math.max(Math.ceil((viewportHeight / contentHeight) * heightMask), 10);
+        scrollbar.height = scrollbarHeight;
+
+        // Gérez le défilement lorsque la barre de défilement est déplacée
+        scrollbar.setInteractive().on('pointerdown', (pointer, localX, localY, event) => {
+            event.stopPropagation();
+            alert("TEST SCROLL");
+            const startY = scrollbar.y;
+            const startPointerY = pointer.y;
+
+            this.input.on('pointermove', (pointer) => {
+
+                const deltaY = pointer.y - startPointerY;
+                const scrollY = startY + deltaY;
+
+                // Assurez-vous que la barre de défilement reste dans les limites
+                scrollbar.y = Phaser.Math.Clamp(scrollY, yScroll, yScroll + heightMask - scrollbarHeight);
+
+                // Calculez la position de défilement en fonction de la position de la barre de défilement
+                const scrollRatio = (scrollbar.y - yScroll) / (heightMask - scrollbarHeight);
+                const maxScroll = contentHeight - viewportHeight;
+                const scrollPosition = Math.ceil(maxScroll * scrollRatio);
+
+                // Faites défiler le contenu en conséquence
+                viewport.y = -scrollPosition;
+            });
+
+            this.input.on('pointerup', () => {
+                this.input.off('pointermove');
+                this.input.off('pointerup');
+            });
+        });
+*/
+
+    }
+    update(){
+        posXTest.setText(game.input.mousePointer.x);
+        posYTest.setText(game.input.mousePointer.y);
+        
+        
+    }
+}
+
+class Menu extends Phaser.Scene{
+    constructor () {
+        super({ key:'Menu'});
+    }
+    create(){
         this.menu0 = this.add.image(1214, 560, 'menu0');
         this.menu0.setScale(2);
         this.menu0.depth = 10;
@@ -699,92 +762,11 @@ class HUD extends Phaser.Scene{
         this.animals[7].depth = 11;
         this.animals[7].visible = false;
         
-        
         this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         this.M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
-
-//TEST POUR LE SCROLL DE L'ENCLOS ET DE LA BOUTIQUE
-/*
-        const COLOR_PRIMARY = 0x4e342e;
-        const COLOR_LIGHT = 0x7b5e57;
-        const COLOR_DARK = 0x260e04;
-
-        let scrollablePanel = this.rexUI.add.scrollablePanel({
-            x: 400,
-            y: 300,
-            width: 320,
-            height: 460,
-
-            scrollMode: 0,
-
-            background: this.rexUI.add.roundRectangle(0, 0, 2, 2, 10, COLOR_PRIMARY),
-
-            panel: {
-                child: createGrid(this),
-                mask: {
-                    mask: true,
-                    padding: 1,
-                }
-            },
-
-            slider: {
-                track: this.rexUI.add.roundRectangle(0, 0, 20, 10, 10, 0x0000bb),
-                thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 13, 0x00bb00),
-                //position: 'left'
-            },
-
-            mouseWheelScroller: {
-                focus: false,
-                speed: 0.5
-            },
-
-            header: this.rexUI.add.label({
-                height: 30,
-
-                orientation: 0,
-                background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_DARK),
-                text: this.add.text(0, 0, 'Header'),
-            }),
-
-            footer: this.rexUI.add.label({
-                height: 30,
-
-                orientation: 0,
-                background: this.rexUI.add.roundRectangle(0, 0, 20, 20, 0, COLOR_DARK),
-                text: this.add.text(0, 0, 'Footer'),
-            }),
-
-            space: {
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10,
-
-                panel: 10,
-                header: 10,
-                footer: 10,
-            }
-        }).layout()
-
-        let print = this.add.text(0, 0, '');
-
-        scrollablePanel
-            .setChildrenInteractive()
-            .on('child.click', function (child, pointer, event) {
-                print.text += `Click ${child.text}\n`;
-            })
-            .on('child.pressstart', function (child, pointer, event) {
-                print.text += `Press ${child.text}\n`;
-            })
-*/
     }
     update(){
-        posXTest.setText(game.input.mousePointer.x);
-        posYTest.setText(game.input.mousePointer.y);
-        
-        
         atm = this;
         hell.then(function(value) {
             //console.log(value);
@@ -990,44 +972,6 @@ class HUD extends Phaser.Scene{
 }
 
 
-/*let createGrid = function (scene) {
-    // Create table body
-    let sizer = scene.rexUI.add.fixWidthSizer({
-        space: {
-            left: 3,
-            right: 3,
-            top: 3,
-            bottom: 3,
-            item: 8,
-            line: 8,
-        },
-    })
-        .addBackground(scene.rexUI.add.roundRectangle(0, 0, 10, 10, 0, COLOR_DARK))
-
-    for (let i = 0; i < 30; i++) {
-        sizer.add(scene.rexUI.add.label({
-            width: 60, height: 60,
-
-            background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 14, COLOR_LIGHT),
-            text: scene.add.text(0, 0, `${i}`, {
-                fontSize: 18
-            }),
-
-            align: 'center',
-            space: {
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10,
-            }
-        }));
-    }
-
-    return sizer;
-}*/
-
-
-
 let config = {
     type: Phaser.AUTO,
     parent : 'big-head',
@@ -1038,18 +982,11 @@ let config = {
         width: 2438,
         height: 1080
     },
-    /*plugins: {
-        scene: [{
-            key: 'rexUI',
-            plugin: UIPlugin,
-            mapping: 'rexUI'
-        }
-        ]
-    },*/
     scene: [
         Boot,
         Game,
-        HUD
+        HUD,
+        Menu
     ],
     physics: {
         default : "arcade",
