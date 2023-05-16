@@ -454,6 +454,8 @@ class Game extends Phaser.Scene{
                 {x: 1207, y: 525 },
                 {x: 1252, y: 543 },]
 
+
+
           ];
           this.currentTargetIndex = [0];
           this.text_visiteur = [];
@@ -710,6 +712,30 @@ class Game extends Phaser.Scene{
         
         return 3;
 
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.leftButtonDown()) {
+              const { x, y } = pointer;
+              console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
+            }
+          });
+    }
+    wich_direction(x,y,targetx,targety){
+        if(targetx-x<0 && targety-y<0){
+            
+            return 6;
+        }
+        if(targetx-x<0){
+            
+            return 0;
+        }
+        if(targety-y<0){
+            
+            return 9;
+        }
+        
+        return 3;
+
+        
     }
     moveVisiteurToNextTarget(i,chemin,vitesse){
         if (this.currentTargetIndex[i] >= this.targetCoordinates[chemin].length) {
@@ -723,10 +749,10 @@ class Game extends Phaser.Scene{
         const distance = Phaser.Math.Distance.Between(this.visiteur[i].x, this.visiteur[i].y, target.x, target.y);
 
         // Calcul de la durée du déplacement à une vitesse constante
-        const duration = distance / vitesse * 1000; // Convertir en millisecondes
+         const duration = distance / vitesse * 1000; // Convertir en millisecondes
          
-        // Déplacement du visiteur vers la cible actuelle
-        this.tweens.add({
+          // Déplacement du visiteur vers la cible actuelle
+          this.tweens.add({
             targets: this.visiteur[i],
             x: target.x,
             y: target.y,
@@ -757,113 +783,9 @@ class Game extends Phaser.Scene{
                 this.visiteur[i].setFrame(this.frame[i][0]);
                 this.frame[i][1] = 0;
                     
+
             }
         });
-    }
-    update(){
-        /*
-        if(this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
-           
-            this.visiteur2.setVelocityX(0);
-            this.visiteur2.setVelocityY(0);
-            this.visiteur2.setFrame(1);
-            this.visiteur3.setVelocityX(0);
-            this.visiteur3.setVelocityY(0);
-            this.visiteur3.setFrame(1);
-            this.visiteur4.setVelocityX(0);
-            this.visiteur4.setVelocityY(0);
-            this.visiteur4.setFrame(1);
-        }
-        if (this.cursors.left.isDown)
-        {
-           
-            this.visiteur2.setVelocityX(-100);
-            this.visiteur2.setVelocityY(-50);
-            this.visiteur3.setVelocityX(-100);
-            this.visiteur3.setVelocityY(-50);
-            this.visiteur4.setVelocityX(-100);
-            this.visiteur4.setVelocityY(-50);
-            if(gauchetick == 0){
-                //6 7 8
-                FrameLeft = (FrameLeft+1)%3+6;
-                
-                this.visiteur2.setFrame(FrameLeft);
-                this.visiteur3.setFrame(FrameLeft);
-                this.visiteur4.setFrame(FrameLeft);
-            }
-            gauchetick = (gauchetick+1)%8;
-        }
-        if (this.cursors.right.isDown)
-        {
-           
-            this.visiteur2.setVelocityX(100);
-            this.visiteur2.setVelocityY(50);
-            this.visiteur3.setVelocityX(100);
-            this.visiteur3.setVelocityY(50);
-            this.visiteur4.setVelocityX(100);
-            this.visiteur4.setVelocityY(50);
-            if(droitetick == 0){
-                //3 4 5
-                FrameRight = (FrameRight+1)%3+3;
-                
-                this.visiteur2.setFrame(FrameRight);
-                this.visiteur3.setFrame(FrameRight);
-                this.visiteur4.setFrame(FrameRight);
-            }
-            droitetick = (droitetick+1)%8;
-        }
-        if (this.cursors.up.isDown)
-        {
-            
-            this.visiteur2.setVelocityX(100);
-            this.visiteur2.setVelocityY(-50);
-            this.visiteur3.setVelocityX(100);
-            this.visiteur3.setVelocityY(-50);
-            this.visiteur4.setVelocityX(100);
-            this.visiteur4.setVelocityY(-50);
-            if(hauttick == 0){
-                //9 10 11
-                FrameUp = (FrameUp+1)%3+9;
-                
-                this.visiteur2.setFrame(FrameUp);
-                this.visiteur3.setFrame(FrameUp);
-                this.visiteur4.setFrame(FrameUp);
-            }
-            hauttick = (hauttick+1)%8;
-        }
-        if (this.cursors.down.isDown)
-        {
-           
-            this.visiteur2.setVelocityX(-100);
-            this.visiteur2.setVelocityY(50);
-            this.visiteur3.setVelocityX(-100);
-            this.visiteur3.setVelocityY(50);
-            this.visiteur4.setVelocityX(-100);
-            this.visiteur4.setVelocityY(50);
-            if(bastick == 0){
-                //0 1 2
-                FrameDown = (FrameDown+1)%3;
-               
-                this.visiteur2.setFrame(FrameDown);
-                this.visiteur3.setFrame(FrameDown);
-                this.visiteur4.setFrame(FrameDown);
-            }
-            bastick = (bastick+1)%8;
-        }
-
-        if(this.spacebar.isDown && switchSpace == false)
-            {
-               
-                this.visiteur2.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-                this.visiteur3.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-                this.visiteur4.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-                switchSpace = true;
-            }
-            else if(this.spacebar.isUp && switchSpace == true)
-            {
-                switchSpace = false;
-            }
-        */
     }
 }
 
@@ -1919,11 +1841,11 @@ class Menu extends Phaser.Scene{
                 hashtags = value.hashtags;
                 visiteurs = value.visiteurs;
                 save  = db_save_into_tab(value.last_save);
-                //console.log(animaux);
-                //console.log(hashtags);
-                //console.log(save);
-                //console.log("visiteurs");
-                //console.log(visiteurs);
+                /*console.log(animaux);
+                console.log(hashtags);
+                console.log(save);
+                console.log("visiteurs");
+                console.log(visiteurs);*/
                 //parcours les animaux
                 for(let i = 0; i < animaux.length; i++){
                     for(let j =0 ; j<hashtags.length; j++){
