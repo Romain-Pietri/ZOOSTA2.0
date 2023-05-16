@@ -460,6 +460,7 @@ class Game extends Phaser.Scene{
           this.currentTargetIndex = [0];
           this.text_visiteur = [];
           this.frame=[]
+          this.smiley=[]
     }
     create(){
         
@@ -659,7 +660,12 @@ class Game extends Phaser.Scene{
 
         let nombreVisiteurs = 100;// Nombre de visiteurs à créer
         const nom_sprite = ["visiteur","visiteur2", "visiteur3", "visiteur4"]
-
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.leftButtonDown()) {
+              const { x, y } = pointer;
+              console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
+            }
+          });
         hell.then(data => {
             visiteurs = data.visiteurs;
             for (let i = 0; i < nombreVisiteurs; i++) {
@@ -682,7 +688,11 @@ class Game extends Phaser.Scene{
                 this.text_visiteur.push(this.texte);
                 
                 this.currentTargetIndex.push(0);
-                this.frame.push([9,0]);
+                this.frame.push([9,0,0]);
+                this.smile = this.add.text(0, 0, "", { fontSize: '10px', fill: '#000000' });
+                this.smile.setOrigin(0.5);
+                this.smile.depth = 4; 
+                this.smiley.push(this.smile);
                 this.moveVisiteurToNextTarget(i,cheminIndex,vitesse);
         
             
@@ -712,12 +722,7 @@ class Game extends Phaser.Scene{
         
         return 3;
 
-        this.input.on('pointerdown', (pointer) => {
-            if (pointer.leftButtonDown()) {
-              const { x, y } = pointer;
-              console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
-            }
-          });
+       
     }
     wich_direction(x,y,targetx,targety){
         if(targetx-x<0 && targety-y<0){
@@ -767,13 +772,53 @@ class Game extends Phaser.Scene{
                     this.frame[i][0] = (this.frame[i][0]+1)%3+this.wich_direction(this.visiteur[i].x,this.visiteur[i].y,target.x,target.y);
                     this.frame[i][1] = 0;
                     
+    
+                }
+                if(this.frame[i][2]==300){
+                    this.frame[i][2]=0;
+                    let proba = Phaser.Math.Between(0, 300);
+                    if(proba==1){
+                        this.smiley[i].setText("😀");
+                    }
+                    else if(proba==2){
+                        this.smiley[i].setText("😂");
+                    }
+                    else if(proba==3){
+                        this.smiley[i].setText("😍");
+                    }
+                    else if(proba==4){
+                        this.smiley[i].setText("😘");
+                    }
+                    else if(proba==5){
+                        this.smiley[i].setText("😜");
+                    }
+                    else if(proba==6){
+                        this.smiley[i].setText("😎");
+                    }
+                    else if(proba==7){
+                        this.smiley[i].setText("😡");
+                    }
+                    else if(proba==8){
+                        this.smiley[i].setText("😱");
+                    }
+                    else if(proba==9){
+                        this.smiley[i].setText("😭");
+                    }
+                    else{
+                        this.smiley[i].setText("");
+                    }
                 }
                 this.frame[i][1] += 1;
+                this.frame[i][2]+=1;
 
                 //console.log(this.frame[i])
                 
                 this.text_visiteur[i].x = this.visiteur[i].x;
                 this.text_visiteur[i].y = this.visiteur[i].y -30;
+                this.smiley[i].x = this.visiteur[i].x+13;
+                this.smiley[i].y = this.visiteur[i].y -15;
+                //random 1/100 pour smiley
+                
             },
             onComplete: () => {
               // Appel récursif pour passer à la cible suivante
