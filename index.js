@@ -56,7 +56,7 @@ rl.question('\n', (save) => {//recupere le numero de sauvegarde
   if(wich_save<1){
     wich_save=1;
   }
-  console.log("\x1b[32m%s\x1b[0m",`Vous avez choisi la sauvegarde ${save}`);
+  console.log("\x1b[32m%s\x1b[0m",`Vous avez choisi la sauvegarde ${save} \u{2714}\u{FE0F}`);
   question_rep=true;
   if(question_rep){
     rl.close();
@@ -77,7 +77,7 @@ const total_progress = 100;
     //console.log("\x1b[35m%s\x1b[0m","Lancement du serveur");
     //console.log("\x1b[34m%s\x1b[0m","Récupération des données")
     //console.log("\x1b[33m%s\x1b[0m","Récupération des nom et prénom des députés")
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise(resolve => setTimeout(resolve, 1));
     progressBar.start(total_progress, 0);
     progressBar.update(10);
     //partie nom
@@ -119,11 +119,11 @@ const total_progress = 100;
         time_question2++;
       await new Promise(resolve => setTimeout(resolve, 100));
       if(time_question1>20){
-        console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde")
+        console.log("\x1b[31m%s\x1b[0m","Veuillez entrer le numéro de sauvegarde \u{26A0}\u{FE0F}")
         time_question1=0;
       }
       if(time_question2>200){
-        console.log("\x1b[33m%s\x1b[0m","Vous n'avez pas répondu, la sauvegarde 1 a été choisie")
+        console.log("\x1b[33m%s\x1b[0m","Vous n'avez pas répondu, la sauvegarde 1 a été choisie \u{26A0}\u{FE0F}")
         question_rep=true;
         wich_save=1;
       }
@@ -212,6 +212,6 @@ app.get('/', (req, res) => {//cree la route pour la page d'accueil
 
 
 http.listen(4300, () => {
-    console.log("\x1b[36m%s\x1b[0m",'Serveur lancé sur le port 4300');//lance le serveur
+    console.log("\x1b[36m%s\x1b[0m",'Serveur lancé sur le port 4300 \u{1F525}');//lance le serveur
 });
 
