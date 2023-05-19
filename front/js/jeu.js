@@ -184,19 +184,31 @@ function gain_visiteur(nbanimaux,popularitetot){
     if(nbanimaux==0){
         return 0;
     }
-    return Math.round(((popularitetot/nbanimaux)*10/100)+(Math.random()*50));
+    let nb_diff_animaux=0;
+    let tab_animaux_visited=[];
+    for(let i=0; i<save.ec_na.length; i++){
+        for(let j=0 ; j<save.ec_na[i].length; j++){
+            if(tab_animaux_visited.indexOf(save.ec_na[i][j])==-1){
+                tab_animaux_visited.push(save.ec_na[i][j]);
+                nb_diff_animaux++;
+            }
+        }
+    }
+    return Math.round((popularitetot/nbanimaux * nb_diff_animaux)+(Math.random()*50));
 }
 
 function gain_argent(nbvisit,nbanimaux,popularitetot){
     if(nbanimaux==0){
         return 0;
     }
-    return Math.round( (100*nbvisit*(popularitetot/(nbanimaux*100))));
+    
+
+    return Math.round( (10*nbvisit*(popularitetot/(nbanimaux*150))));
     
 }
 
 function monte_lvl(cumul){
-    if(Math.floor(Math.pow(cumul,1.5)/1000000) == save.niveau+1){
+    if(Math.floor(Math.pow(cumul,1.5)/1000000) >= save.niveau+1){
         return true;
     }
     return false;
@@ -209,7 +221,7 @@ function how_mani_money(niveau){
 
 function achat_animal(i,en_c){
     console.log(coins)
-    if(animaux[i-1].prix<=coins){
+    if(animaux[i-1].prix<=coins && save.niveau>=animaux[i-1].niveau ){
         coins -= animaux[i-1].prix;
         console.log(save.ec_na)
         console.log(save.ec_na)
@@ -3388,7 +3400,7 @@ class Menu extends Phaser.Scene{
                 //console.log("nbvist : ", nbvisit);
                 
             }
-            compteurtick2 = (compteurtick2+1)%200;
+            compteurtick2 = (compteurtick2+1)%100;
             
             
             if(compteurtick3 == 0){

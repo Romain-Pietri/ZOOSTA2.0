@@ -7,8 +7,8 @@
     "Alimentation": "Herbivore",
     "Niveau": "1",
     "Prix": "500",
-    "Depense": "25",
-    "Popularite": "70"
+    "Depense": "75",
+    "Popularite": "50"
   },
   {
     "Description": "La girafe est l'animal terrestre le plus grand, elle possède un long cou\net des taches brunes sur sa fourrure. Elle vit dans la savane africaine.",
@@ -18,7 +18,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "1",
     "Prix": "750",
-    "Depense": "25",
+    "Depense": "125",
     "Popularite": "75"
   },
   {
@@ -29,7 +29,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "2",
     "Prix": "1000",
-    "Depense": "35",
+    "Depense": "135",
     "Popularite": "70"
   },
   {
@@ -40,7 +40,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "2",
     "Prix": "1000",
-    "Depense": "30",
+    "Depense": "230",
     "Popularite": "60"
   },
   {
@@ -51,7 +51,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "3",
     "Prix": "2250",
-    "Depense": "40",
+    "Depense": "240",
     "Popularite": "75"
   },
   {
@@ -62,7 +62,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "2",
     "Prix": "1500",
-    "Depense": "35",
+    "Depense": "435",
     "Popularite": "80"
   },
   {
@@ -73,7 +73,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "2",
     "Prix": "1500",
-    "Depense": "35",
+    "Depense": "335",
     "Popularite": "70"
   },
   {
@@ -84,8 +84,8 @@
     "Alimentation": "Carnivore",
     "Niveau": "3",
     "Prix": "2500",
-    "Depense": "35",
-    "Popularite": "50"
+    "Depense": "1035",
+    "Popularite": "20"
   },
   {
     "Description": "Le serpent est un animal sans pattes qui peut être venimeux ou\nnon-venimeux.Il vit dans le monde entier et est connu pour son agilité\net sa capacité à se camoufler.",
@@ -95,8 +95,8 @@
     "Alimentation": "Carnivore",
     "Niveau": "3",
     "Prix": "2500",
-    "Depense": "35",
-    "Popularite": "45"
+    "Depense": "435",
+    "Popularite": "15"
   },
   {
     "Description": "Le lion est un félin majestueux avec une crinière dorée. Il est le\nroi de la savane et est connu pour sa puissance et son rugissement.",
@@ -106,7 +106,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "4",
     "Prix": "3500",
-    "Depense": "50",
+    "Depense": "550",
     "Popularite": "85"
   },
   {
@@ -117,7 +117,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "4",
     "Prix": "3250",
-    "Depense": "45",
+    "Depense": "545",
     "Popularite": "60"
   },
   {
@@ -128,7 +128,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "5",
     "Prix": "4000",
-    "Depense": "60",
+    "Depense": "360",
     "Popularite": "60"
   },
   {
@@ -139,7 +139,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "5",
     "Prix": "4000",
-    "Depense": "60",
+    "Depense": "460",
     "Popularite": "60"
   },
   {
@@ -161,7 +161,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "7",
     "Prix": "6000",
-    "Depense": "75",
+    "Depense": "675",
     "Popularite": "65"
   },
   {
@@ -172,7 +172,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "7",
     "Prix": "5500",
-    "Depense": "70",
+    "Depense": "870",
     "Popularite": "90"
   },
   {
@@ -183,18 +183,18 @@
     "Alimentation": "Herbivore",
     "Niveau": "8",
     "Prix": "7000",
-    "Depense": "90",
+    "Depense": "190",
     "Popularite": "65"
   },
   {
     "Description": "Le panda roux est un petit animal qui vit dans les forêts de l'Himalaya. Il\nest connu pour sa fourrure rouge et blanche et son apparence mignonne.",
     "id": "18",
-    "Nom": "Panda roux",
+    "Nom": "Panda_roux",
     "Type": "5",
     "Alimentation": "Omnivore",
     "Niveau": "8",
     "Prix": "6500",
-    "Depense": "90",
+    "Depense": "290",
     "Popularite": "80"
   },
   {
@@ -227,7 +227,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "5",
     "Prix": "4500",
-    "Depense": "65",
+    "Depense": "965",
     "Popularite": "80"
   },
   {
@@ -238,29 +238,29 @@
     "Alimentation": "Carnivore",
     "Niveau": "6",
     "Prix": "5000",
-    "Depense": "70",
+    "Depense": "870",
     "Popularite": "60"
   },
   {
     "Description": "La panthère noire est un léopard noir, qui est rare\net très difficile à repérer dans la nature.",
     "id": "23",
-    "Nom": "Panthère noire",
+    "Nom": "Panthère_noire",
     "Type": "6",
     "Alimentation": "Carnivore",
     "Niveau": "7",
     "Prix": "6000",
-    "Depense": "80",
+    "Depense": "1080",
     "Popularite": "75"
   },
   {
     "Description": "L'ours brun est un grand animal puissant qui vit dans les forêts et\nles montagnes d'Amérique du Nord, d'Europe et d'Asie.",
     "id": "24",
-    "Nom": "Ours brun",
+    "Nom": "Ours_brun",
     "Type": "6",
     "Alimentation": "Omnivore",
     "Niveau": "8",
     "Prix": "7000",
-    "Depense": "90",
+    "Depense": "990",
     "Popularite": "75"
   },
   {
@@ -271,7 +271,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "9",
     "Prix": "7500",
-    "Depense": "100",
+    "Depense": "1200",
     "Popularite": "85"
   },
   {
@@ -282,7 +282,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "10",
     "Prix": "8500",
-    "Depense": "110",
+    "Depense": "210",
     "Popularite": "50"
   },
   {
@@ -293,7 +293,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "10",
     "Prix": "8000",
-    "Depense": "110",
+    "Depense": "210",
     "Popularite": "50"
   },
   {
@@ -304,7 +304,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "12",
     "Prix": "10000",
-    "Depense": "130",
+    "Depense": "409",
     "Popularite": "55"
   },
   {
@@ -315,7 +315,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "14",
     "Prix": "13000",
-    "Depense": "150",
+    "Depense": "620",
     "Popularite": "70"
   },
   {
@@ -326,7 +326,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "30",
     "Prix": "1000000",
-    "Depense": "500",
+    "Depense": "1",
     "Popularite": "95"
   },
   {
@@ -337,7 +337,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "11",
     "Prix": "9000",
-    "Depense": "120",
+    "Depense": "543",
     "Popularite": "60"
   },
   {
@@ -348,7 +348,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "13",
     "Prix": "11000",
-    "Depense": "140",
+    "Depense": "549",
     "Popularite": "55"
   },
   {
@@ -359,7 +359,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "13",
     "Prix": "12000",
-    "Depense": "140",
+    "Depense": "430",
     "Popularite": "40"
   },
   {
@@ -370,7 +370,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "15",
     "Prix": "14000",
-    "Depense": "160",
+    "Depense": "429",
     "Popularite": "65"
   },
   {
@@ -381,7 +381,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "16",
     "Prix": "15000",
-    "Depense": "170",
+    "Depense": "659",
     "Popularite": "60"
   },
   {
@@ -392,7 +392,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "19",
     "Prix": "18000",
-    "Depense": "200",
+    "Depense": "587",
     "Popularite": "80"
   },
   {
@@ -403,7 +403,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "17",
     "Prix": "16000",
-    "Depense": "180",
+    "Depense": "719",
     "Popularite": "70"
   },
   {
@@ -414,7 +414,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "18",
     "Prix": "17000",
-    "Depense": "190",
+    "Depense": "748",
     "Popularite": "60"
   },
   {
@@ -425,7 +425,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "23",
     "Prix": "22000",
-    "Depense": "240",
+    "Depense": "999",
     "Popularite": "80"
   },
   {
@@ -436,7 +436,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "24",
     "Prix": "23000",
-    "Depense": "250",
+    "Depense": "976",
     "Popularite": "80"
   },
   {
@@ -447,7 +447,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "24",
     "Prix": "23000",
-    "Depense": "250",
+    "Depense": "1034",
     "Popularite": "85"
   },
   {
@@ -458,7 +458,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "20",
     "Prix": "19500",
-    "Depense": "210",
+    "Depense": "867",
     "Popularite": "80"
   },
   {
@@ -469,7 +469,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "20",
     "Prix": "19000",
-    "Depense": "210",
+    "Depense": "745",
     "Popularite": "60"
   },
   {
@@ -480,7 +480,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "21",
     "Prix": "20000",
-    "Depense": "220",
+    "Depense": "830",
     "Popularite": "75"
   },
   {
@@ -491,18 +491,18 @@
     "Alimentation": "Carnivore",
     "Niveau": "22",
     "Prix": "21000",
-    "Depense": "230",
+    "Depense": "894",
     "Popularite": "55"
   },
   {
     "Description": "Le renard polaire est un petit mammifère adapté à la vie dans\nles régions arctiques.Il est connu pour sa fourrure blanche épaisse\net son agilité.",
     "id": "46",
-    "Nom": "Renard polaire",
+    "Nom": "Renard_polaire",
     "Type": "13",
     "Alimentation": "Carnivore",
     "Niveau": "25",
     "Prix": "24000",
-    "Depense": "260",
+    "Depense": "935",
     "Popularite": "80"
   },
   {
@@ -513,7 +513,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "28",
     "Prix": "27000",
-    "Depense": "290",
+    "Depense": "476",
     "Popularite": "65"
   },
   {
@@ -524,29 +524,29 @@
     "Alimentation": "Carnivore",
     "Niveau": "26",
     "Prix": "25000",
-    "Depense": "270",
+    "Depense": "845",
     "Popularite": "55"
   },
   {
     "Description": "Le lion de mer est un mammifère marin de taille moyenne qui vit\nprincipalement sur les côtes de l'Amérique du Nord. Il est connu pour\nson apparence imposante et son cri puissant.",
     "id": "49",
-    "Nom": "Lion de mer",
+    "Nom": "Lion_de_mer",
     "Type": "14",
     "Alimentation": "Carnivore",
     "Niveau": "27",
     "Prix": "26000",
-    "Depense": "280",
+    "Depense": "1111",
     "Popularite": "50"
   },
   {
     "Description": "L'ours polaire est un grand mammifère prédateur qui vit dans\nl'Arctique. Il est connu pour sa fourrure blanche et sa capacité à\nsurvivre dans un environnement hostile.",
     "id": "50",
-    "Nom": "Ours polaire",
+    "Nom": "Ours_polaire",
     "Type": "14",
     "Alimentation": "Omnivore",
     "Niveau": "29",
     "Prix": "28000",
-    "Depense": "300",
+    "Depense": "10000",
     "Popularite": "80"
   }
 ]
