@@ -426,55 +426,61 @@ class Game extends Phaser.Scene{
             {x: 754, y: 566 },
             {x: 972, y: 683 },
             {x:805, y:770},
-        ],
-        [
-            {x: 968, y: 690 },
-            {x: 1230, y: 826 },
-            {x: 1528, y: 669 },
-            {x: 1252, y: 540 },
-            {x: 826, y: 326 },
-            {x: 558, y: 468 },
-            {x: 966, y: 679 },
-            {x:805, y:770},
-        ],
-        [
-            {x: 1253, y: 539 },
-            {x: 1508, y: 662 },
-            {x: 1692, y: 565 },
-            {x: 1695, y: 520 },
-            {x: 1220, y: 276 },
-            {x: 965, y: 402 },
-            {x: 1236, y: 542 },
-            {x:805, y:770},
-        ],
-        [
-            {x: 965, y: 681 },
-            {x: 749, y: 567 },
-            {x: 1001, y: 425 },
-            {x: 1217, y: 525 },
-            {x: 1452, y: 397 },
-            {x: 1217, y: 278 },
-            {x: 956, y: 405 },
-            {x: 1235, y: 543 },
-            {x:805, y:770},
-        ],
-        [
-            {x: 1249, y: 542 },
-            {x: 1203, y: 525 },
-            {x: 1450, y: 392 },
-            {x: 1693, y: 518 },
-            {x: 1697, y: 557 },
-            {x: 1503, y: 662 },
-            {x: 1254, y: 544 },
-            {x: 975, y: 683 },
-            {x: 759, y: 566 },
-            {x: 998, y: 422 },
-            {x: 963, y: 405 },
-            {x: 1216, y: 275 },
-            {x: 1452, y: 393 },
-            {x: 1207, y: 525 },
-            {x: 1252, y: 543 },]
-        ];
+            ],
+            [
+                {x: 968, y: 690 },
+                {x: 1230, y: 826 },
+                {x: 1528, y: 669 },
+                {x: 1252, y: 540 },
+                {x: 826, y: 326 },
+                {x: 558, y: 468 },
+                {x: 966, y: 679 },
+                {x:805, y:770},
+            ],
+            [{x: 1253, y: 539 },
+                {x: 1508, y: 662 },
+                {x: 1692, y: 565 },
+                {x: 1695, y: 520 },
+                {x: 1220, y: 276 },
+                {x: 965, y: 402 },
+                {x: 1236, y: 542 },
+                {x:805, y:770},
+            ],
+            [
+                {x: 965, y: 681 },
+                 {x: 749, y: 567 },
+                 {x: 1001, y: 425 },
+                 {x: 1217, y: 525 },
+                 {x: 1452, y: 397 },
+                 {x: 1217, y: 278 },
+                 {x: 956, y: 405 },
+                 {x: 1235, y: 543 },
+                    {x:805, y:770},
+            ],
+            [{x: 1249, y: 542 },
+                {x: 1203, y: 525 },
+                {x: 1450, y: 392 },
+                {x: 1693, y: 518 },
+                {x: 1697, y: 557 },
+                {x: 1503, y: 662 },
+                {x: 1254, y: 544 },
+                {x: 975, y: 683 },
+                {x: 759, y: 566 },
+                {x: 998, y: 422 },
+                {x: 963, y: 405 },
+                {x: 1216, y: 275 },
+                {x: 1452, y: 393 },
+                {x: 1207, y: 525 },
+                {x: 1252, y: 543 },]
+
+
+
+          ];
+          this.currentTargetIndex = [0];
+          this.text_visiteur = [];
+          this.frame=[]
+          this.smiley=[]
+        
         this.currentTargetIndex = [0];
         this.text_visiteur = [];
         this.frame=[];
@@ -816,17 +822,15 @@ class Game extends Phaser.Scene{
         
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        
-        let nombreVisiteurs = 10/*0*/;// Nombre de visiteurs à créer
-        const nom_sprite = ["visiteur","visiteur2", "visiteur3", "visiteur4"];
-        
+
+        let nombreVisiteurs = 100;// Nombre de visiteurs à créer
+        const nom_sprite = ["visiteur","visiteur2", "visiteur3", "visiteur4"]
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown()) {
-                const { x, y } = pointer;
-                console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
+              const { x, y } = pointer;
+              console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
             }
-        });
-        
+          });
         hell.then(data => {
             visiteurs = data.visiteurs;
             for (let i = 0; i < nombreVisiteurs; i++) {
@@ -914,6 +918,41 @@ class Game extends Phaser.Scene{
                     this.frame[i][0] = (this.frame[i][0]+1)%3+this.wich_direction(this.visiteur[i].x,this.visiteur[i].y,target.x,target.y);
                     this.frame[i][1] = 0;
                     
+    
+                }
+                if(this.frame[i][2]==300){
+                    this.frame[i][2]=0;
+                    let proba = Phaser.Math.Between(0, 300);
+                    if(proba==1){
+                        this.smiley[i].setText("😀");
+                    }
+                    else if(proba==2){
+                        this.smiley[i].setText("😂");
+                    }
+                    else if(proba==3){
+                        this.smiley[i].setText("😍");
+                    }
+                    else if(proba==4){
+                        this.smiley[i].setText("😘");
+                    }
+                    else if(proba==5){
+                        this.smiley[i].setText("😜");
+                    }
+                    else if(proba==6){
+                        this.smiley[i].setText("😎");
+                    }
+                    else if(proba==7){
+                        this.smiley[i].setText("😡");
+                    }
+                    else if(proba==8){
+                        this.smiley[i].setText("😱");
+                    }
+                    else if(proba==9){
+                        this.smiley[i].setText("😭");
+                    }
+                    else{
+                        this.smiley[i].setText("");
+                    }
                 }
                 if(this.frame[i][2]==300){
                     this.frame[i][2]=0;
@@ -951,8 +990,8 @@ class Game extends Phaser.Scene{
                     
                 }
                 this.frame[i][1] += 1;
-                this.frame[i][2] += 1;
-                
+                this.frame[i][2]+=1;
+
                 //console.log(this.frame[i])
                 
                 this.text_visiteur[i].x = this.visiteur[i].x;
@@ -969,114 +1008,10 @@ class Game extends Phaser.Scene{
                 this.frame[i][0] = (this.frame[i][0]+1)%3+this.wich_direction(this.visiteur[i].x,this.visiteur[i].y,chemin);
                 this.visiteur[i].setFrame(this.frame[i][0]);
                 this.frame[i][1] = 0;
-                
+                    
+
             }
         });
-    }
-    update(){
-        /*
-        if(this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
-            
-            this.visiteur2.setVelocityX(0);
-            this.visiteur2.setVelocityY(0);
-            this.visiteur2.setFrame(1);
-            this.visiteur3.setVelocityX(0);
-            this.visiteur3.setVelocityY(0);
-            this.visiteur3.setFrame(1);
-            this.visiteur4.setVelocityX(0);
-            this.visiteur4.setVelocityY(0);
-            this.visiteur4.setFrame(1);
-        }
-        if (this.cursors.left.isDown)
-        {
-            
-            this.visiteur2.setVelocityX(-100);
-            this.visiteur2.setVelocityY(-50);
-            this.visiteur3.setVelocityX(-100);
-            this.visiteur3.setVelocityY(-50);
-            this.visiteur4.setVelocityX(-100);
-            this.visiteur4.setVelocityY(-50);
-            if(gauchetick == 0){
-                //6 7 8
-                FrameLeft = (FrameLeft+1)%3+6;
-                
-                this.visiteur2.setFrame(FrameLeft);
-                this.visiteur3.setFrame(FrameLeft);
-                this.visiteur4.setFrame(FrameLeft);
-            }
-            gauchetick = (gauchetick+1)%8;
-        }
-        if (this.cursors.right.isDown)
-        {
-            
-            this.visiteur2.setVelocityX(100);
-            this.visiteur2.setVelocityY(50);
-            this.visiteur3.setVelocityX(100);
-            this.visiteur3.setVelocityY(50);
-            this.visiteur4.setVelocityX(100);
-            this.visiteur4.setVelocityY(50);
-            if(droitetick == 0){
-                //3 4 5
-                FrameRight = (FrameRight+1)%3+3;
-                
-                this.visiteur2.setFrame(FrameRight);
-                this.visiteur3.setFrame(FrameRight);
-                this.visiteur4.setFrame(FrameRight);
-            }
-            droitetick = (droitetick+1)%8;
-        }
-        if (this.cursors.up.isDown)
-        {
-            
-            this.visiteur2.setVelocityX(100);
-            this.visiteur2.setVelocityY(-50);
-            this.visiteur3.setVelocityX(100);
-            this.visiteur3.setVelocityY(-50);
-            this.visiteur4.setVelocityX(100);
-            this.visiteur4.setVelocityY(-50);
-            if(hauttick == 0){
-                //9 10 11
-                FrameUp = (FrameUp+1)%3+9;
-                
-                this.visiteur2.setFrame(FrameUp);
-                this.visiteur3.setFrame(FrameUp);
-                this.visiteur4.setFrame(FrameUp);
-            }
-            hauttick = (hauttick+1)%8;
-        }
-        if (this.cursors.down.isDown)
-        {
-            
-            this.visiteur2.setVelocityX(-100);
-            this.visiteur2.setVelocityY(50);
-            this.visiteur3.setVelocityX(-100);
-            this.visiteur3.setVelocityY(50);
-            this.visiteur4.setVelocityX(-100);
-            this.visiteur4.setVelocityY(50);
-            if(bastick == 0){
-                //0 1 2
-                FrameDown = (FrameDown+1)%3;
-                
-                this.visiteur2.setFrame(FrameDown);
-                this.visiteur3.setFrame(FrameDown);
-                this.visiteur4.setFrame(FrameDown);
-            }
-            bastick = (bastick+1)%8;
-        }
-        
-        if(this.spacebar.isDown && switchSpace == false)
-        {
-            
-            this.visiteur2.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-            this.visiteur3.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-            this.visiteur4.setPosition(Phaser.Math.Between(600, 1800), Phaser.Math.Between(400, 800));
-            switchSpace = true;
-        }
-        else if(this.spacebar.isUp && switchSpace == true)
-        {
-            switchSpace = false;
-        }
-        */
     }
 }
 
@@ -2366,7 +2301,7 @@ class Menu extends Phaser.Scene{
                     level = save.niveau;
                     lvlText.setText(save.niveau);
                     console.log("test level");
-                    
+
                     
                     if(level == 1){
                         atm.descr[1].setText(animaux[0].nom+" ("+animaux[0].alimentation+")\n\n"+animaux[0].description+"\n\nPrix : "+animaux[0].prix+"                Depenses : "+animaux[0].depense+"                Popularité : "+animaux[0].popularite);
