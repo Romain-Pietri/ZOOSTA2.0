@@ -8,11 +8,16 @@ let save;
 let visiteurs;
 let popularitetot;
 
+let animaux_a_afficher = [];
+let animaux_a_vendre = [];
+let tileHeight;
+let tileWidth;
+
 /*    Enclos        1      2    3    4    5    6   7    8    9  10  11   12   13   14  */
 let Min_enclos_X = [30,   34,  54, 102,  72,  78, 30,  30,  92, 64, 50,  82, 108, 112]; 
 let Max_enclos_X = [66,   46,  68, 116,  94, 102, 42,  56, 118, 80, 64,  94, 114, 114]; 
-let Min_enclos_Y = [176, 124, 122,  74,  70, 178, 59,  30,  30, 34, 78, 126, 190, 118]; 
-let Max_enclos_Y = [196, 152, 152, 102, 102, 198, 100, 53,  50, 46, 94, 158, 198, 150]; 
+let Min_enclos_Y = [176, 124, 122,  74,  74, 178, 59,  30,  30, 34, 78, 126, 190, 118]; 
+let Max_enclos_Y = [196, 152, 152, 102,  98, 198, 100, 53,  50, 46, 94, 158, 198, 150]; 
 let animauxActuel_enclos = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let animaux_t = [];
 
@@ -198,8 +203,24 @@ function monte_lvl(cumul){
 }
 
 function how_mani_money(niveau){
-
+    
     return Math.floor(Math.pow(1000000*niveau,2/3))
+}
+
+function achat_animal(i,en_c){
+    console.log(coins)
+    if(animaux[i-1].prix<=coins){
+        coins -= animaux[i-1].prix;
+        console.log(save.ec_na)
+        console.log(save.ec_na)
+        save.ec_na[en_c-1].push(i);
+        animaux_a_afficher.push(i);
+    }
+}
+function vente_animal(i,en_c){
+    coins += Math.floor(animaux[i-1].prix/2);
+    save.ec_na[en_c-1].splice(save.ec_na[en_c-1].indexOf(i),1);
+    animaux_a_supprimer.push(i);
 }
 
 function depensee(save,animaux){
@@ -398,7 +419,7 @@ class Boot extends Phaser.Scene {
 //##############################################################################################################
 class Game extends Phaser.Scene{
     constructor () {
-        super({ key:'Game'});
+        super('Game');
         this.path = null;
         this.visiteur = [];
         this.targetCoordinates = [[
@@ -485,6 +506,176 @@ class Game extends Phaser.Scene{
         this.text_visiteur = [];
         this.frame=[];
         this.smiley=[];
+    }
+        // Fonction pour supprimer un animal du tableau et de la scène
+        suppressionAnimal(idAnimal, scene) {
+            console.log("suppression animal")
+            let enclosIndex;
+            if (1 <= idAnimal && idAnimal <= 5) {
+                console.log("enclos 1")
+                enclosIndex = 0;
+            } else if (idAnimal == 6 || idAnimal == 7) {
+                enclosIndex = 1;
+            } else if (8 <= idAnimal && idAnimal <= 11) {
+                enclosIndex = 2;
+            } else if (idAnimal == 12 || idAnimal == 13) {
+                enclosIndex = 3;
+            } else if (14 <= idAnimal && idAnimal <= 20) {
+                enclosIndex = 4;
+            } else if (21 <= idAnimal && idAnimal <= 25) {
+                enclosIndex = 5;
+            } else if (26 <= idAnimal && idAnimal <= 30) {
+                enclosIndex = 6;
+            } else if (31 <= idAnimal && idAnimal <= 33) {
+                enclosIndex = 7;
+            } else if (34 <= idAnimal && idAnimal <= 36) {
+                enclosIndex = 8;
+            } else if (idAnimal == 37 || idAnimal == 38) {
+                enclosIndex = 9;
+            } else if (39 <= idAnimal && idAnimal <= 41) {
+                enclosIndex = 10;
+            } else if (42 <= idAnimal && idAnimal <= 45) {
+                enclosIndex = 11;
+            } else if (46 <= idAnimal && idAnimal <= 47) {
+                enclosIndex = 12;
+            } else if (48 <= idAnimal && idAnimal <= 50) {
+                enclosIndex = 13;
+            }else {
+                console.error("L'ID de l'animal est invalide.");
+              return;
+            }
+            const index = animaux_t.findIndex(animal => animal.idAnimal === idAnimal);
+            animauxActuel_enclos[enclosIndex] --;
+            if (index !== -1) {
+              animaux_t.splice(index, 1); // Suppression de l'animal du tableau
+          
+              // Recherche et suppression de l'animal dans le groupe correspondant
+              const groupeAnimal = scene.animauxGroup;
+              const animalToRemove = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
+          
+              if (animalToRemove) {
+                animalToRemove.destroy(); // Suppression de l'animal de la scène
+              }
+            }
+          }
+    
+
+    afficherAnimal(idAnimal,scene){
+        var animauxMax_enclos = [(Max_enclos_X[idAnimal] - Min_enclos_X[idAnimal])/2 * (((Max_enclos_Y[idAnimal]-2) - (Min_enclos_Y[idAnimal]-2))/4)];
+        //console.log(Max_enclos_X[0], Min_enclos_X[0], Max_enclos_Y[0], Min_enclos_Y[0], animauxActuel_enclos[0], animauxMax_enclos[0]);
+        // Vérification de l'ID de l'animal et détermination de l'index de l'enclos correspondant
+        let enclosIndex;
+        if (1 <= idAnimal && idAnimal <= 5) {
+            enclosIndex = 0;
+        }
+        else if (idAnimal == 6 || idAnimal == 7) {
+            enclosIndex = 1;
+        }
+        else if (8 <= idAnimal && idAnimal <= 11) {
+            enclosIndex = 2;
+        }
+        else if (idAnimal == 12 || idAnimal == 13) {
+            enclosIndex = 3;
+        }
+        else if (14 <= idAnimal && idAnimal <= 20) {
+            enclosIndex = 4;
+        }
+        else if (21 <= idAnimal && idAnimal <= 25) {
+            enclosIndex = 5;
+        }
+        else if (26 <= idAnimal && idAnimal <= 30) {
+            enclosIndex = 6;
+        }
+        else if (31 <= idAnimal && idAnimal <= 33) {
+            enclosIndex = 7;
+        }
+        else if (34 <= idAnimal && idAnimal <= 36) {
+            enclosIndex = 8;
+        }
+        else if (idAnimal == 37 || idAnimal == 38) {
+            enclosIndex = 9;
+        }
+        else if (39 <= idAnimal && idAnimal <= 41) {
+            enclosIndex = 10;
+        }
+        else if (42 <= idAnimal && idAnimal <= 45) {
+            enclosIndex = 11;
+        }
+        else if (46 <= idAnimal && idAnimal <= 47) {
+            enclosIndex = 12;
+        }
+        else if (48 <= idAnimal && idAnimal <= 50) {
+            enclosIndex = 13;
+        }
+        else {
+            console.error("L'ID de l'animal est invalide.");
+            return;
+        }
+      
+        // Vérification de la capacité maximale de l'enclos
+        if (animauxActuel_enclos[enclosIndex] + 1 === animauxMax_enclos[enclosIndex]) {
+          console.log("plus de place pour les animaux");
+          return;
+        }
+      
+        let overlap = true;
+        let animaux_X, animaux_Y;
+       // Génération des coordonnées isométriques aléatoires
+        while (overlap) {
+            animaux_X = Phaser.Math.Between(Min_enclos_X[enclosIndex], Max_enclos_X[enclosIndex]);
+            if (Math.floor(animaux_X) % 2 !== 0) {
+              animaux_X = animaux_X + 1;
+           }
+           animaux_X = animaux_X / 10;
+           animaux_X = Number(animaux_X.toFixed(1));
+
+           animaux_Y = Phaser.Math.Between(Min_enclos_Y[enclosIndex], Max_enclos_Y[enclosIndex]);
+           if (Math.floor(animaux_Y - 2) % 4 !== 0) {
+               animaux_Y = animaux_Y + 1;
+            }
+            if (Math.floor(animaux_Y - 2) % 4 !== 0) {
+                animaux_Y = animaux_Y + 1;
+            }
+            if (Math.floor(animaux_Y - 2) % 4 !== 0) {
+                animaux_Y = animaux_Y + 1;
+            }
+            animaux_Y = animaux_Y / 10;
+            animaux_Y = Number(animaux_Y.toFixed(1));
+
+            overlap = false;
+            for (let i = 0; i < animaux_t.length; i++) {
+                if (animaux_t[i].animaux_X === animaux_X && animaux_t[i].animaux_Y === animaux_Y) {
+                    overlap = true;
+                    break;
+                }
+             }
+        }
+
+        animauxActuel_enclos[enclosIndex]++;
+        animaux_t.push({idAnimal, animaux_X, animaux_Y });
+
+        
+        const cartX = animaux_X * tileWidth + tileWidth / 2;
+        const cartY = animaux_Y * tileHeight;
+
+        const isoX = (cartX - cartY) * tileWidth / 2;
+        const isoY = (cartX + cartY) * tileHeight / 2;
+
+        // Ajout de l'animal à la couche "enclos" de la carte aux coordonnées isométriques avec la taille prédéfinie
+        const animalSprite = scene.animauxGroup.create(isoX, isoY, "animal_" + idAnimal);
+        animalSprite.idAnimal = idAnimal;
+        //console.log(isoX, isoY, "animal_" + idAnimal);
+
+        animalSprite.setOrigin(-50.85, 6.7);
+        animalSprite.setDepth(3);
+        animalSprite.setScale(0.04);
+
+        //console.log(animaux_X, animaux_Y);
+
+        // Démarrage du chargement des ressources
+        scene.load.start();
+         // Définition du groupe d'animaux
+       
     }
     create(){
         
@@ -586,7 +777,7 @@ class Game extends Phaser.Scene{
         this.input.on('pointerdown', detectTileClick, this);
         
         
-        
+        this.animauxGroup = this.add.group();
         this.cameras.main.setZoom(1);
         
         /* de côté ça peut aider
@@ -606,19 +797,22 @@ class Game extends Phaser.Scene{
             const isoX = (mouseWorldX - originX) / tileWidth - (mouseWorldY - originY) / tileHeight;
             const isoY = (mouseWorldX - originX) / tileWidth + (mouseWorldY - originY) / tileHeight;
     
-
+    
+    
             console.log(isoX, isoY);
           
-            if (stepCam > 1 && stepCam <= 16 && deltaY > 0 && opened == false) {
+            if (stepCam > 1 && stepCam <= 16 && deltaY > 0 ) {
                 stepCam = stepCam / 2;
                 this.cameras.main.setZoom(stepCam);
                 const offsetX = (mouseWorldX - this.cameras.main.worldView.centerX) * (1 - 1 / stepCam);
                 const offsetY = (mouseWorldY - this.cameras.main.worldView.centerY) * (1 - 1 / stepCam);
-                this.cameras.main.centerOn(this.cameras.main.worldView.centerX + offsetX+((1219-this.cameras.main.worldView.centerX + offsetX)/stepCam), this.cameras.main.worldView.centerY + offsetY+((540-this.cameras.main.worldView.centerY + offsetY)/stepCam));
+                this.cameras.main.centerOn(this.cameras.main.worldView.centerX + offsetX+((1217-this.cameras.main.worldView.centerX + offsetX)/stepCam), this.cameras.main.worldView.centerY + offsetY+((540-this.cameras.main.worldView.centerY + offsetY)/stepCam));
+    
+             
             }
           
-            if (stepCam >= 1 && stepCam < 16 && deltaY < 0 && opened == false) {
-                if (isoX >= -6.5 && isoX <= 6.5 && isoY >= -6.5 && isoY <= 7.5)  {
+            if (stepCam >= 1 && stepCam < 16 && deltaY < 0) {
+                if (isoX >= -6.8 && isoX <= 6.8 && isoY >= -6.5 && isoY <= 7.5)  {
                     console.log("Mouse is over the map");
                 } else { return; }
               stepCam = stepCam * 2;
@@ -631,195 +825,61 @@ class Game extends Phaser.Scene{
             if (stepCam == 1) {
               this.cameras.main.centerOn(1220, 540);
             }
-        }, this);
-        
-        this.input.on("pointerdown", function (pointer) {
-            this.input.on("pointermove", function (pointer) {
-                if (pointer.isDown && opened == false) {
-                    if(stepCam == 1){
-                        //this.cameras.main.scrollX -= pointer.velocity.x * (this.cameras.main.zoom /16);
-                        //this.cameras.main.scrollY -= pointer.velocity.y * (this.cameras.main.zoom /10);
+          }, this);
+          
+          
+          
+            
+            this.input.on("pointerdown", function (pointer) {
+                this.input.on("pointermove", function (pointer) {
+                    if (pointer.isDown) {
+                        const offsetX = (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+                            const offsetY = (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+                            const cameraWidth = this.cameras.main.width / this.cameras.main.zoom;
+                            const cameraHeight = this.cameras.main.height / this.cameras.main.zoom;
+                            const newScrollX = this.cameras.main.scrollX - offsetX;
+                            const newScrollY = this.cameras.main.scrollY - offsetY;
+                        if(stepCam == 2 ){
+                            if (newScrollX >= -450 && newScrollX + cameraWidth <= 1638 && newScrollY >= -250 && newScrollY + cameraHeight <= 780) {
+                              this.cameras.main.scrollX = newScrollX;
+                              this.cameras.main.scrollY = newScrollY;
+                            }
+                        }
+                        else if(stepCam == 4){
+                            if (newScrollX >= -850 && newScrollX + cameraWidth <= 1238 && newScrollY >= -350 && newScrollY + cameraHeight <= 650) {
+                                this.cameras.main.scrollX = newScrollX;
+                                this.cameras.main.scrollY = newScrollY;
+                            }
+                        }
+                        else if(stepCam == 8){
+                            if (newScrollX >= -850 && newScrollX + cameraWidth <= 1138 && newScrollY >= -450 && newScrollY + cameraHeight <= 550) {
+                                this.cameras.main.scrollX = newScrollX;
+                                this.cameras.main.scrollY = newScrollY;
+                            }
+                        }
+                        else if(stepCam == 16){
+                            if (newScrollX >= -800 && newScrollX + cameraWidth <= 1008 && newScrollY >= -420 && newScrollY + cameraHeight <= 510) {
+                                this.cameras.main.scrollX = newScrollX;
+                                this.cameras.main.scrollY = newScrollY;
+                            }
+                        }
                     }
-                    else if(stepCam == 2){
-                        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-                        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-                    }
-                    else if(stepCam == 4){
-                        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-                        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-                    }
-                    else if(stepCam == 8){
-                        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-                        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-                    }
-                    else if(stepCam == 16){
-                        this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
-                        this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
-                    }
-                }
+                }, this);
             }, this);
-        }, this);
-        this.input.on("pointerup", function (pointer) {
-            this.input.off("pointermove");
-        }, this);
+            this.input.on("pointerup", function (pointer) {
+                this.input.off("pointermove");
+            }, this);
+    
         //################################
         //# --   Fin de la caméra    --  #
         //################################
-
-
-
-
-        function afficherAnimal(idAnimal,scene){
-            var animauxMax_enclos = [(Max_enclos_X[idAnimal] - Min_enclos_X[idAnimal])/2 * (((Max_enclos_Y[idAnimal]-2) - (Min_enclos_Y[idAnimal]-2))/4)];
-            //console.log(Max_enclos_X[0], Min_enclos_X[0], Max_enclos_Y[0], Min_enclos_Y[0], animauxActuel_enclos[0], animauxMax_enclos[0]);
-            let enclosIndex; // Variable pour stocker l'index de l'enclos correspondant à l'ID de l'animal
-  
-            // Vérification de l'ID de l'animal et détermination de l'index de l'enclos correspondant
-           
-            if (1 <= idAnimal && idAnimal <= 5) {
-                enclosIndex = 0;
-            }
-            else if (idAnimal == 6 || idAnimal == 7) {
-                enclosIndex = 1;
-            }
-            else if (8 <= idAnimal && idAnimal <= 11) {
-                enclosIndex = 2;
-            }
-            else if (idAnimal == 12 || idAnimal == 13) {
-                enclosIndex = 3;
-            }
-            else if (14 <= idAnimal && idAnimal <= 20) {
-                enclosIndex = 4;
-            }
-            else if (21 <= idAnimal && idAnimal <= 25) {
-                enclosIndex = 5;
-            }
-            else if (26 <= idAnimal && idAnimal <= 30) {
-                enclosIndex = 6;
-            }
-            else if (31 <= idAnimal && idAnimal <= 33) {
-                enclosIndex = 7;
-            }
-            else if (34 <= idAnimal && idAnimal <= 36) {
-                enclosIndex = 8;
-            }
-            else if (idAnimal == 37 || idAnimal == 38) {
-                enclosIndex = 9;
-            }
-            else if (39 <= idAnimal && idAnimal <= 41) {
-                enclosIndex = 10;
-            }
-            else if (42 <= idAnimal && idAnimal <= 45) {
-                enclosIndex = 11;
-            }
-            else if (46 <= idAnimal && idAnimal <= 47) {
-                enclosIndex = 12;
-            }
-            else if (48 <= idAnimal && idAnimal <= 50) {
-                enclosIndex = 13;
-            }
-            else {
-                console.error("L'ID de l'animal est invalide.");
-                return;
-            }
-          
-            // Vérification de la capacité maximale de l'enclos
-            if (animauxActuel_enclos[enclosIndex] + 1 === animauxMax_enclos[enclosIndex]) {
-              console.log("plus de place pour les animaux");
-              return;
-            }
-          
-            let overlap = true;
-            let animaux_X, animaux_Y;
-           // Génération des coordonnées isométriques aléatoires
-            while (overlap) {
-                animaux_X = Phaser.Math.Between(Min_enclos_X[enclosIndex], Max_enclos_X[enclosIndex]);
-                if (Math.floor(animaux_X) % 2 !== 0) {
-                  animaux_X = animaux_X + 1;
-               }
-               animaux_X = animaux_X / 10;
-               animaux_X = Number(animaux_X.toFixed(1));
-  
-               animaux_Y = Phaser.Math.Between(Min_enclos_Y[enclosIndex], Max_enclos_Y[enclosIndex]);
-               if (Math.floor(animaux_Y - 2) % 4 !== 0) {
-                   animaux_Y = animaux_Y + 1;
-                }
-                if (Math.floor(animaux_Y - 2) % 4 !== 0) {
-                    animaux_Y = animaux_Y + 1;
-                }
-                if (Math.floor(animaux_Y - 2) % 4 !== 0) {
-                    animaux_Y = animaux_Y + 1;
-                }
-                animaux_Y = animaux_Y / 10;
-                animaux_Y = Number(animaux_Y.toFixed(1));
-  
-                overlap = false;
-                for (let i = 0; i < animaux_t.length; i++) {
-                    if (animaux_t[i].animaux_X === animaux_X && animaux_t[i].animaux_Y === animaux_Y) {
-                        overlap = true;
-                        break;
-                    }
-                 }
-            }
-  
-            animauxActuel_enclos[enclosIndex]++;
-            animaux_t.push({ animaux_X, animaux_Y });
-  
-            const tileWidth = map.tileWidth * layers.enclos.scaleX;
-            const tileHeight = map.tileHeight * layers.enclos.scaleY;
-            const cartX = animaux_X * tileWidth + tileWidth / 2;
-            const cartY = animaux_Y * tileHeight;
-  
-            const isoX = (cartX - cartY) * tileWidth / 2;
-            const isoY = (cartX + cartY) * tileHeight / 2;
-  
-            // Ajout de l'animal à la couche "enclos" de la carte aux coordonnées isométriques avec la taille prédéfinie
-            const animalSprite = scene.add.image(isoX, isoY, "animal_" + idAnimal);
-            //console.log(isoX, isoY, "animal_" + idAnimal);
-  
-            animalSprite.setOrigin(-50.85, 6.7);
-            animalSprite.setDepth(3);
-            animalSprite.setScale(0.04);
-  
-            //console.log(animaux_X, animaux_Y);
-  
-            // Démarrage du chargement des ressources
-            scene.load.start();
- 
-        }
-          
-        for(let i = 1 ; i <= 50 ; i++){
-            afficherAnimal(i,this);
-            afficherAnimal(i,this);
-        }
+        tileWidth = map.tileWidth * layers.enclos.scaleX;
+        tileHeight = map.tileHeight * layers.enclos.scaleY;
+        //################################
+        
+         
         
 
-
-        
-        
-        /*this.player = this.physics.add.sprite(760, 800, 'player');
-        this.player.setCollideWorldBounds(true);
-        this.player.setScale(0.2);
-        this.player.depth = 4;*/
-        
-        
-        /*var config3 = {
-            key: 'visiteur',
-            frames: this.anims.generateFrameNumbers('visiteur', {
-                start: 0,
-                end: 12,
-                first: 0
-            }),
-            frameRate: 8,
-            repeat: -1
-        };*/
-        //this.anims.create(config3);
-        //this.add.sprite(1000, 400, "visiteur").play("visiteur");
-        /*this.visiteur = this.physics.add.image(1000, 600, 'visiteur');
-        this.visiteur.setScale(0.32);
-        this.visiteur.depth = 14;*/
-        
-        
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -833,6 +893,12 @@ class Game extends Phaser.Scene{
           });
         hell.then(data => {
             visiteurs = data.visiteurs;
+            let s = db_save_into_tab(data.last_save)
+            for(let i=0; i<s.ec_na.length; i++){
+                for(let j=0; j<s.ec_na[i].length; j++){
+                    this.afficherAnimal(s.ec_na[i][j],this);
+                }
+            }
             for (let i = 0; i < nombreVisiteurs; i++) {
                 const cheminIndex = Phaser.Math.Between(0, this.targetCoordinates.length - 1);
                 const vitesse = Phaser.Math.Between(50, 100);
@@ -859,6 +925,7 @@ class Game extends Phaser.Scene{
                 this.smile.depth = 4; 
                 this.smiley.push(this.smile);
                 this.moveVisiteurToNextTarget(i,cheminIndex,vitesse);
+                
                 
                 
             }    
@@ -1013,6 +1080,17 @@ class Game extends Phaser.Scene{
             }
         });
     }
+    update(){
+        for(let i=0 ; i<animaux_a_afficher.length ; i++){
+            this.afficherAnimal(animaux_a_afficher[i],this);
+            animaux_a_afficher.splice(i,1);
+            
+        }
+        for( let i=0; i<animaux_a_vendre.length; i++){
+            this.suppressionAnimal(animaux_a_vendre[i],this);
+            animaux_a_vendre.splice(i,1);
+        }
+    }
 }
 
 //##############################################################################################################
@@ -1054,8 +1132,8 @@ class HUD extends Phaser.Scene{
         xpText = this.add.text(1780, 32, '0 / 1000', {font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
         lvlText = this.add.text(620, 30, '0', {font: '48px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff'});
         
-        this.visit = this.add.image(260, 140, 'player');
-        this.visit.setScale(0.8);
+        this.visit = this.add.image(260, 140, 'myn1');
+        this.visit.setScale(0.2);
         this.visit.depth = 14;
         nbvisitText = this.add.text(360, 120, '0', { font: '40px', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fill: '#fff' });
         
@@ -1119,73 +1197,72 @@ class Menu extends Phaser.Scene{
         const mask2 = this.add.graphics().fillRect(xMask2, yMask2, widthMask2, heightMask2);
         viewport2.mask2 = new Phaser.Display.Masks.GeometryMask(this, mask2);*/
         /*fillStyle(0xaaaaaa).*/
-        //viewport2.add(this.hashtahText[0]);
-
-        this.hashtahText = [];
-        this.hashtahText[0] = this.add.text(2088, 200, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[0].visible = true;
-        this.hashtahText[0].depth = 11;
-        this.hashtahText[1] = this.add.text(2088, 250, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[1].visible = true;
-        this.hashtahText[1].depth = 11;
-        this.hashtahText[2] = this.add.text(2088, 300, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[2].visible = true;
-        this.hashtahText[2].depth = 11;
-        this.hashtahText[3] = this.add.text(2088, 350, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[3].visible = true;
-        this.hashtahText[3].depth = 11;
-        this.hashtahText[4] = this.add.text(2088, 400, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[4].visible = true;
-        this.hashtahText[4].depth = 11;
-        this.hashtahText[5] = this.add.text(2088, 450, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[5].visible = true;
-        this.hashtahText[5].depth = 11;
-        this.hashtahText[6] = this.add.text(2088, 500, '#quelque_chose1', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[6].visible = true;
-        this.hashtahText[6].depth = 11;
-        this.hashtahText[7] = this.add.text(2088, 200, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[7].visible = false;
-        this.hashtahText[7].depth = 11;
-        this.hashtahText[8] = this.add.text(2088, 250, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[8].visible = false;
-        this.hashtahText[8].depth = 11;
-        this.hashtahText[9] = this.add.text(2088, 300, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[9].visible = false;
-        this.hashtahText[9].depth = 11;
-        this.hashtahText[10] = this.add.text(2088, 350, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[10].visible = false;
-        this.hashtahText[10].depth = 11;
-        this.hashtahText[11] = this.add.text(2088, 400, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[11].visible = false;
-        this.hashtahText[11].depth = 11;
-        this.hashtahText[12] = this.add.text(2088, 450, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[12].visible = false;
-        this.hashtahText[12].depth = 11;
-        this.hashtahText[13] = this.add.text(2088, 500, '#quelque_chose2', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[13].visible = false;
-        this.hashtahText[13].depth = 11;
-        this.hashtahText[14] = this.add.text(2088, 200, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[14].visible = false;
-        this.hashtahText[14].depth = 11;
-        this.hashtahText[15] = this.add.text(2088, 250, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[15].visible = false;
-        this.hashtahText[15].depth = 11;
-        this.hashtahText[16] = this.add.text(2088, 300, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[16].visible = false;
-        this.hashtahText[16].depth = 11;
-        this.hashtahText[17] = this.add.text(2088, 350, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[17].visible = false;
-        this.hashtahText[17].depth = 11;
-        this.hashtahText[18] = this.add.text(2088, 400, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[18].visible = false;
-        this.hashtahText[18].depth = 11;
-        this.hashtahText[19] = this.add.text(2088, 450, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[19].visible = false;
-        this.hashtahText[19].depth = 11;
-        this.hashtahText[20] = this.add.text(2088, 500, '#quelque_chose3', {font: 'bold 28px Georgia', fill: '#000'});
-        this.hashtahText[20].visible = false;
-        this.hashtahText[20].depth = 11;
+        //viewport2.add(this.hashtagText[0]);
         
+        this.hashtagText = [];
+        this.hashtagText[0] = this.add.text(2100, 200, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[0].visible = true;
+        this.hashtagText[0].depth = 11;
+        this.hashtagText[1] = this.add.text(2100, 250, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[1].visible = true;
+        this.hashtagText[1].depth = 11;
+        this.hashtagText[2] = this.add.text(2100, 300, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[2].visible = true;
+        this.hashtagText[2].depth = 11;
+        this.hashtagText[3] = this.add.text(2100, 350, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[3].visible = true;
+        this.hashtagText[3].depth = 11;
+        this.hashtagText[4] = this.add.text(2100, 400, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[4].visible = true;
+        this.hashtagText[4].depth = 11;
+        this.hashtagText[5] = this.add.text(2100, 450, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[5].visible = true;
+        this.hashtagText[5].depth = 11;
+        this.hashtagText[6] = this.add.text(2100, 500, '#hashtag1', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[6].visible = true;
+        this.hashtagText[6].depth = 11;
+        this.hashtagText[7] = this.add.text(2100, 200, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[7].visible = false;
+        this.hashtagText[7].depth = 11;
+        this.hashtagText[8] = this.add.text(2100, 250, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[8].visible = false;
+        this.hashtagText[8].depth = 11;
+        this.hashtagText[9] = this.add.text(2100, 300, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[9].visible = false;
+        this.hashtagText[9].depth = 11;
+        this.hashtagText[10] = this.add.text(2100, 350, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[10].visible = false;
+        this.hashtagText[10].depth = 11;
+        this.hashtagText[11] = this.add.text(2100, 400, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[11].visible = false;
+        this.hashtagText[11].depth = 11;
+        this.hashtagText[12] = this.add.text(2100, 450, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[12].visible = false;
+        this.hashtagText[12].depth = 11;
+        this.hashtagText[13] = this.add.text(2100, 500, '#hashtag2', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[13].visible = false;
+        this.hashtagText[13].depth = 11;
+        this.hashtagText[14] = this.add.text(2100, 200, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[14].visible = false;
+        this.hashtagText[14].depth = 11;
+        this.hashtagText[15] = this.add.text(2100, 250, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[15].visible = false;
+        this.hashtagText[15].depth = 11;
+        this.hashtagText[16] = this.add.text(2100, 300, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[16].visible = false;
+        this.hashtagText[16].depth = 11;
+        this.hashtagText[17] = this.add.text(2100, 350, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[17].visible = false;
+        this.hashtagText[17].depth = 11;
+        this.hashtagText[18] = this.add.text(2100, 400, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[18].visible = false;
+        this.hashtagText[18].depth = 11;
+        this.hashtagText[19] = this.add.text(2100, 450, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[19].visible = false;
+        this.hashtagText[19].depth = 11;
+        this.hashtagText[20] = this.add.text(2100, 500, '#hashtag3', {font: 'bold 28px Georgia', fill: '#000'});
+        this.hashtagText[20].visible = false;
+        this.hashtagText[20].depth = 11;
         
         
         
@@ -1193,7 +1270,7 @@ class Menu extends Phaser.Scene{
         this.menu0.setScale(2);
         this.menu0.depth = 10;
         this.menu0.visible = false;
-
+        
         this.menu1 = this.add.image(1220, 572, 'menu1');
         this.menu1.setScale(1.2);
         this.menu1.depth = 10;
@@ -1218,7 +1295,7 @@ class Menu extends Phaser.Scene{
         this.quit.depth = 11;
         this.quit.visible = false;
         
-
+        
         
         //===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS =====
         this.descr = [];
@@ -1232,6 +1309,14 @@ class Menu extends Phaser.Scene{
         })
         .on('pointerout', () => {
             this.animals[1].setTint(0xffffff),
+            this.animals[1].setScale(0.5);
+        })
+        .on('pointerdown', () => {
+            this.animals[1].setTint(0xffffff),
+            this.animals[1].setScale(0.42);
+            achat_animal(1,1);
+        })
+        .on('pointerup', () => {
             this.animals[1].setScale(0.5);
         });
         this.animals[1].setScale(0.5);
@@ -1251,6 +1336,15 @@ class Menu extends Phaser.Scene{
         .on('pointerout', () => {
             this.animals[2].setTint(0xffffff),
             this.animals[2].setScale(0.5);
+        })
+        .on('pointerdown', () => {
+            this.animals[2].setTint(0xffffff),
+            this.animals[2].setScale(0.42);
+            achat_animal(2,1);
+            
+        })
+        .on('pointerup', () => {
+            this.animals[2].setScale(0.5);
         });
         this.animals[2].setScale(0.5);
         this.animals[2].depth = 11;
@@ -1263,11 +1357,29 @@ class Menu extends Phaser.Scene{
         this.animals[3] = this.add.image(750, 1060, 'suricate')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[3].setTint(0xffaaff),
-            this.animals[3].setScale(0.54);
+            if(level >= 2){
+                this.animals[3].setTint(0xffaaff),
+                this.animals[3].setScale(0.54);
+            }
+            else{
+                this.animals[3].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 2){
+                this.animals[3].setTint(0xffffff),
+                this.animals[3].setScale(0.5);
+            }
+            else{
+                this.animals[3].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[3].setTint(0xffffff),
+            this.animals[3].setScale(0.42);
+            achat_animal(3,1);
+        })
+        .on('pointerup', () => {
             this.animals[3].setScale(0.5);
         });
         this.animals[3].setScale(0.5);
@@ -1281,11 +1393,29 @@ class Menu extends Phaser.Scene{
         this.animals[4] = this.add.image(750, 1360, 'autruche')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[4].setTint(0xffaaff),
-            this.animals[4].setScale(0.54);
+            if(level >= 2){
+                this.animals[4].setTint(0xffaaff),
+                this.animals[4].setScale(0.54);
+            }
+            else{
+                this.animals[4].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 2){
+                this.animals[4].setTint(0xffffff),
+                this.animals[4].setScale(0.5);
+            }
+            else{
+                this.animals[4].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[4].setTint(0xffffff),
+            this.animals[4].setScale(0.42);
+            achat_animal(4,1);
+        })
+        .on('pointerup', () => {
             this.animals[4].setScale(0.5);
         });
         this.animals[4].setScale(0.5);
@@ -1299,11 +1429,29 @@ class Menu extends Phaser.Scene{
         this.animals[5] = this.add.image(750, 1660, 'fennec')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[5].setTint(0xffaaff),
-            this.animals[5].setScale(0.54);
+            if(level >= 3){
+                this.animals[5].setTint(0xffaaff),
+                this.animals[5].setScale(0.54);
+            }
+            else{
+                this.animals[5].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 3){
+                this.animals[5].setTint(0xffffff),
+                this.animals[5].setScale(0.5);
+            }
+            else{
+                this.animals[5].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[5].setTint(0xffffff),
+            this.animals[5].setScale(0.42);
+            achat_animal(5,1);
+        })
+        .on('pointerup', () => {
             this.animals[5].setScale(0.5);
         });
         this.animals[5].setScale(0.5);
@@ -1317,11 +1465,29 @@ class Menu extends Phaser.Scene{
         this.animals[6] = this.add.image(750, 460, 'elephant')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[6].setTint(0xffaaff),
-            this.animals[6].setScale(0.54);
+            if(level >= 2){
+                this.animals[6].setTint(0xffaaff),
+                this.animals[6].setScale(0.54);
+            }
+            else{
+                this.animals[6].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 2){
+                this.animals[6].setTint(0xffffff),
+                this.animals[6].setScale(0.5);
+            }
+            else{
+                this.animals[6].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[6].setTint(0xffffff),
+            this.animals[6].setScale(0.42);
+            achat_animal(6,2);
+        })
+        .on('pointerup', () => {
             this.animals[6].setScale(0.5);
         });
         this.animals[6].setScale(0.5);
@@ -1335,11 +1501,29 @@ class Menu extends Phaser.Scene{
         this.animals[7] = this.add.image(750, 760, 'rhino')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[7].setTint(0xffaaff),
-            this.animals[7].setScale(0.54);
+            if(level >= 2){
+                this.animals[7].setTint(0xffaaff),
+                this.animals[7].setScale(0.54);
+            }
+            else{
+                this.animals[7].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 2){
+                this.animals[7].setTint(0xffffff),
+                this.animals[7].setScale(0.5);
+            }
+            else{
+                this.animals[7].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[7].setTint(0xffffff),
+            this.animals[7].setScale(0.42);
+            achat_animal(7,2);
+        })
+        .on('pointerup', () => {
             this.animals[7].setScale(0.5);
         });
         this.animals[7].setScale(0.5);
@@ -1353,11 +1537,29 @@ class Menu extends Phaser.Scene{
         this.animals[8] = this.add.image(750, 460, 'hyene')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[8].setTint(0xffaaff),
-            this.animals[8].setScale(0.54);
+            if(level >= 3){
+                this.animals[8].setTint(0xffaaff),
+                this.animals[8].setScale(0.54);
+            }
+            else{
+                this.animals[8].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 3){
+                this.animals[8].setTint(0xffffff),
+                this.animals[8].setScale(0.5);
+            }
+            else{
+                this.animals[8].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[8].setTint(0xffffff),
+            this.animals[8].setScale(0.42);
+            achat_animal(8,3);
+        })
+        .on('pointerup', () => {
             this.animals[8].setScale(0.5);
         });
         this.animals[8].setScale(0.5);
@@ -1371,11 +1573,29 @@ class Menu extends Phaser.Scene{
         this.animals[9] = this.add.image(750, 760, 'serpent')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[9].setTint(0xffaaff),
-            this.animals[9].setScale(0.54);
+            if(level >= 3){
+                this.animals[9].setTint(0xffaaff),
+                this.animals[9].setScale(0.54);
+            }
+            else{
+                this.animals[9].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 3){
+                this.animals[9].setTint(0xffffff),
+                this.animals[9].setScale(0.5);
+            }
+            else{
+                this.animals[9].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[9].setTint(0xffffff),
+            this.animals[9].setScale(0.42);
+            achat_animal(9,3);
+        })
+        .on('pointerup', () => {
             this.animals[9].setScale(0.5);
         });
         this.animals[9].setScale(0.5);
@@ -1389,11 +1609,29 @@ class Menu extends Phaser.Scene{
         this.animals[10] = this.add.image(750, 1060, 'lion')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[10].setTint(0xffaaff),
-            this.animals[10].setScale(0.54);
+            if(level >= 4){
+                this.animals[10].setTint(0xffaaff),
+                this.animals[10].setScale(0.54);
+            }
+            else{
+                this.animals[10].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 4){
+                this.animals[10].setTint(0xffffff),
+                this.animals[10].setScale(0.5);
+            }
+            else{
+                this.animals[10].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[10].setTint(0xffffff),
+            this.animals[10].setScale(0.42);
+            achat_animal(10,3);
+        })
+        .on('pointerup', () => {
             this.animals[10].setScale(0.5);
         });
         this.animals[10].setScale(0.5);
@@ -1407,11 +1645,29 @@ class Menu extends Phaser.Scene{
         this.animals[11] = this.add.image(750, 1360, 'guepard')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[11].setTint(0xffaaff),
-            this.animals[11].setScale(0.54);
+            if(level >= 4){
+                this.animals[11].setTint(0xffaaff),
+                this.animals[11].setScale(0.54);
+            }
+            else{
+                this.animals[11].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 4){
+                this.animals[11].setTint(0xffffff),
+                this.animals[11].setScale(0.5);
+            }
+            else{
+                this.animals[11].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[11].setTint(0xffffff),
+            this.animals[11].setScale(0.42);
+            achat_animal(11,3);
+        })
+        .on('pointerup', () => {
             this.animals[11].setScale(0.5);
         });
         this.animals[11].setScale(0.5);
@@ -1425,11 +1681,29 @@ class Menu extends Phaser.Scene{
         this.animals[12] = this.add.image(750, 460, 'renne')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[12].setTint(0xffaaff),
-            this.animals[12].setScale(0.54);
+            if(level >= 5){
+                this.animals[12].setTint(0xffaaff),
+                this.animals[12].setScale(0.54);
+            }
+            else{
+                this.animals[12].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 5){
+                this.animals[12].setTint(0xffffff),
+                this.animals[12].setScale(0.5);
+            }
+            else{
+                this.animals[12].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[12].setTint(0xffffff),
+            this.animals[12].setScale(0.42);
+            achat_animal(12,4);
+        })
+        .on('pointerup', () => {
             this.animals[12].setScale(0.5);
         });
         this.animals[12].setScale(0.5);
@@ -1443,11 +1717,29 @@ class Menu extends Phaser.Scene{
         this.animals[13] = this.add.image(750, 760, 'elan')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[13].setTint(0xffaaff),
-            this.animals[13].setScale(0.54);
+            if(level >= 5){
+                this.animals[13].setTint(0xffaaff),
+                this.animals[13].setScale(0.54);
+            }
+            else{
+                this.animals[13].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 5){
+                this.animals[13].setTint(0xffffff),
+                this.animals[13].setScale(0.5);
+            }
+            else{
+                this.animals[13].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[13].setTint(0xffffff),
+            this.animals[13].setScale(0.42);
+            achat_animal(13,4);
+        })
+        .on('pointerup', () => {
             this.animals[13].setScale(0.5);
         });
         this.animals[13].setScale(0.5);
@@ -1461,11 +1753,29 @@ class Menu extends Phaser.Scene{
         this.animals[14] = this.add.image(750, 460, 'paresseux')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[14].setTint(0xffaaff),
-            this.animals[14].setScale(0.54);
+            if(level >= 6){
+                this.animals[14].setTint(0xffaaff),
+                this.animals[14].setScale(0.54);
+            }
+            else{
+                this.animals[14].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 6){
+                this.animals[14].setTint(0xffffff),
+                this.animals[14].setScale(0.5);
+            }
+            else{
+                this.animals[14].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[14].setTint(0xffffff),
+            this.animals[14].setScale(0.42);
+            achat_animal(14,5);
+        })
+        .on('pointerup', () => {
             this.animals[14].setScale(0.5);
         });
         this.animals[14].setScale(0.5);
@@ -1479,11 +1789,29 @@ class Menu extends Phaser.Scene{
         this.animals[15] = this.add.image(750, 760, 'chimpanze')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[15].setTint(0xffaaff),
-            this.animals[15].setScale(0.54);
+            if(level >= 7){
+                this.animals[15].setTint(0xffaaff),
+                this.animals[15].setScale(0.54);
+            }
+            else{
+                this.animals[15].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 7){
+                this.animals[15].setTint(0xffffff),
+                this.animals[15].setScale(0.5);
+            }
+            else{
+                this.animals[15].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[15].setTint(0xffffff),
+            this.animals[15].setScale(0.42);
+            achat_animal(15,5);
+        })
+        .on('pointerup', () => {
             this.animals[15].setScale(0.5);
         });
         this.animals[15].setScale(0.5);
@@ -1497,11 +1825,29 @@ class Menu extends Phaser.Scene{
         this.animals[16] = this.add.image(750, 1060, 'lemurien')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[16].setTint(0xffaaff),
-            this.animals[16].setScale(0.54);
+            if(level >= 7){
+                this.animals[16].setTint(0xffaaff),
+                this.animals[16].setScale(0.54);
+            }
+            else{
+                this.animals[16].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 7){
+                this.animals[16].setTint(0xffffff),
+                this.animals[16].setScale(0.5);
+            }
+            else{
+                this.animals[16].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[16].setTint(0xffffff),
+            this.animals[16].setScale(0.42);
+            achat_animal(16,5);
+        })
+        .on('pointerup', () => {
             this.animals[16].setScale(0.5);
         });
         this.animals[16].setScale(0.5);
@@ -1515,11 +1861,29 @@ class Menu extends Phaser.Scene{
         this.animals[17] = this.add.image(750, 1360, 'koala')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[17].setTint(0xffaaff),
-            this.animals[17].setScale(0.54);
+            if(level >= 8){
+                this.animals[17].setTint(0xffaaff),
+                this.animals[17].setScale(0.54);
+            }
+            else{
+                this.animals[17].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 8){
+                this.animals[17].setTint(0xffffff),
+                this.animals[17].setScale(0.5);
+            }
+            else{
+                this.animals[17].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[17].setTint(0xffffff),
+            this.animals[17].setScale(0.42);
+            achat_animal(17,5);
+        })
+        .on('pointerup', () => {
             this.animals[17].setScale(0.5);
         });
         this.animals[17].setScale(0.5);
@@ -1533,11 +1897,29 @@ class Menu extends Phaser.Scene{
         this.animals[18] = this.add.image(750, 1660, 'panda_roux')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[18].setTint(0xffaaff),
-            this.animals[18].setScale(0.54);
+            if(level >= 8){
+                this.animals[18].setTint(0xffaaff),
+                this.animals[18].setScale(0.54);
+            }
+            else{
+                this.animals[18].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 8){
+                this.animals[18].setTint(0xffffff),
+                this.animals[18].setScale(0.5);
+            }
+            else{
+                this.animals[18].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[18].setTint(0xffffff),
+            this.animals[18].setScale(0.42);
+            achat_animal(18,5);
+        })
+        .on('pointerup', () => {
             this.animals[18].setScale(0.5);
         });
         this.animals[18].setScale(0.5);
@@ -1551,11 +1933,29 @@ class Menu extends Phaser.Scene{
         this.animals[19] = this.add.image(750, 1960, 'gorille')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[19].setTint(0xffaaff),
-            this.animals[19].setScale(0.54);
+            if(level >= 9){
+                this.animals[19].setTint(0xffaaff),
+                this.animals[19].setScale(0.54);
+            }
+            else{
+                this.animals[19].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 9){
+                this.animals[19].setTint(0xffffff),
+                this.animals[19].setScale(0.5);
+            }
+            else{
+                this.animals[19].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[19].setTint(0xffffff),
+            this.animals[19].setScale(0.42);
+            achat_animal(19,5);
+        })
+        .on('pointerup', () => {
             this.animals[19].setScale(0.5);
         });
         this.animals[19].setScale(0.5);
@@ -1569,11 +1969,29 @@ class Menu extends Phaser.Scene{
         this.animals[20] = this.add.image(750, 2260, 'panda')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[20].setTint(0xffaaff),
-            this.animals[20].setScale(0.54);
+            if(level >= 20){
+                this.animals[20].setTint(0xffaaff),
+                this.animals[20].setScale(0.54);
+            }
+            else{
+                this.animals[20].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 20){
+                this.animals[20].setTint(0xffffff),
+                this.animals[20].setScale(0.5);
+            }
+            else{
+                this.animals[20].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[20].setTint(0xffffff),
+            this.animals[20].setScale(0.42);
+            achat_animal(20,5);
+        })
+        .on('pointerup', () => {
             this.animals[20].setScale(0.5);
         });
         this.animals[20].setScale(0.5);
@@ -1587,11 +2005,29 @@ class Menu extends Phaser.Scene{
         this.animals[21] = this.add.image(750, 460, 'loup')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[21].setTint(0xffaaff),
-            this.animals[21].setScale(0.54);
+            if(level >= 5){
+                this.animals[21].setTint(0xffaaff),
+                this.animals[21].setScale(0.54);
+            }
+            else{
+                this.animals[21].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 5){
+                this.animals[21].setTint(0xffffff),
+                this.animals[21].setScale(0.5);
+            }
+            else{
+                this.animals[21].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[21].setTint(0xffffff),
+            this.animals[21].setScale(0.42);
+            achat_animal(21,6);
+        })
+        .on('pointerup', () => {
             this.animals[21].setScale(0.5);
         });
         this.animals[21].setScale(0.5);
@@ -1605,11 +2041,29 @@ class Menu extends Phaser.Scene{
         this.animals[22] = this.add.image(750, 760, 'leopard')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[22].setTint(0xffaaff),
-            this.animals[22].setScale(0.54);
+            if(level >= 6){
+                this.animals[22].setTint(0xffaaff),
+                this.animals[22].setScale(0.54);
+            }
+            else{
+                this.animals[22].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 6){
+                this.animals[22].setTint(0xffffff),
+                this.animals[22].setScale(0.5);
+            }
+            else{
+                this.animals[22].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[22].setTint(0xffffff),
+            this.animals[22].setScale(0.42);
+            achat_animal(22,6);
+        })
+        .on('pointerup', () => {
             this.animals[22].setScale(0.5);
         });
         this.animals[22].setScale(0.5);
@@ -1623,11 +2077,29 @@ class Menu extends Phaser.Scene{
         this.animals[23] = this.add.image(750, 1060, 'panthere')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[23].setTint(0xffaaff),
-            this.animals[23].setScale(0.54);
+            if(level >= 7){
+                this.animals[23].setTint(0xffaaff),
+                this.animals[23].setScale(0.54);
+            }
+            else{
+                this.animals[23].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 7){
+                this.animals[23].setTint(0xffffff),
+                this.animals[23].setScale(0.5);
+            }
+            else{
+                this.animals[23].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[23].setTint(0xffffff),
+            this.animals[23].setScale(0.42);
+            achat_animal(23,6);
+        })
+        .on('pointerup', () => {
             this.animals[23].setScale(0.5);
         });
         this.animals[23].setScale(0.5);
@@ -1641,11 +2113,29 @@ class Menu extends Phaser.Scene{
         this.animals[24] = this.add.image(750, 1360, 'ours')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[24].setTint(0xffaaff),
-            this.animals[24].setScale(0.54);
+            if(level >= 8){
+                this.animals[24].setTint(0xffaaff),
+                this.animals[24].setScale(0.54);
+            }
+            else{
+                this.animals[24].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 8){
+                this.animals[24].setTint(0xffffff),
+                this.animals[24].setScale(0.5);
+            }
+            else{
+                this.animals[24].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[24].setTint(0xffffff),
+            this.animals[24].setScale(0.42);
+            achat_animal(24,6);
+        })
+        .on('pointerup', () => {
             this.animals[24].setScale(0.5);
         });
         this.animals[24].setScale(0.5);
@@ -1659,11 +2149,29 @@ class Menu extends Phaser.Scene{
         this.animals[25] = this.add.image(750, 1660, 'tigre')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[25].setTint(0xffaaff),
-            this.animals[25].setScale(0.54);
+            if(level >= 9){
+                this.animals[25].setTint(0xffaaff),
+                this.animals[25].setScale(0.54);
+            }
+            else{
+                this.animals[25].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 9){
+                this.animals[25].setTint(0xffffff),
+                this.animals[25].setScale(0.5);
+            }
+            else{
+                this.animals[25].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[25].setTint(0xffffff),
+            this.animals[25].setScale(0.42);
+            achat_animal(25,6);
+        })
+        .on('pointerup', () => {
             this.animals[25].setScale(0.5);
         });
         this.animals[25].setScale(0.5);
@@ -1677,11 +2185,29 @@ class Menu extends Phaser.Scene{
         this.animals[26] = this.add.image(750, 460, 'chevre')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[26].setTint(0xffaaff),
-            this.animals[26].setScale(0.54);
+            if(level >= 10){
+                this.animals[26].setTint(0xffaaff),
+                this.animals[26].setScale(0.54);
+            }
+            else{
+                this.animals[26].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 10){
+                this.animals[26].setTint(0xffffff),
+                this.animals[26].setScale(0.5);
+            }
+            else{
+                this.animals[26].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[26].setTint(0xffffff),
+            this.animals[26].setScale(0.42);
+            achat_animal(26,7);
+        })
+        .on('pointerup', () => {
             this.animals[26].setScale(0.5);
         });
         this.animals[26].setScale(0.5);
@@ -1695,11 +2221,29 @@ class Menu extends Phaser.Scene{
         this.animals[27] = this.add.image(750, 760, 'mouton')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[27].setTint(0xffaaff),
-            this.animals[27].setScale(0.54);
+            if(level >= 10){
+                this.animals[27].setTint(0xffaaff),
+                this.animals[27].setScale(0.54);
+            }
+            else{
+                this.animals[27].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 10){
+                this.animals[27].setTint(0xffffff),
+                this.animals[27].setScale(0.5);
+            }
+            else{
+                this.animals[27].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[27].setTint(0xffffff),
+            this.animals[27].setScale(0.42);
+            achat_animal(27,7);
+        })
+        .on('pointerup', () => {
             this.animals[27].setScale(0.5);
         });
         this.animals[27].setScale(0.5);
@@ -1713,11 +2257,29 @@ class Menu extends Phaser.Scene{
         this.animals[28] = this.add.image(750, 1060, 'alpaga')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[28].setTint(0xffaaff),
-            this.animals[28].setScale(0.54);
+            if(level >= 12){
+                this.animals[28].setTint(0xffaaff),
+                this.animals[28].setScale(0.54);
+            }
+            else{
+                this.animals[28].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 12){
+                this.animals[28].setTint(0xffffff),
+                this.animals[28].setScale(0.5);
+            }
+            else{
+                this.animals[28].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[28].setTint(0xffffff),
+            this.animals[28].setScale(0.42);
+            achat_animal(28,7);
+        })
+        .on('pointerup', () => {
             this.animals[28].setScale(0.5);
         });
         this.animals[28].setScale(0.5);
@@ -1731,11 +2293,29 @@ class Menu extends Phaser.Scene{
         this.animals[29] = this.add.image(750, 1360, 'paon')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[29].setTint(0xffaaff),
-            this.animals[29].setScale(0.54);
+            if(level >= 14){
+                this.animals[29].setTint(0xffaaff),
+                this.animals[29].setScale(0.54);
+            }
+            else{
+                this.animals[29].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 14){
+                this.animals[29].setTint(0xffffff),
+                this.animals[29].setScale(0.5);
+            }
+            else{
+                this.animals[29].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[29].setTint(0xffffff),
+            this.animals[29].setScale(0.42);
+            achat_animal(29,7);
+        })
+        .on('pointerup', () => {
             this.animals[29].setScale(0.5);
         });
         this.animals[29].setScale(0.5);
@@ -1749,11 +2329,29 @@ class Menu extends Phaser.Scene{
         this.animals[30] = this.add.image(750, 1660, 'dodo')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[30].setTint(0xffaaff),
-            this.animals[30].setScale(0.54);
+            if(level >= 30){
+                this.animals[30].setTint(0xffaaff),
+                this.animals[30].setScale(0.54);
+            }
+            else{
+                this.animals[30].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 30){
+                this.animals[30].setTint(0xffffff),
+                this.animals[30].setScale(0.5);
+            }
+            else{
+                this.animals[30].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[30].setTint(0xffffff),
+            this.animals[30].setScale(0.42);
+            achat_animal(30,7);
+        })
+        .on('pointerup', () => {
             this.animals[30].setScale(0.5);
         });
         this.animals[30].setScale(0.5);
@@ -1767,11 +2365,29 @@ class Menu extends Phaser.Scene{
         this.animals[31] = this.add.image(750, 460, 'bison')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[31].setTint(0xffaaff),
-            this.animals[31].setScale(0.54);
+            if(level >= 11){
+                this.animals[31].setTint(0xffaaff),
+                this.animals[31].setScale(0.54);
+            }
+            else{
+                this.animals[31].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 11){
+                this.animals[31].setTint(0xffffff),
+                this.animals[31].setScale(0.5);
+            }
+            else{
+                this.animals[31].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[31].setTint(0xffffff),
+            this.animals[31].setScale(0.42);
+            achat_animal(31,8);
+        })
+        .on('pointerup', () => {
             this.animals[31].setScale(0.5);
         });
         this.animals[31].setScale(0.5);
@@ -1785,11 +2401,29 @@ class Menu extends Phaser.Scene{
         this.animals[32] = this.add.image(750, 760, 'bouquetin')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[32].setTint(0xffaaff),
-            this.animals[32].setScale(0.54);
+            if(level >= 13){
+                this.animals[32].setTint(0xffaaff),
+                this.animals[32].setScale(0.54);
+            }
+            else{
+                this.animals[32].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 13){
+                this.animals[32].setTint(0xffffff),
+                this.animals[32].setScale(0.5);
+            }
+            else{
+                this.animals[32].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[32].setTint(0xffffff),
+            this.animals[32].setScale(0.42);
+            achat_animal(32,8);
+        })
+        .on('pointerup', () => {
             this.animals[32].setScale(0.5);
         });
         this.animals[32].setScale(0.5);
@@ -1803,11 +2437,29 @@ class Menu extends Phaser.Scene{
         this.animals[33] = this.add.image(750, 1060, 'ane')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[33].setTint(0xffaaff),
-            this.animals[33].setScale(0.54);
+            if(level >= 13){
+                this.animals[33].setTint(0xffaaff),
+                this.animals[33].setScale(0.54);
+            }
+            else{
+                this.animals[33].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 13){
+                this.animals[33].setTint(0xffffff),
+                this.animals[33].setScale(0.5);
+            }
+            else{
+                this.animals[33].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[33].setTint(0xffffff),
+            this.animals[33].setScale(0.42);
+            achat_animal(33,8);
+        })
+        .on('pointerup', () => {
             this.animals[33].setScale(0.5);
         });
         this.animals[33].setScale(0.5);
@@ -1821,11 +2473,29 @@ class Menu extends Phaser.Scene{
         this.animals[34] = this.add.image(750, 460, 'loutre')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[34].setTint(0xffaaff),
-            this.animals[34].setScale(0.54);
+            if(level >= 15){
+                this.animals[34].setTint(0xffaaff),
+                this.animals[34].setScale(0.54);
+            }
+            else{
+                this.animals[34].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 15){
+                this.animals[34].setTint(0xffffff),
+                this.animals[34].setScale(0.5);
+            }
+            else{
+                this.animals[34].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[34].setTint(0xffffff),
+            this.animals[34].setScale(0.42);
+            achat_animal(34,9);
+        })
+        .on('pointerup', () => {
             this.animals[34].setScale(0.5);
         });
         this.animals[34].setScale(0.5);
@@ -1839,11 +2509,29 @@ class Menu extends Phaser.Scene{
         this.animals[35] = this.add.image(750, 760, 'otarie')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[35].setTint(0xffaaff),
-            this.animals[35].setScale(0.54);
+            if(level >= 16){
+                this.animals[35].setTint(0xffaaff),
+                this.animals[35].setScale(0.54);
+            }
+            else{
+                this.animals[35].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 16){
+                this.animals[35].setTint(0xffffff),
+                this.animals[35].setScale(0.5);
+            }
+            else{
+                this.animals[35].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[35].setTint(0xffffff),
+            this.animals[35].setScale(0.42);
+            achat_animal(35,9);
+        })
+        .on('pointerup', () => {
             this.animals[35].setScale(0.5);
         });
         this.animals[35].setScale(0.5);
@@ -1857,11 +2545,29 @@ class Menu extends Phaser.Scene{
         this.animals[36] = this.add.image(750, 1060, 'tortue')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[36].setTint(0xffaaff),
-            this.animals[36].setScale(0.54);
+            if(level >= 19){
+                this.animals[36].setTint(0xffaaff),
+                this.animals[36].setScale(0.54);
+            }
+            else{
+                this.animals[36].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 19){
+                this.animals[36].setTint(0xffffff),
+                this.animals[36].setScale(0.5);
+            }
+            else{
+                this.animals[36].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[36].setTint(0xffffff),
+            this.animals[36].setScale(0.42);
+            achat_animal(36,9);
+        })
+        .on('pointerup', () => {
             this.animals[36].setScale(0.5);
         });
         this.animals[36].setScale(0.5);
@@ -1875,11 +2581,29 @@ class Menu extends Phaser.Scene{
         this.animals[37] = this.add.image(750, 460, 'crocodile')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[37].setTint(0xffaaff),
-            this.animals[37].setScale(0.54);
+            if(level >= 17){
+                this.animals[37].setTint(0xffaaff),
+                this.animals[37].setScale(0.54);
+            }
+            else{
+                this.animals[37].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 17){
+                this.animals[37].setTint(0xffffff),
+                this.animals[37].setScale(0.5);
+            }
+            else{
+                this.animals[37].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[37].setTint(0xffffff),
+            this.animals[37].setScale(0.42);
+            achat_animal(37,10);
+        })
+        .on('pointerup', () => {
             this.animals[37].setScale(0.5);
         });
         this.animals[37].setScale(0.5);
@@ -1893,11 +2617,29 @@ class Menu extends Phaser.Scene{
         this.animals[38] = this.add.image(750, 760, 'hippo')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[38].setTint(0xffaaff),
-            this.animals[38].setScale(0.54);
+            if(level >= 18){
+                this.animals[38].setTint(0xffaaff),
+                this.animals[38].setScale(0.54);
+            }
+            else{
+                this.animals[38].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 18){
+                this.animals[38].setTint(0xffffff),
+                this.animals[38].setScale(0.5);
+            }
+            else{
+                this.animals[38].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[38].setTint(0xffffff),
+            this.animals[38].setScale(0.42);
+            achat_animal(38,10);
+        })
+        .on('pointerup', () => {
             this.animals[38].setScale(0.5);
         });
         this.animals[38].setScale(0.5);
@@ -1911,11 +2653,29 @@ class Menu extends Phaser.Scene{
         this.animals[39] = this.add.image(750, 460, 'requin')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[39].setTint(0xffaaff),
-            this.animals[39].setScale(0.54);
+            if(level >= 23){
+                this.animals[39].setTint(0xffaaff),
+                this.animals[39].setScale(0.54);
+            }
+            else{
+                this.animals[39].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 23){
+                this.animals[39].setTint(0xffffff),
+                this.animals[39].setScale(0.5);
+            }
+            else{
+                this.animals[39].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[39].setTint(0xffffff),
+            this.animals[39].setScale(0.42);
+            achat_animal(39,11);
+        })
+        .on('pointerup', () => {
             this.animals[39].setScale(0.5);
         });
         this.animals[39].setScale(0.5);
@@ -1929,11 +2689,29 @@ class Menu extends Phaser.Scene{
         this.animals[40] = this.add.image(750, 760, 'baleine')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[40].setTint(0xffaaff),
-            this.animals[40].setScale(0.54);
+            if(level >= 24){
+                this.animals[40].setTint(0xffaaff),
+                this.animals[40].setScale(0.54);
+            }
+            else{
+                this.animals[40].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 24){
+                this.animals[40].setTint(0xffffff),
+                this.animals[40].setScale(0.5);
+            }
+            else{
+                this.animals[40].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[40].setTint(0xffffff),
+            this.animals[40].setScale(0.42);
+            achat_animal(40,11);
+        })
+        .on('pointerup', () => {
             this.animals[40].setScale(0.5);
         });
         this.animals[40].setScale(0.5);
@@ -1947,11 +2725,29 @@ class Menu extends Phaser.Scene{
         this.animals[41] = this.add.image(750, 1060, 'orque')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[41].setTint(0xffaaff),
-            this.animals[41].setScale(0.54);
+            if(level >= 24){
+                this.animals[41].setTint(0xffaaff),
+                this.animals[41].setScale(0.54);
+            }
+            else{
+                this.animals[41].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 24){
+                this.animals[41].setTint(0xffffff),
+                this.animals[41].setScale(0.5);
+            }
+            else{
+                this.animals[41].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[41].setTint(0xffffff),
+            this.animals[41].setScale(0.42);
+            achat_animal(41,11);
+        })
+        .on('pointerup', () => {
             this.animals[41].setScale(0.5);
         });
         this.animals[41].setScale(0.5);
@@ -1965,11 +2761,29 @@ class Menu extends Phaser.Scene{
         this.animals[42] = this.add.image(750, 460, 'dauphin')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[42].setTint(0xffaaff),
-            this.animals[42].setScale(0.54);
+            if(level >= 20){
+                this.animals[42].setTint(0xffaaff),
+                this.animals[42].setScale(0.54);
+            }
+            else{
+                this.animals[42].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 20){
+                this.animals[42].setTint(0xffffff),
+                this.animals[42].setScale(0.5);
+            }
+            else{
+                this.animals[42].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[42].setTint(0xffffff),
+            this.animals[42].setScale(0.42);
+            achat_animal(42,12);
+        })
+        .on('pointerup', () => {
             this.animals[42].setScale(0.5);
         });
         this.animals[42].setScale(0.5);
@@ -1983,11 +2797,29 @@ class Menu extends Phaser.Scene{
         this.animals[43] = this.add.image(750, 760, 'raie')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[43].setTint(0xffaaff),
-            this.animals[43].setScale(0.54);
+            if(level >= 20){
+                this.animals[43].setTint(0xffaaff),
+                this.animals[43].setScale(0.54);
+            }
+            else{
+                this.animals[43].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 20){
+                this.animals[43].setTint(0xffffff),
+                this.animals[43].setScale(0.5);
+            }
+            else{
+                this.animals[43].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[43].setTint(0xffffff),
+            this.animals[43].setScale(0.42);
+            achat_animal(43,12);
+        })
+        .on('pointerup', () => {
             this.animals[43].setScale(0.5);
         });
         this.animals[43].setScale(0.5);
@@ -2001,11 +2833,29 @@ class Menu extends Phaser.Scene{
         this.animals[44] = this.add.image(750, 1060, 'beluga')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[44].setTint(0xffaaff),
-            this.animals[44].setScale(0.54);
+            if(level >= 21){
+                this.animals[44].setTint(0xffaaff),
+                this.animals[44].setScale(0.54);
+            }
+            else{
+                this.animals[44].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 21){
+                this.animals[44].setTint(0xffffff),
+                this.animals[44].setScale(0.5);
+            }
+            else{
+                this.animals[44].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[44].setTint(0xffffff),
+            this.animals[44].setScale(0.42);
+            achat_animal(44,12);
+        })
+        .on('pointerup', () => {
             this.animals[44].setScale(0.5);
         });
         this.animals[44].setScale(0.5);
@@ -2019,11 +2869,29 @@ class Menu extends Phaser.Scene{
         this.animals[45] = this.add.image(750, 1360, 'narval')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[45].setTint(0xffaaff),
-            this.animals[45].setScale(0.54);
+            if(level >= 22){
+                this.animals[45].setTint(0xffaaff),
+                this.animals[45].setScale(0.54);
+            }
+            else{
+                this.animals[45].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 22){
+                this.animals[45].setTint(0xffffff),
+                this.animals[45].setScale(0.5);
+            }
+            else{
+                this.animals[45].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[45].setTint(0xffffff),
+            this.animals[45].setScale(0.42);
+            achat_animal(45,12);
+        })
+        .on('pointerup', () => {
             this.animals[45].setScale(0.5);
         });
         this.animals[45].setScale(0.5);
@@ -2037,11 +2905,29 @@ class Menu extends Phaser.Scene{
         this.animals[46] = this.add.image(750, 460, 'renard')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[46].setTint(0xffaaff),
-            this.animals[46].setScale(0.54);
+            if(level >= 25){
+                this.animals[46].setTint(0xffaaff),
+                this.animals[46].setScale(0.54);
+            }
+            else{
+                this.animals[46].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 25){
+                this.animals[46].setTint(0xffffff),
+                this.animals[46].setScale(0.5);
+            }
+            else{
+                this.animals[46].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[46].setTint(0xffffff),
+            this.animals[46].setScale(0.42);
+            achat_animal(46,13);
+        })
+        .on('pointerup', () => {
             this.animals[46].setScale(0.5);
         });
         this.animals[46].setScale(0.5);
@@ -2055,11 +2941,29 @@ class Menu extends Phaser.Scene{
         this.animals[47] = this.add.image(750, 760, 'manchot')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[47].setTint(0xffaaff),
-            this.animals[47].setScale(0.54);
+            if(level >= 28){
+                this.animals[47].setTint(0xffaaff),
+                this.animals[47].setScale(0.54);
+            }
+            else{
+                this.animals[47].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 28){
+                this.animals[47].setTint(0xffffff),
+                this.animals[47].setScale(0.5);
+            }
+            else{
+                this.animals[47].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[47].setTint(0xffffff),
+            this.animals[47].setScale(0.42);
+            achat_animal(47,13);
+        })
+        .on('pointerup', () => {
             this.animals[47].setScale(0.5);
         });
         this.animals[47].setScale(0.5);
@@ -2073,11 +2977,29 @@ class Menu extends Phaser.Scene{
         this.animals[48] = this.add.image(750, 460, 'morse')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[48].setTint(0xffaaff),
-            this.animals[48].setScale(0.54);
+            if(level >= 26){
+                this.animals[48].setTint(0xffaaff),
+                this.animals[48].setScale(0.54);
+            }
+            else{
+                this.animals[48].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 26){
+                this.animals[48].setTint(0xffffff),
+                this.animals[48].setScale(0.5);
+            }
+            else{
+                this.animals[48].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[48].setTint(0xffffff),
+            this.animals[48].setScale(0.42);
+            achat_animal(48,14);
+        })
+        .on('pointerup', () => {
             this.animals[48].setScale(0.5);
         });
         this.animals[48].setScale(0.5);
@@ -2091,11 +3013,29 @@ class Menu extends Phaser.Scene{
         this.animals[49] = this.add.image(750, 760, 'lion_mer')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[49].setTint(0xffaaff),
-            this.animals[49].setScale(0.54);
+            if(level >= 27){
+                this.animals[49].setTint(0xffaaff),
+                this.animals[49].setScale(0.54);
+            }
+            else{
+                this.animals[49].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 27){
+                this.animals[49].setTint(0xffffff),
+                this.animals[49].setScale(0.5);
+            }
+            else{
+                this.animals[49].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[49].setTint(0xffffff),
+            this.animals[49].setScale(0.42);
+            achat_animal(49,14);
+        })
+        .on('pointerup', () => {
             this.animals[49].setScale(0.5);
         });
         this.animals[49].setScale(0.5);
@@ -2109,11 +3049,29 @@ class Menu extends Phaser.Scene{
         this.animals[50] = this.add.image(750, 1060, 'ours_polaire')
         .setInteractive({ useHandCursor: true })
         .on('pointerover', () => {
-            this.animals[50].setTint(0xffaaff),
-            this.animals[50].setScale(0.54);
+            if(level >= 29){
+                this.animals[50].setTint(0xffaaff),
+                this.animals[50].setScale(0.54);
+            }
+            else{
+                this.animals[50].setTint(0x888888);
+            }
         })
         .on('pointerout', () => {
+            if(level >= 29){
+                this.animals[50].setTint(0xffffff),
+                this.animals[50].setScale(0.5);
+            }
+            else{
+                this.animals[50].setTint(0x888888);
+            }
+        })
+        .on('pointerdown', () => {
             this.animals[50].setTint(0xffffff),
+            this.animals[50].setScale(0.42);
+            achat_animal(50,14);
+        })
+        .on('pointerup', () => {
             this.animals[50].setScale(0.5);
         });
         this.animals[50].setScale(0.5);
@@ -2255,8 +3213,8 @@ class Menu extends Phaser.Scene{
         
     }
     update(){
-
-
+        
+        
         atm = this;
         hell.then(function(value) {
             
@@ -2268,29 +3226,32 @@ class Menu extends Phaser.Scene{
                 visiteurs = value.visiteurs;
                 save = db_save_into_tab(value.last_save);
                 //console.log(animaux);
-                //console.log(hashtags);
+                console.log(hashtags);
                 //console.log(save);
                 //console.log("visiteurs");
                 //console.log(visiteurs);
-
+                
                 //parcours les animaux
                 for(let i = 0; i < animaux.length; i++){
                     for(let j = 0 ; j < hashtags.length; j++){
-                        if(animaux[i].nom.toLowerCase()==hashtags[j].hashtag.toLowerCase()){
-                            animaux[i].popularite+=50*hashtags[j].number;
+                        if(j <= 20){
+                            atm.hashtagText[j].setText('#'+hashtags[j].hashtag);
+                        }
+                        if(animaux[i].nom.toLowerCase() == hashtags[j].hashtag.toLowerCase()){
+                            animaux[i].popularite += 50*hashtags[j].number;
                             console.log(animaux[i]);
                         }
                     }
                     coins = save.coins;
                     cumul = save.cumul;
                     lvlText.setText(save.niveau);
-
+                    
                 }
             }
             
             if(compteurtick2 == 0){
                 //console.log(hashtags);
-
+                
                 xps = (xps+100)%1000;
                 coinText.setText(coins);
                 nbvisitText.setText(nbvisit);
@@ -2301,116 +3262,116 @@ class Menu extends Phaser.Scene{
                     level = save.niveau;
                     lvlText.setText(save.niveau);
                     console.log("test level");
-
                     
-                    if(level == 1){
+                    
+                    if(level >= 1){
                         atm.descr[1].setText(animaux[0].nom+" ("+animaux[0].alimentation+")\n\n"+animaux[0].description+"\n\nPrix : "+animaux[0].prix+"                Depenses : "+animaux[0].depense+"                Popularité : "+animaux[0].popularite);
                         atm.descr[2].setText(animaux[1].nom+" ("+animaux[1].alimentation+")\n\n"+animaux[1].description+"\n\nPrix : "+animaux[1].prix+"                Depenses : "+animaux[1].depense+"                Popularité : "+animaux[1].popularite);
                     }
-                    else if(level == 2){
+                    if(level >= 2){
                         atm.descr[3].setText(animaux[2].nom+" ("+animaux[2].alimentation+")\n\n"+animaux[2].description+"\n\nPrix : "+animaux[2].prix+"                Depenses : "+animaux[2].depense+"                Popularité : "+animaux[2].popularite);
                         atm.descr[4].setText(animaux[3].nom+" ("+animaux[3].alimentation+")\n\n"+animaux[3].description+"\n\nPrix : "+animaux[3].prix+"                Depenses : "+animaux[3].depense+"                Popularité : "+animaux[3].popularite);
                         atm.descr[5].setText(animaux[4].nom+" ("+animaux[4].alimentation+")\n\n"+animaux[4].description+"\n\nPrix : "+animaux[4].prix+"                Depenses : "+animaux[4].depense+"                Popularité : "+animaux[4].popularite);
                         atm.descr[6].setText(animaux[5].nom+" ("+animaux[5].alimentation+")\n\n"+animaux[5].description+"\n\nPrix : "+animaux[5].prix+"                Depenses : "+animaux[5].depense+"                Popularité : "+animaux[5].popularite);
                     }
-                    else if(level == 3){
+                    if(level >= 3){
                         atm.descr[7].setText(animaux[6].nom+" ("+animaux[6].alimentation+")\n\n"+animaux[6].description+"\n\nPrix : "+animaux[6].prix+"                Depenses : "+animaux[6].depense+"                Popularité : "+animaux[6].popularite);
                         atm.descr[8].setText(animaux[7].nom+" ("+animaux[7].alimentation+")\n\n"+animaux[7].description+"\n\nPrix : "+animaux[7].prix+"                Depenses : "+animaux[7].depense+"                Popularité : "+animaux[7].popularite);
                         atm.descr[9].setText(animaux[8].nom+" ("+animaux[8].alimentation+")\n\n"+animaux[8].description+"\n\nPrix : "+animaux[8].prix+"                Depenses : "+animaux[8].depense+"                Popularité : "+animaux[8].popularite);
                     }
-                    else if(level == 4){
+                    if(level >= 4){
                         atm.descr[10].setText(animaux[9].nom+" ("+animaux[9].alimentation+")\n\n"+animaux[9].description+"\n\nPrix : "+animaux[9].prix+"                Depenses : "+animaux[9].depense+"                Popularité : "+animaux[9].popularite);
                         atm.descr[11].setText(animaux[10].nom+" ("+animaux[10].alimentation+")\n\n"+animaux[10].description+"\n\nPrix : "+animaux[10].prix+"                Depenses : "+animaux[10].depense+"                Popularité : "+animaux[10].popularite);
                     }
-                    else if(level == 5){
+                    if(level >= 5){
                         atm.descr[12].setText(animaux[11].nom+" ("+animaux[11].alimentation+")\n\n"+animaux[11].description+"\n\nPrix : "+animaux[11].prix+"                Depenses : "+animaux[11].depense+"                Popularité : "+animaux[11].popularite);
                         atm.descr[13].setText(animaux[12].nom+" ("+animaux[12].alimentation+")\n\n"+animaux[12].description+"\n\nPrix : "+animaux[12].prix+"                Depenses : "+animaux[12].depense+"                Popularité : "+animaux[12].popularite);
                         atm.descr[14].setText(animaux[13].nom+" ("+animaux[13].alimentation+")\n\n"+animaux[13].description+"\n\nPrix : "+animaux[13].prix+"                Depenses : "+animaux[13].depense+"                Popularité : "+animaux[13].popularite);
                     }
-                    else if(level == 6){
+                    if(level >= 6){
                         atm.descr[15].setText(animaux[14].nom+" ("+animaux[14].alimentation+")\n\n"+animaux[14].description+"\n\nPrix : "+animaux[14].prix+"                Depenses : "+animaux[14].depense+"                Popularité : "+animaux[14].popularite);
                         atm.descr[16].setText(animaux[15].nom+" ("+animaux[15].alimentation+")\n\n"+animaux[15].description+"\n\nPrix : "+animaux[15].prix+"                Depenses : "+animaux[15].depense+"                Popularité : "+animaux[15].popularite);
                     }
-                    else if(level == 7){
+                    if(level >= 7){
                         atm.descr[17].setText(animaux[16].nom+" ("+animaux[16].alimentation+")\n\n"+animaux[16].description+"\n\nPrix : "+animaux[16].prix+"                Depenses : "+animaux[16].depense+"                Popularité : "+animaux[16].popularite);
                         atm.descr[18].setText(animaux[17].nom+" ("+animaux[17].alimentation+")\n\n"+animaux[17].description+"\n\nPrix : "+animaux[17].prix+"                Depenses : "+animaux[17].depense+"                Popularité : "+animaux[17].popularite);
                         atm.descr[19].setText(animaux[18].nom+" ("+animaux[18].alimentation+")\n\n"+animaux[18].description+"\n\nPrix : "+animaux[18].prix+"                Depenses : "+animaux[18].depense+"                Popularité : "+animaux[18].popularite);
                     }
-                    else if(level == 8){
+                    if(level >= 8){
                         atm.descr[20].setText(animaux[19].nom+" ("+animaux[19].alimentation+")\n\n"+animaux[19].description+"\n\nPrix : "+animaux[19].prix+"                Depenses : "+animaux[19].depense+"                Popularité : "+animaux[19].popularite);
                         atm.descr[21].setText(animaux[20].nom+" ("+animaux[20].alimentation+")\n\n"+animaux[20].description+"\n\nPrix : "+animaux[20].prix+"                Depenses : "+animaux[20].depense+"                Popularité : "+animaux[20].popularite);
                         atm.descr[22].setText(animaux[21].nom+" ("+animaux[21].alimentation+")\n\n"+animaux[21].description+"\n\nPrix : "+animaux[21].prix+"                Depenses : "+animaux[21].depense+"                Popularité : "+animaux[21].popularite);
                     }
-                    else if(level == 9){
+                    if(level >= 9){
                         atm.descr[23].setText(animaux[22].nom+" ("+animaux[22].alimentation+")\n\n"+animaux[22].description+"\n\nPrix : "+animaux[22].prix+"                Depenses : "+animaux[22].depense+"                Popularité : "+animaux[22].popularite);
                         atm.descr[24].setText(animaux[23].nom+" ("+animaux[23].alimentation+")\n\n"+animaux[23].description+"\n\nPrix : "+animaux[23].prix+"                Depenses : "+animaux[23].depense+"                Popularité : "+animaux[23].popularite);
                     }
-                    else if(level == 10){
+                    if(level >= 10){
                         atm.descr[25].setText(animaux[24].nom+" ("+animaux[24].alimentation+")\n\n"+animaux[24].description+"\n\nPrix : "+animaux[24].prix+"                Depenses : "+animaux[24].depense+"                Popularité : "+animaux[24].popularite);
                         atm.descr[26].setText(animaux[25].nom+" ("+animaux[25].alimentation+")\n\n"+animaux[25].description+"\n\nPrix : "+animaux[25].prix+"                Depenses : "+animaux[25].depense+"                Popularité : "+animaux[25].popularite);
                     }
-                    else if(level == 11){
+                    if(level >= 11){
                         atm.descr[27].setText(animaux[26].nom+" ("+animaux[26].alimentation+")\n\n"+animaux[26].description+"\n\nPrix : "+animaux[26].prix+"                Depenses : "+animaux[26].depense+"                Popularité : "+animaux[26].popularite);
                     }
-                    else if(level == 12){
+                    if(level >= 12){
                         atm.descr[28].setText(animaux[27].nom+" ("+animaux[27].alimentation+")\n\n"+animaux[27].description+"\n\nPrix : "+animaux[27].prix+"                Depenses : "+animaux[27].depense+"                Popularité : "+animaux[27].popularite);
                     }
-                    else if(level == 13){
+                    if(level >= 13){
                         atm.descr[29].setText(animaux[28].nom+" ("+animaux[28].alimentation+")\n\n"+animaux[28].description+"\n\nPrix : "+animaux[28].prix+"                Depenses : "+animaux[28].depense+"                Popularité : "+animaux[28].popularite);
                         atm.descr[30].setText(animaux[29].nom+" ("+animaux[29].alimentation+")\n\n"+animaux[29].description+"\n\nPrix : "+animaux[29].prix+"                Depenses : "+animaux[29].depense+"                Popularité : "+animaux[29].popularite);
                     }
-                    else if(level == 14){
+                    if(level >= 14){
                         atm.descr[31].setText(animaux[30].nom+" ("+animaux[30].alimentation+")\n\n"+animaux[30].description+"\n\nPrix : "+animaux[30].prix+"                Depenses : "+animaux[30].depense+"                Popularité : "+animaux[30].popularite);
                     }
-                    else if(level == 15){
+                    if(level >= 15){
                         atm.descr[32].setText(animaux[31].nom+" ("+animaux[31].alimentation+")\n\n"+animaux[31].description+"\n\nPrix : "+animaux[31].prix+"                Depenses : "+animaux[31].depense+"                Popularité : "+animaux[31].popularite);
                     }
-                    else if(level == 16){
+                    if(level >= 16){
                         atm.descr[33].setText(animaux[32].nom+" ("+animaux[32].alimentation+")\n\n"+animaux[32].description+"\n\nPrix : "+animaux[32].prix+"                Depenses : "+animaux[32].depense+"                Popularité : "+animaux[32].popularite);
                     }
-                    else if(level == 17){
+                    if(level >= 17){
                         atm.descr[34].setText(animaux[33].nom+" ("+animaux[33].alimentation+")\n\n"+animaux[33].description+"\n\nPrix : "+animaux[33].prix+"                Depenses : "+animaux[33].depense+"                Popularité : "+animaux[33].popularite);
                     }
-                    else if(level == 18){
+                    if(level >= 18){
                         atm.descr[35].setText(animaux[34].nom+" ("+animaux[34].alimentation+")\n\n"+animaux[34].description+"\n\nPrix : "+animaux[34].prix+"                Depenses : "+animaux[34].depense+"                Popularité : "+animaux[34].popularite);
                     }
-                    else if(level == 19){
+                    if(level >= 19){
                         atm.descr[36].setText(animaux[35].nom+" ("+animaux[35].alimentation+")\n\n"+animaux[35].description+"\n\nPrix : "+animaux[35].prix+"                Depenses : "+animaux[35].depense+"                Popularité : "+animaux[35].popularite);
                     }
-                    else if(level == 20){
+                    if(level >= 20){
                         atm.descr[37].setText(animaux[36].nom+" ("+animaux[36].alimentation+")\n\n"+animaux[36].description+"\n\nPrix : "+animaux[36].prix+"                Depenses : "+animaux[36].depense+"                Popularité : "+animaux[36].popularite);
                         atm.descr[38].setText(animaux[37].nom+" ("+animaux[37].alimentation+")\n\n"+animaux[37].description+"\n\nPrix : "+animaux[37].prix+"                Depenses : "+animaux[37].depense+"                Popularité : "+animaux[37].popularite);
                         atm.descr[39].setText(animaux[38].nom+" ("+animaux[38].alimentation+")\n\n"+animaux[38].description+"\n\nPrix : "+animaux[38].prix+"                Depenses : "+animaux[38].depense+"                Popularité : "+animaux[38].popularite);
                     }
-                    else if(level == 21){
+                    if(level >= 21){
                         atm.descr[40].setText(animaux[39].nom+" ("+animaux[39].alimentation+")\n\n"+animaux[39].description+"\n\nPrix : "+animaux[39].prix+"                Depenses : "+animaux[39].depense+"                Popularité : "+animaux[39].popularite);
                     }
-                    else if(level == 22){
+                    if(level >= 22){
                         atm.descr[41].setText(animaux[40].nom+" ("+animaux[40].alimentation+")\n\n"+animaux[40].description+"\n\nPrix : "+animaux[40].prix+"                Depenses : "+animaux[40].depense+"                Popularité : "+animaux[40].popularite);
                     }
-                    else if(level == 23){
+                    if(level >= 23){
                         atm.descr[42].setText(animaux[41].nom+" ("+animaux[41].alimentation+")\n\n"+animaux[41].description+"\n\nPrix : "+animaux[41].prix+"                Depenses : "+animaux[41].depense+"                Popularité : "+animaux[41].popularite);
                     }
-                    else if(level == 24){
+                    if(level >= 24){
                         atm.descr[43].setText(animaux[42].nom+" ("+animaux[42].alimentation+")\n\n"+animaux[42].description+"\n\nPrix : "+animaux[42].prix+"                Depenses : "+animaux[42].depense+"                Popularité : "+animaux[42].popularite);
                         atm.descr[44].setText(animaux[43].nom+" ("+animaux[43].alimentation+")\n\n"+animaux[43].description+"\n\nPrix : "+animaux[43].prix+"                Depenses : "+animaux[43].depense+"                Popularité : "+animaux[43].popularite);
                     }
-                    else if(level == 25){
+                    if(level >= 25){
                         atm.descr[45].setText(animaux[44].nom+" ("+animaux[44].alimentation+")\n\n"+animaux[44].description+"\n\nPrix : "+animaux[44].prix+"                Depenses : "+animaux[44].depense+"                Popularité : "+animaux[44].popularite);
                     }
-                    else if(level == 26){
+                    if(level >= 26){
                         atm.descr[46].setText(animaux[45].nom+" ("+animaux[45].alimentation+")\n\n"+animaux[45].description+"\n\nPrix : "+animaux[45].prix+"                Depenses : "+animaux[45].depense+"                Popularité : "+animaux[45].popularite);
                     }
-                    else if(level == 27){
+                    if(level >= 27){
                         atm.descr[47].setText(animaux[46].nom+" ("+animaux[46].alimentation+")\n\n"+animaux[46].description+"\n\nPrix : "+animaux[46].prix+"                Depenses : "+animaux[46].depense+"                Popularité : "+animaux[46].popularite);
                     }
-                    else if(level == 28){
+                    if(level >= 28){
                         atm.descr[48].setText(animaux[47].nom+" ("+animaux[47].alimentation+")\n\n"+animaux[47].description+"\n\nPrix : "+animaux[47].prix+"                Depenses : "+animaux[47].depense+"                Popularité : "+animaux[47].popularite);
                     }
-                    else if(level == 29){
+                    if(level >= 29){
                         atm.descr[49].setText(animaux[48].nom+" ("+animaux[48].alimentation+")\n\n"+animaux[48].description+"\n\nPrix : "+animaux[48].prix+"                Depenses : "+animaux[48].depense+"                Popularité : "+animaux[48].popularite);
                     }
-                    else if(level == 30){
+                    if(level >= 30){
                         atm.descr[50].setText(animaux[49].nom+" ("+animaux[49].alimentation+")\n\n"+animaux[49].description+"\n\nPrix : "+animaux[49].prix+"                Depenses : "+animaux[49].depense+"                Popularité : "+animaux[49].popularite);
                     }
                 }
@@ -2420,43 +3381,43 @@ class Menu extends Phaser.Scene{
                 nbvisit = gain_visiteur(nbanimaux,popularitetot);
                 //console.log(nbvisit,nbanimaux,popularitetot);
                 const gaintemp = gain_argent(nbvisit,nbanimaux,popularitetot)-depensee(save,animaux);
-                console.log("bénef : ", gaintemp);
+                //console.log("benef : ", gaintemp);
                 coins += gaintemp;
                 cumul += gaintemp;
                 //console.log("coins : ", coins);
                 //console.log("nbvist : ", nbvisit);
-
+                
             }
-            compteurtick2 = (compteurtick2+1)%4;
+            compteurtick2 = (compteurtick2+1)%200;
             
-
+            
             if(compteurtick3 == 0){
-                if(atm.hashtahText[0].visible == true){
+                if(atm.hashtagText[0].visible == true){
                     for(let i = 0; i < 7; i++){
-                        atm.hashtahText[i].visible = false;
-                        atm.hashtahText[i+7].visible = true;
+                        atm.hashtagText[i].visible = false;
+                        atm.hashtagText[i+7].visible = true;
                     }
                 }
-                else if(atm.hashtahText[7].visible == true){
+                else if(atm.hashtagText[7].visible == true){
                     for(let i = 0; i < 7; i++){
-                        atm.hashtahText[i+7].visible = false;
-                        atm.hashtahText[i+14].visible = true;
+                        atm.hashtagText[i+7].visible = false;
+                        atm.hashtagText[i+14].visible = true;
                     }
                 }
                 else{
                     for(let i = 0; i < 7; i++){
-                        atm.hashtahText[i+14].visible = false;
-                        atm.hashtahText[i].visible = true;
+                        atm.hashtagText[i+14].visible = false;
+                        atm.hashtagText[i].visible = true;
                     }
                 }
             }
             compteurtick3 = (compteurtick3+1)%50;
-
-
             
             
-    //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
-        
+            
+            
+            //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
+            
             // ====== AFFICHAGE FENETRES avec switch ====== AFFICHAGE FENETRES avec switch ======
             //MENU ECHAP
             if(atm.echap.isDown && switchEchap == false)
