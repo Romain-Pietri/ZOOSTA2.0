@@ -1,6 +1,6 @@
 [
   {
-    "Description": "Le zèbre est un animal rayé noir et blanc qui vit en Afrique. Il est connu pour sa vitesse et son agilité.",
+    "Description": "Le zèbre est un animal rayé noir et blanc qui vit en Afrique.\nIl est connu pour sa vitesse et son agilité.",
     "id": "1",
     "Nom": "Zèbre",
     "Type": "1",
@@ -11,7 +11,7 @@
     "Popularite": "70"
   },
   {
-    "Description": "La girafe est l'animal terrestre le plus grand, elle possède un long cou et des taches brunes sur sa fourrure. Elle vit dans la savane africaine.",
+    "Description": "La girafe est l'animal terrestre le plus grand, elle possède un long cou\net des taches brunes sur sa fourrure. Elle vit dans la savane africaine.",
     "id": "2",
     "Nom": "Girafe",
     "Type": "1",
@@ -22,7 +22,7 @@
     "Popularite": "75"
   },
   {
-    "Description": "Le suricate est un petit animal de la famille des mangoustes. Il vit en Afrique et est connu pour sa vigilance et sa capacité à se tenir sur deux pattes.",
+    "Description": "Le suricate est un petit animal de la famille des mangoustes.\nIl vit en Afrique et est connu pour sa\nvigilance et sa capacité à se tenir sur deux pattes.",
     "id": "3",
     "Nom": "Suricate",
     "Type": "1",
@@ -33,7 +33,7 @@
     "Popularite": "70"
   },
   {
-    "Description": "L'autruche est un grand oiseau qui ne vole pas. Elle vit en Afrique et possède un long cou et des plumes douces.",
+    "Description": "L'autruche est un grand oiseau qui ne vole pas.\nElle vit en Afrique et possède un long cou et des plumes douces.",
     "id": "4",
     "Nom": "Autruche",
     "Type": "1",
@@ -44,30 +44,8 @@
     "Popularite": "60"
   },
   {
-    "Description": "L'éléphant est un animal massif avec une grande trompe. Il est intelligent et vit en troupeaux dans la savane et la forêt.",
+    "Description": "Le fennec est un petit renard avec de grandes oreilles qui vit dans\nle désert nord-africain. Il est nocturne et très habile dans le sable.",
     "id": "5",
-    "Nom": "Eléphant",
-    "Type": "2",
-    "Alimentation": "Herbivore",
-    "Niveau": "2",
-    "Prix": "1500",
-    "Depense": "35",
-    "Popularite": "80"
-  },
-  {
-    "Description": "Le rhinocéros est un animal puissant avec une corne sur son nez. Il vit en Afrique et en Asie.",
-    "id": "6",
-    "Nom": "Rhinoceros",
-    "Type": "2",
-    "Alimentation": "Herbivore",
-    "Niveau": "2",
-    "Prix": "1500",
-    "Depense": "35",
-    "Popularite": "70"
-  },
-  {
-    "Description": "Le fennec est un petit renard avec de grandes oreilles qui vit dans le désert nord-africain. Il est nocturne et très habile dans le sable.",
-    "id": "7",
     "Nom": "Fennec",
     "Type": "1",
     "Alimentation": "Carnivore",
@@ -77,7 +55,29 @@
     "Popularite": "75"
   },
   {
-    "Description": "La hyène est un animal nocturne qui vit en Afrique et en Asie. Elle possède une fourrure tachetée et est connue pour ses cris stridents.",
+    "Description": "L'éléphant est un animal massif avec une grande trompe.\nIl est intelligent et vit en troupeaux dans la savane et la forêt.",
+    "id": "6",
+    "Nom": "Eléphant",
+    "Type": "2",
+    "Alimentation": "Herbivore",
+    "Niveau": "2",
+    "Prix": "1500",
+    "Depense": "35",
+    "Popularite": "80"
+  },
+  {
+    "Description": "Le rhinocéros est un animal puissant avec une corne sur son nez.\nIl vit en Afrique et en Asie.",
+    "id": "7",
+    "Nom": "Rhinoceros",
+    "Type": "2",
+    "Alimentation": "Herbivore",
+    "Niveau": "2",
+    "Prix": "1500",
+    "Depense": "35",
+    "Popularite": "70"
+  },
+  {
+    "Description": "La hyène est un animal nocturne qui vit en Afrique et en Asie. Elle\npossède une fourrure tachetée et est connue pour ses cris stridents.",
     "id": "8",
     "Nom": "Hyène",
     "Type": "3",
@@ -88,7 +88,7 @@
     "Popularite": "50"
   },
   {
-    "Description": "Le serpent est un animal sans pattes qui peut être venimeux ou non-venimeux. Il vit dans le monde entier et est connu pour son agilité et sa capacité à se camoufler.",
+    "Description": "Le serpent est un animal sans pattes qui peut être venimeux ou\nnon-venimeux.Il vit dans le monde entier et est connu pour son agilité\net sa capacité à se camoufler.",
     "id": "9",
     "Nom": "Serpent",
     "Type": "3",
@@ -99,7 +99,7 @@
     "Popularite": "45"
   },
   {
-    "Description": "Le lion est un félin majestueux avec une crinière dorée. Il est le roi de la savane et est connu pour sa puissance et son rugissement.",
+    "Description": "Le lion est un félin majestueux avec une crinière dorée. Il est le\nroi de la savane et est connu pour sa puissance et son rugissement.",
     "id": "10",
     "Nom": "Lion",
     "Type": "3",
@@ -110,7 +110,7 @@
     "Popularite": "85"
   },
   {
-    "Description": "Le guépard est un animal élégant et rapide. Il est le plus rapide des animaux terrestres et vit dans la savane africaine.",
+    "Description": "Le guépard est un animal élégant et rapide. Il est le plus\nrapide des animaux terrestres et vit dans la savane africaine.",
     "id": "11",
     "Nom": "Guépard",
     "Type": "3",
@@ -121,7 +121,7 @@
     "Popularite": "60"
   },
   {
-    "Description": "Le renne est un animal des régions froides, connu pour ses bois imposants et sa capacité à traverser des terrains enneigés.",
+    "Description": "Le renne est un animal des régions froides, connu pour ses bois\nimposants et sa capacité à traverser des terrains enneigés.",
     "id": "12",
     "Nom": "Renne",
     "Type": "4",
@@ -132,7 +132,7 @@
     "Popularite": "60"
   },
   {
-    "Description": "Le caribou est un animal qui vit dans les régions arctiques et subarctiques. Il est connu pour sa migration annuelle et sa fourrure épaisse.",
+    "Description": "Le caribou est un animal qui vit dans les régions arctiques\net subarctiques. Il est connu pour sa migration annuelle et sa\nfourrure épaisse.",
     "id": "13",
     "Nom": "Elan",
     "Type": "4",
@@ -143,19 +143,8 @@
     "Popularite": "60"
   },
   {
-    "Description": "Le loup est un animal social qui vit en meute. Il est connu pour son intelligence et sa ruse, et est présent dans les forêts et les montagnes du monde entier.",
+    "Description": "Le paresseux est un animal lent et somnolent qui vit en Amérique\ncentrale et du Sud. Il passe la plupart de son temps dans les arbres\net se nourrit de feuilles.",
     "id": "14",
-    "Nom": "Loup",
-    "Type": "6",
-    "Alimentation": "Carnivore",
-    "Niveau": "5",
-    "Prix": "4500",
-    "Depense": "65",
-    "Popularite": "80"
-  },
-  {
-    "Description": "Le paresseux est un animal lent et somnolent qui vit en Amérique centrale et du Sud. Il passe la plupart de son temps dans les arbres et se nourrit de feuilles.",
-    "id": "15",
     "Nom": "Paresseux",
     "Type": "5",
     "Alimentation": "Herbivore",
@@ -165,19 +154,8 @@
     "Popularite": "65"
   },
   {
-    "Description": "Le léopard est un félin agile et solitaire. Il vit en Afrique et en Asie, et est connu pour ses taches caractéristiques.",
-    "id": "16",
-    "Nom": "Léopard",
-    "Type": "6",
-    "Alimentation": "Carnivore",
-    "Niveau": "6",
-    "Prix": "5000",
-    "Depense": "70",
-    "Popularite": "60"
-  },
-  {
-    "Description": "Le chimpanzé est un grand singe intelligent qui vit en Afrique. Il est connu pour son comportement social complexe et son utilisation d'outils.",
-    "id": "17",
+    "Description": "Le chimpanzé est un grand singe intelligent qui vit en Afrique.\nIl est connu pour son comportement social complexe et \nson utilisation d'outils.",
+    "id": "15",
     "Nom": "Chimpanzé",
     "Type": "5",
     "Alimentation": "Omnivore",
@@ -188,7 +166,7 @@
   },
   {
     "Description": "KING JULIAN EST LE ROI DES ANNIMAUX",
-    "id": "18",
+    "id": "16",
     "Nom": "Lémurien",
     "Type": "5",
     "Alimentation": "Omnivore",
@@ -198,19 +176,8 @@
     "Popularite": "90"
   },
   {
-    "Description": "La panthère noire est un léopard noir, qui est rare et très difficile à repérer dans la nature.",
-    "id": "19",
-    "Nom": "Panthère noire",
-    "Type": "6",
-    "Alimentation": "Carnivore",
-    "Niveau": "7",
-    "Prix": "6000",
-    "Depense": "80",
-    "Popularite": "75"
-  },
-  {
-    "Description": "Le koala est un animal qui vit dans les arbres en Australie. Il est connu pour sa fourrure douce et son régime alimentaire exclusivement basé sur des feuilles d'eucalyptus.",
-    "id": "20",
+    "Description": "Le koala est un animal qui vit dans les arbres en Australie.\nIl est connu pour sa fourrure douce et son régime alimentaire\nexclusivement basé sur des feuilles d'eucalyptus.",
+    "id": "17",
     "Nom": "Koala",
     "Type": "5",
     "Alimentation": "Herbivore",
@@ -220,8 +187,8 @@
     "Popularite": "65"
   },
   {
-    "Description": "Le panda roux est un petit animal qui vit dans les forêts de l'Himalaya. Il est connu pour sa fourrure rouge et blanche et son apparence mignonne.",
-    "id": "21",
+    "Description": "Le panda roux est un petit animal qui vit dans les forêts de l'Himalaya. Il\nest connu pour sa fourrure rouge et blanche et son apparence mignonne.",
+    "id": "18",
     "Nom": "Panda roux",
     "Type": "5",
     "Alimentation": "Omnivore",
@@ -231,19 +198,8 @@
     "Popularite": "80"
   },
   {
-    "Description": "L'ours brun est un grand animal puissant qui vit dans les forêts et les montagnes d'Amérique du Nord, d'Europe et d'Asie.",
-    "id": "22",
-    "Nom": "Ours brun",
-    "Type": "6",
-    "Alimentation": "Omnivore",
-    "Niveau": "8",
-    "Prix": "7000",
-    "Depense": "90",
-    "Popularite": "75"
-  },
-  {
-    "Description": "Le gorille est un grand singe avec une force physique impressionnante. Il vit en Afrique et est menacé par la destruction de son habitat naturel.",
-    "id": "23",
+    "Description": "Le gorille est un grand singe avec une force physique impressionnante.\nIl vit en Afrique et est menacé par la destruction de son habitat naturel.",
+    "id": "19",
     "Nom": "Gorille",
     "Type": "5",
     "Alimentation": "Omnivore",
@@ -253,8 +209,63 @@
     "Popularite": "75"
   },
   {
-    "Description": "Le tigre est un félin puissant et élégant qui vit en Asie. Il est en danger d'extinction à cause de la perte de son habitat naturel et de la chasse.",
+    "Description": "Le panda géant est un grand mammifère herbivore qui vit en Chine.\nIl est connu pour son apparence mignonne et son régime alimentaire\nexclusif de bambou.",
+    "id": "20",
+    "Nom": "Panda",
+    "Type": "5",
+    "Alimentation": "Omnivore",
+    "Niveau": "20",
+    "Prix": "19000",
+    "Depense": "210",
+    "Popularite": "98"
+  },
+  {
+    "Description": "Le loup est un animal social qui vit en meute. Il est connu pour son\nintelligence et sa ruse, et est présent dans les forêts et\nles montagnes du monde entier.",
+    "id": "21",
+    "Nom": "Loup",
+    "Type": "6",
+    "Alimentation": "Carnivore",
+    "Niveau": "5",
+    "Prix": "4500",
+    "Depense": "65",
+    "Popularite": "80"
+  },
+  {
+    "Description": "Le léopard est un félin agile et solitaire. Il vit en Afrique et\nen Asie, et est connu pour ses taches caractéristiques.",
+    "id": "22",
+    "Nom": "Léopard",
+    "Type": "6",
+    "Alimentation": "Carnivore",
+    "Niveau": "6",
+    "Prix": "5000",
+    "Depense": "70",
+    "Popularite": "60"
+  },
+  {
+    "Description": "La panthère noire est un léopard noir, qui est rare\net très difficile à repérer dans la nature.",
+    "id": "23",
+    "Nom": "Panthère noire",
+    "Type": "6",
+    "Alimentation": "Carnivore",
+    "Niveau": "7",
+    "Prix": "6000",
+    "Depense": "80",
+    "Popularite": "75"
+  },
+  {
+    "Description": "L'ours brun est un grand animal puissant qui vit dans les forêts et\nles montagnes d'Amérique du Nord, d'Europe et d'Asie.",
     "id": "24",
+    "Nom": "Ours brun",
+    "Type": "6",
+    "Alimentation": "Omnivore",
+    "Niveau": "8",
+    "Prix": "7000",
+    "Depense": "90",
+    "Popularite": "75"
+  },
+  {
+    "Description": "Le tigre est un félin puissant et élégant qui vit en Asie.\nIl est en danger d'extinction à cause de la perte de\nson habitat naturel et de la chasse.",
+    "id": "25",
     "Nom": "Tigre",
     "Type": "6",
     "Alimentation": "Carnivore",
@@ -264,8 +275,8 @@
     "Popularite": "85"
   },
   {
-    "Description": "La chèvre est un animal domestique commun, élevé pour sa viande, son lait et sa laine. Elle est originaire du Moyen-Orient.",
-    "id": "25",
+    "Description": "La chèvre est un animal domestique commun, élevé pour sa viande,\nson lait et sa laine. Elle est originaire du Moyen-Orient.",
+    "id": "26",
     "Nom": "Chèvre",
     "Type": "7",
     "Alimentation": "Herbivore",
@@ -275,8 +286,8 @@
     "Popularite": "50"
   },
   {
-    "Description": "Le mouton est un autre animal domestique commun élevé pour sa viande, son lait et sa laine. Il est originaire d'Europe et d'Asie.",
-    "id": "26",
+    "Description": "Le mouton est un autre animal domestique commun élevé pour sa viande,\nson lait et sa laine. Il est originaire d'Europe et d'Asie.",
+    "id": "27",
     "Nom": "Mouton",
     "Type": "7",
     "Alimentation": "Herbivore",
@@ -286,18 +297,7 @@
     "Popularite": "50"
   },
   {
-    "Description": "Le bison est un grand animal qui vivait autrefois en grand nombre sur les plaines d'Amérique du Nord. Il est maintenant principalement élevé pour sa viande.",
-    "id": "27",
-    "Nom": "Bison",
-    "Type": "8",
-    "Alimentation": "Herbivore",
-    "Niveau": "11",
-    "Prix": "9000",
-    "Depense": "120",
-    "Popularite": "60"
-  },
-  {
-    "Description": "L'alpaga est un animal domestique élevé pour sa laine douce et chaude. Il est originaire des Andes en Amérique du Sud.",
+    "Description": "L'alpaga est un animal domestique élevé pour sa laine douce et chaude.\nIl est originaire des Andes en Amérique du Sud.",
     "id": "28",
     "Nom": "Alpaga",
     "Type": "7",
@@ -308,30 +308,8 @@
     "Popularite": "55"
   },
   {
-    "Description": "Le bouquetin est un animal de montagne avec de grandes cornes en spirale. Il vit en Europe et en Asie.",
+    "Description": "Le paon est un grand oiseau avec une belle queue colorée.\nIl est originaire d'Asie et est souvent élevé\npour son apparence ornementale.",
     "id": "29",
-    "Nom": "Bouquetin",
-    "Type": "8",
-    "Alimentation": "Herbivore",
-    "Niveau": "13",
-    "Prix": "11000",
-    "Depense": "140",
-    "Popularite": "55"
-  },
-  {
-    "Description": "L'âne est un animal domestique commun élevé pour sa force de travail et son lait. Il est originaire d'Afrique et d'Asie.",
-    "id": "30",
-    "Nom": "Âne",
-    "Type": "8",
-    "Alimentation": "Herbivore",
-    "Niveau": "13",
-    "Prix": "12000",
-    "Depense": "140",
-    "Popularite": "40"
-  },
-  {
-    "Description": "Le paon est un grand oiseau avec une belle queue colorée. Il est originaire d'Asie et est souvent élevé pour son apparence ornementale.",
-    "id": "31",
     "Nom": "Paon",
     "Type": "7",
     "Alimentation": "Omnivore",
@@ -341,8 +319,52 @@
     "Popularite": "70"
   },
   {
-    "Description": "La loutre marine est un mammifère marin avec une fourrure dense et imperméable. Elle vit sur la côte nord-américaine et est connue pour sa curiosité et son intelligence.",
+    "Description": "Le dodo est une espèce d'oiseau éteinte qui était originaire\nde l'île Maurice. Il est connu pour sa maladresse et sa vulnérabilité\nface à la chasse par les humains.",
+    "id": "30",
+    "Nom": "Dodo",
+    "Type": "7",
+    "Alimentation": "Herbivore",
+    "Niveau": "30",
+    "Prix": "1000000",
+    "Depense": "500",
+    "Popularite": "95"
+  },
+  {
+    "Description": "Le bison est un grand animal qui vivait autrefois en grand nombre\nsur les plaines d'Amérique du Nord. Il est maintenant principalement\nélevé pour sa viande.",
+    "id": "31",
+    "Nom": "Bison",
+    "Type": "8",
+    "Alimentation": "Herbivore",
+    "Niveau": "11",
+    "Prix": "9000",
+    "Depense": "120",
+    "Popularite": "60"
+  },
+  {
+    "Description": "Le bouquetin est un animal de montagne avec de grandes cornes en\nspirale. Il vit en Europe et en Asie.",
     "id": "32",
+    "Nom": "Bouquetin",
+    "Type": "8",
+    "Alimentation": "Herbivore",
+    "Niveau": "13",
+    "Prix": "11000",
+    "Depense": "140",
+    "Popularite": "55"
+  },
+  {
+    "Description": "L'âne est un animal domestique commun élevé pour sa force de\ntravail et son lait. Il est originaire d'Afrique et d'Asie.",
+    "id": "33",
+    "Nom": "Âne",
+    "Type": "8",
+    "Alimentation": "Herbivore",
+    "Niveau": "13",
+    "Prix": "12000",
+    "Depense": "140",
+    "Popularite": "40"
+  },
+  {
+    "Description": "La loutre marine est un mammifère marin avec une fourrure\ndense et imperméable. Elle vit sur la côte nord-américaine\net est connue pour sa curiosité et son intelligence.",
+    "id": "34",
     "Nom": "Loutre marine",
     "Type": "9",
     "Alimentation": "Carnivore",
@@ -352,8 +374,8 @@
     "Popularite": "65"
   },
   {
-    "Description": "L'otarie est un mammifère marin de taille moyenne qui vit principalement sur la côte ouest de l'Amérique du Nord. Elle est connue pour sa capacité à effectuer des acrobaties dans l'eau.",
-    "id": "33",
+    "Description": "L'otarie est un mammifère marin de taille moyenne qui vit\nprincipalement sur la côte ouest de l'Amérique du Nord.\nElle est connue pour sa capacité à effectuer des acrobaties dans l'eau.",
+    "id": "35",
     "Nom": "Otarie",
     "Type": "9",
     "Alimentation": "Carnivore",
@@ -363,29 +385,7 @@
     "Popularite": "60"
   },
   {
-    "Description": "Le crocodile est un grand reptile prédateur qui vit dans les rivières et les lacs des régions tropicales. Il est connu pour sa force physique et sa mâchoire puissante.",
-    "id": "34",
-    "Nom": "Crocodile",
-    "Type": "10",
-    "Alimentation": "Carnivore",
-    "Niveau": "17",
-    "Prix": "16000",
-    "Depense": "180",
-    "Popularite": "70"
-  },
-  {
-    "Description": "L'hippopotame est un grand mammifère semi-aquatique qui vit en Afrique. Il est connu pour son apparence massive et son comportement territorial agressif.",
-    "id": "35",
-    "Nom": "Hippopotame",
-    "Type": "10",
-    "Alimentation": "Omnivore",
-    "Niveau": "18",
-    "Prix": "17000",
-    "Depense": "190",
-    "Popularite": "60"
-  },
-  {
-    "Description": "La tortue est un reptile avec une carapace protectrice. Elle vit sur terre ou dans l'eau et est connue pour sa longévité et sa lenteur.",
+    "Description": "La tortue est un reptile avec une carapace protectrice. Elle vit sur\nterre ou dans l'eau et est connue pour sa longévité et sa lenteur.",
     "id": "36",
     "Nom": "Tortue",
     "Type": "9",
@@ -396,63 +396,30 @@
     "Popularite": "80"
   },
   {
-    "Description": "Le panda géant est un grand mammifère herbivore qui vit en Chine. Il est connu pour son apparence mignonne et son régime alimentaire exclusif de bambou.",
+    "Description": "Le crocodile est un grand reptile prédateur qui vit dans les rivières\net les lacs des régions tropicales. Il est\nconnu pour sa force physique et sa mâchoire puissante.",
     "id": "37",
-    "Nom": "Panda",
-    "Type": "5",
-    "Alimentation": "Omnivore",
-    "Niveau": "20",
-    "Prix": "19000",
-    "Depense": "210",
-    "Popularite": "98"
+    "Nom": "Crocodile",
+    "Type": "10",
+    "Alimentation": "Carnivore",
+    "Niveau": "17",
+    "Prix": "16000",
+    "Depense": "180",
+    "Popularite": "70"
   },
   {
-    "Description": "Le dauphin est un mammifère marin intelligent et social. Il vit dans les océans du monde entier et est souvent apprécié pour son interaction amicale avec les humains.",
+    "Description": "L'hippopotame est un grand mammifère semi-aquatique qui vit en\nAfrique. Il est connu pour son apparence massive et son comportement\nterritorial agressif.",
     "id": "38",
-    "Nom": "Dauphin",
-    "Type": "12",
-    "Alimentation": "Carnivore",
-    "Niveau": "20",
-    "Prix": "19500",
-    "Depense": "210",
-    "Popularite": "80"
-  },
-  {
-    "Description": "La raie est un poisson cartilagineux qui vit dans les océans et les rivières. Elle est connue pour son apparence plate et sa nage élégante.",
-    "id": "39",
-    "Nom": "Raie",
-    "Type": "12",
-    "Alimentation": "Carnivore",
-    "Niveau": "20",
-    "Prix": "19000",
-    "Depense": "210",
+    "Nom": "Hippopotame",
+    "Type": "10",
+    "Alimentation": "Omnivore",
+    "Niveau": "18",
+    "Prix": "17000",
+    "Depense": "190",
     "Popularite": "60"
   },
   {
-    "Description": "Le beluga est une baleine blanche qui vit dans les eaux arctiques et subarctiques. Elle est connue pour son apparence distinctive et son chant mélodieux.",
-    "id": "40",
-    "Nom": "Beluga",
-    "Type": "12",
-    "Alimentation": "Carnivore",
-    "Niveau": "21",
-    "Prix": "20000",
-    "Depense": "220",
-    "Popularite": "75"
-  },
-  {
-    "Description": "Le narval est une petite baleine à dents qui vit dans les eaux arctiques. Il est connu pour sa défense dentaire incroyablement longue et spiralée, souvent appelée « corne de narval ».",
-    "id": "41",
-    "Nom": "Narval",
-    "Type": "12",
-    "Alimentation": "Carnivore",
-    "Niveau": "22",
-    "Prix": "21000",
-    "Depense": "230",
-    "Popularite": "55"
-  },
-  {
-    "Description": "Le requin est un grand poisson prédateur qui vit dans les océans du monde entier. Il est souvent mal compris et craint par les humains.",
-    "id": "42",
+    "Description": "Le requin est un grand poisson prédateur qui vit dans\nles océans du monde entier. Il est souvent mal compris\net craint par les humains.",
+    "id": "39",
     "Nom": "Requin",
     "Type": "11",
     "Alimentation": "Carnivore",
@@ -462,8 +429,8 @@
     "Popularite": "80"
   },
   {
-    "Description": "La baleine bleue est le plus grand animal vivant sur Terre. Elle vit dans les océans et se nourrit principalement de krill.",
-    "id": "43",
+    "Description": "La baleine bleue est le plus grand animal vivant sur Terre.\nElle vit dans les océans et se nourrit principalement de krill.",
+    "id": "40",
     "Nom": "Baleine bleue",
     "Type": "11",
     "Alimentation": "Carnivore",
@@ -473,8 +440,8 @@
     "Popularite": "80"
   },
   {
-    "Description": "L'orque est un mammifère marin appartenant à la famille des cétacés. Les orques, également connues sous le nom de « baleines tueuses », ont un corps fuselé et élancé, avec un dos noir et une partie ventrale blanche.",
-    "id": "44",
+    "Description": "L'orque est un mammifère marin appartenant à la famille des cétacés.\nEgalement connues sous le nom de « baleines tueuses », ils ont un corps\nfuselé et élancé, avec un dos noir et une partie ventrale blanche.",
+    "id": "41",
     "Nom": "Orque",
     "Type": "11",
     "Alimentation": "Carnivore",
@@ -484,8 +451,52 @@
     "Popularite": "85"
   },
   {
-    "Description": "Le renard polaire est un petit mammifère adapté à la vie dans les régions arctiques. Il est connu pour sa fourrure blanche épaisse et son agilité.",
+    "Description": "Le dauphin est un mammifère marin intelligent et social.\nIl vit dans les océans du monde entier et est souvent apprécié pour\nson interaction amicale avec les humains.",
+    "id": "42",
+    "Nom": "Dauphin",
+    "Type": "12",
+    "Alimentation": "Carnivore",
+    "Niveau": "20",
+    "Prix": "19500",
+    "Depense": "210",
+    "Popularite": "80"
+  },
+  {
+    "Description": "La raie est un poisson cartilagineux qui vit dans les océans\net les rivières. Elle est connue pour son apparencep\nlate et sa nage élégante.",
+    "id": "43",
+    "Nom": "Raie",
+    "Type": "12",
+    "Alimentation": "Carnivore",
+    "Niveau": "20",
+    "Prix": "19000",
+    "Depense": "210",
+    "Popularite": "60"
+  },
+  {
+    "Description": "Le beluga est une baleine blanche qui vit dans les eaux\narctiques et subarctiques. Elle est connue pour son apparence\ndistinctive et son chant mélodieux.",
+    "id": "44",
+    "Nom": "Beluga",
+    "Type": "12",
+    "Alimentation": "Carnivore",
+    "Niveau": "21",
+    "Prix": "20000",
+    "Depense": "220",
+    "Popularite": "75"
+  },
+  {
+    "Description": "Le narval est une petite baleine à dents qui vit dans les eaux\narctiques. Il est connu pour sa défense dentaire incroyablement\nlongue et spiralée, souvent appelée « corne de narval ».",
     "id": "45",
+    "Nom": "Narval",
+    "Type": "12",
+    "Alimentation": "Carnivore",
+    "Niveau": "22",
+    "Prix": "21000",
+    "Depense": "230",
+    "Popularite": "55"
+  },
+  {
+    "Description": "Le renard polaire est un petit mammifère adapté à la vie dans\nles régions arctiques.Il est connu pour sa fourrure blanche épaisse\net son agilité.",
+    "id": "46",
     "Nom": "Renard polaire",
     "Type": "13",
     "Alimentation": "Carnivore",
@@ -495,30 +506,8 @@
     "Popularite": "80"
   },
   {
-    "Description": "Le morse est un grand mammifère marin avec des défenses dentaires massives appelées défenses. Il vit dans les eaux froides de l'Arctique et se nourrit principalement de mollusques.",
-    "id": "46",
-    "Nom": "Morse",
-    "Type": "14",
-    "Alimentation": "Carnivore",
-    "Niveau": "26",
-    "Prix": "25000",
-    "Depense": "270",
-    "Popularite": "55"
-  },
-  {
-    "Description": "Le lion de mer est un mammifère marin de taille moyenne qui vit principalement sur les côtes de l'Amérique du Nord. Il est connu pour son apparence imposante et son cri puissant.",
+    "Description": "Le manchot est un oiseau marin incapable de voler qui vit en\nAntarctique et dans les régions environnantes. Il est connu pour sa\ncapacité à survivre dans des conditions extrêmement froides.",
     "id": "47",
-    "Nom": "Lion de mer",
-    "Type": "14",
-    "Alimentation": "Carnivore",
-    "Niveau": "27",
-    "Prix": "26000",
-    "Depense": "280",
-    "Popularite": "50"
-  },
-  {
-    "Description": "Le manchot est un oiseau marin incapable de voler qui vit en Antarctique et dans les régions environnantes. Il est connu pour sa capacité à survivre dans des conditions extrêmement froides.",
-    "id": "48",
     "Nom": "Manchot",
     "Type": "13",
     "Alimentation": "Carnivore",
@@ -528,8 +517,30 @@
     "Popularite": "65"
   },
   {
-    "Description": "L'ours polaire est un grand mammifère prédateur qui vit dans l'Arctique. Il est connu pour sa fourrure blanche et sa capacité à survivre dans un environnement hostile.",
+    "Description": "Le morse est un grand mammifère marin avec des défenses dentaires\nmassives appelées défenses. Il vit dans les eaux froides de\nl'Arctique et se nourrit principalement de mollusques.",
+    "id": "48",
+    "Nom": "Morse",
+    "Type": "14",
+    "Alimentation": "Carnivore",
+    "Niveau": "26",
+    "Prix": "25000",
+    "Depense": "270",
+    "Popularite": "55"
+  },
+  {
+    "Description": "Le lion de mer est un mammifère marin de taille moyenne qui vit\nprincipalement sur les côtes de l'Amérique du Nord. Il est connu pour\nson apparence imposante et son cri puissant.",
     "id": "49",
+    "Nom": "Lion de mer",
+    "Type": "14",
+    "Alimentation": "Carnivore",
+    "Niveau": "27",
+    "Prix": "26000",
+    "Depense": "280",
+    "Popularite": "50"
+  },
+  {
+    "Description": "L'ours polaire est un grand mammifère prédateur qui vit dans\nl'Arctique. Il est connu pour sa fourrure blanche et sa capacité à\nsurvivre dans un environnement hostile.",
+    "id": "50",
     "Nom": "Ours polaire",
     "Type": "14",
     "Alimentation": "Omnivore",
@@ -537,16 +548,5 @@
     "Prix": "28000",
     "Depense": "300",
     "Popularite": "80"
-  },
-  {
-    "Description": "Le dodo est une espèce d'oiseau éteinte qui était originaire de l'île Maurice. Il est connu pour sa maladresse et sa vulnérabilité face à la chasse par les humains.",
-    "id": "50",
-    "Nom": "Dodo",
-    "Type": "7",
-    "Alimentation": "Herbivore",
-    "Niveau": "30",
-    "Prix": "1000000",
-    "Depense": "500",
-    "Popularite": "95"
   }
 ]

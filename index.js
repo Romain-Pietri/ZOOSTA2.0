@@ -38,7 +38,7 @@ const get_nom = require('./back/get_nom.js');
 const get_twitter = require('./back/get_twitter.js');
 //on cree les tables si elles n'existent pas
 bdd_connect.config_db();
-
+//bdd_push.push_animaux();
 const connection = bdd_connect.connection;//recupere la connection a la db
 
 const rl = readline.createInterface({//pour recuperer le numero de sauvegarde
