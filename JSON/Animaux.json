@@ -431,7 +431,7 @@
   {
     "Description": "La baleine bleue est le plus grand animal vivant sur Terre.\nElle vit dans les océans et se nourrit principalement de krill.",
     "id": "40",
-    "Nom": "Baleine bleue",
+    "Nom": "Baleine_bleue",
     "Type": "11",
     "Alimentation": "Carnivore",
     "Niveau": "24",
