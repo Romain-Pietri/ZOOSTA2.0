@@ -81,6 +81,63 @@ let enclos12 = false;
 let enclos13 = false;
 let enclos14 = false;
 
+//variable
+const nomsAnimaux = {
+    1: 'zebre',
+    2: 'girafe',
+    3: 'suricate',
+    4: 'autruche',
+    5: 'fennec',
+    6: 'elephant',
+    7: 'rhino',
+    8: 'hyenne',
+    9: 'serpent',
+    10: 'lion',
+    11: 'guepard',
+    12: 'renne',
+    13: 'elan',
+    14: 'paresseux',
+    15: 'chimpanze',
+    16: 'lemurien',
+    17: 'koala',
+    18: 'panda_roux',
+    19: 'gorille',
+    20: 'panda',
+    21: 'loup',
+    22: 'leopard',
+    23: 'panthere_noire',
+    24: 'ours_brun',
+    25: 'tigre',
+    26: 'chevre',
+    27: 'mouton',
+    28: 'alpaga',
+    29: 'paon',
+    30: 'dodo',
+    31: 'bison',
+    32: 'bouquetin',
+    33: 'ane',
+    34: 'loutre',
+    35: 'otarie',
+    36: 'tortue',
+    37: 'crocodile',
+    38: 'hippopotame',
+    39: 'requin',
+    40: 'baleine',
+    41: 'orque',
+    42: 'dauphin',
+    43: 'raie',
+    44: 'beluga',
+    45: 'narval',
+    46: 'renard_polaire',
+    47: 'manchot',
+    48: 'morse',
+    49: 'lion_de_mer',
+    50: 'ours_polaire'
+}
+let EtatAnimaux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+let temps = 0;
+
 
 
 
@@ -313,7 +370,7 @@ class Boot extends Phaser.Scene {
 
         this.load.image('coin', '../img/coin.png');
         this.load.image('visiteur_icon','../img/visiteur_icon.png');
-        this.load.image('stats','../img/tablette.png');
+        this.load.image('stats','../img/stats.png');
         this.load.image('sell','../img/sell.png');
         this.load.image('stonks','../img/stonks.png');
         this.load.image('not_stonks','../img/not_stonks.png');
@@ -325,10 +382,10 @@ class Boot extends Phaser.Scene {
         this.load.spritesheet('visiteur2', '../img/visiteur2.png', { frameWidth: 47, frameHeight: 95 });
         this.load.spritesheet('visiteur3', '../img/visiteur3.png', { frameWidth: 45, frameHeight: 82 });
         this.load.spritesheet('visiteur4', '../img/visiteur4.png', { frameWidth: 45, frameHeight: 80 });
-        
+    
         this.load.image('menu', '../img/HUD_enclos.png');
-        this.load.image('menu2', '../img/menu2.png');
-
+        this.load.image('menu2', '../img/HUD_stats.png');
+        this.load.image('menu3', '../img/HUD_radio.png');
         this.load.image('hashtag', '../img/hashtag.png');
 
         this.load.image('myn1', '../img/mynthos1.jpg');
@@ -420,6 +477,7 @@ class Boot extends Phaser.Scene {
         this.load.image('animal_15', '../img/animaux/boise/chimpanze.png');
         this.load.image('animal_16', '../img/animaux/boise/lemurien.png');
         this.load.image('animal_17', '../img/animaux/boise/koala.png');
+        this.load.image('koala2', '../img/animaux/boise/koala2.png');
         this.load.image('animal_18', '../img/animaux/boise/panda_roux.png');
         this.load.image('animal_19', '../img/animaux/boise/gorille.png');
         this.load.image('animal_20', '../img/animaux/boise/panda.png');
@@ -460,9 +518,9 @@ class Boot extends Phaser.Scene {
         this.load.audio('music1', ['../audio/music_1.mp3']);
         this.load.audio('music2', ['../audio/music_2.mp3']);
         this.load.audio('music3', ['../audio/music_3.mp3']);
-        //this.load.audio('music4', ['../audio/music_1.mp3']);
-        //this.load.audio('music5', ['../audio/music_1.mp3']);
-        //this.load.audio('music6', ['../audio/music_1.mp3']);
+        this.load.audio('music4', ['../audio/music_4.mp3']);
+        this.load.audio('music5', ['../audio/music_5.mp3']);
+        this.load.audio('music6', ['../audio/music_6.mp3']);
     }
     create() {
         this.scene.start('Game');
@@ -616,6 +674,48 @@ class Game extends Phaser.Scene {
             if (animalToRemove) {
                 animalToRemove.destroy(); // Suppression de l'animal de la scène
             }
+        }
+    }
+    updateAnimal(idAnimal, scene) {
+            
+        const groupeAnimal = scene.animauxGroup;
+        const animalToUpdate = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
+    
+        if (animalToUpdate) {
+            // Supprimer l'animal existant
+            animalToUpdate.destroy();
+    
+            // Récupérer le nom de l'animal à partir de son ID
+            const nomAnimal = nomsAnimaux[idAnimal];
+    
+            if (nomAnimal && EtatAnimaux[idAnimal] == 0) {
+                // Créer un nouvel animal avec une nouvelle image
+                const nouvelleImage = nomAnimal + '2';
+                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
+                nouvelAnimal.idAnimal = idAnimal;
+    
+                // Réattribuer les mêmes propriétés à l'animal
+                nouvelAnimal.setOrigin(-50.85, 6.7);
+                nouvelAnimal.setDepth(3);
+                nouvelAnimal.setScale(0.04);
+    
+                // Remplacer l'animal dans le groupe
+                groupeAnimal.add(nouvelAnimal);
+            } else if (nomAnimal && EtatAnimaux[idAnimal] == 1) {
+                const nouvelleImage = 'animal_'+ idAnimal;
+            
+                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
+                nouvelAnimal.idAnimal = idAnimal;
+    
+                // Réattribuer les mêmes propriétés à l'animal
+                nouvelAnimal.setOrigin(-50.85, 6.7);
+                nouvelAnimal.setDepth(3);
+                nouvelAnimal.setScale(0.04);
+    
+                // Remplacer l'animal dans le groupe
+                groupeAnimal.add(nouvelAnimal);
+            }
+        
         }
     }
     afficherAnimal(idAnimal, scene) {
@@ -1174,6 +1274,21 @@ class Game extends Phaser.Scene {
             this.suppressionAnimal(animaux_a_vendre[i], this);
             animaux_a_vendre.splice(i, 1);
         }
+
+        const deltaTime = this.game.loop.delta;
+        temps += deltaTime;
+
+        // Vérifiez si 2 secondes se sont écoulées
+        if (temps >= 2000) {
+          
+          const idAnimal = 17; // Remplacez par l'ID de l'animal que vous souhaitez mettre à jour
+          this.updateAnimal(idAnimal, this);
+          if (EtatAnimaux[idAnimal] == 0) {
+            EtatAnimaux[idAnimal] = 1;
+          } else { EtatAnimaux[idAnimal] = 0; }
+          // Réinitialisez le temps écoulé
+          temps = 0;
+        }
     }
 }
 
@@ -1189,6 +1304,25 @@ class Menu extends Phaser.Scene {
     create() {
         posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
         posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
+        
+        this.stats = this.add.image(2300, 940, 'stats')
+        .setInteractive({ useHandCursor: true })
+            .on('pointerover', () => {
+                this.stats.setScale(0.24);
+            })
+            .on('pointerout', () => {
+                this.stats.setScale(0.2);
+            })
+            .on('pointerdown', () => {
+                this.stats.setScale(0.16);
+            })
+            .on('pointerup', () => {
+                this.stats.setScale(0.2);
+                tablette = true;
+        });
+        this.stats.setScale(0.2);
+        this.stats.depth = 14;
+        this.stats.visible = true;
 
         this.sound_logo = this.add.image(80, 1000, 'sound')
         .setInteractive({ useHandCursor: true })
@@ -1211,9 +1345,9 @@ class Menu extends Phaser.Scene {
         this.music1 = this.sound.add('music1', { loop: true });
         this.music2 = this.sound.add('music2', { loop: true });
         this.music3 = this.sound.add('music3', { loop: true });
-        //this.music4 = this.sound.add('music4', { loop: true });
-        //this.music5 = this.sound.add('music5', { loop: true });
-        //this.music6 = this.sound.add('music6', { loop: true });
+        this.music4 = this.sound.add('music4', { loop: true });
+        this.music5 = this.sound.add('music5', { loop: true });
+        this.music6 = this.sound.add('music6', { loop: true });
 
 
         /*
@@ -1249,27 +1383,6 @@ class Menu extends Phaser.Scene {
         this.visit.depth = 14;
         nbvisitText = this.add.text(280, 112, '0', { font: 'bold 40px Georgia', fill: '#fff' });
         
-        this.stats = this.add.image(2300, 920, 'stats')
-        .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                this.stats.setScale(0.12);
-            })
-            .on('pointerout', () => {
-                this.stats.setScale(0.1);
-            })
-            .on('pointerdown', () => {
-                this.stats.setScale(0.08);
-            })
-            .on('pointerup', () => {
-                this.stats.setScale(0.1);
-                tablette = true;
-        });
-        this.stats.setScale(0.1);
-        this.stats.depth = 14;
-        this.stats.visible = true;
-
-
-
 
         this.menu = this.add.image(1220, 572, 'menu');
         this.menu.setScale(1.2);
@@ -1277,9 +1390,14 @@ class Menu extends Phaser.Scene {
         this.menu.visible = false;
         
         this.menu2 = this.add.image(1220, 572, 'menu2');
-        this.menu2.setScale(2);
+        this.menu2.setScale(1.28);
         this.menu2.depth = 10;
         this.menu2.visible = false;
+
+        this.menu3 = this.add.image(1220, 572, 'menu3');
+        this.menu3.setScale(1.2);
+        this.menu3.depth = 10;
+        this.menu3.visible = false;
 
 
         this.hashtag = this.add.image(2220, 288, 'hashtag');
@@ -3520,6 +3638,7 @@ class Menu extends Phaser.Scene {
                 if (opened == true) {
                     atm.menu.visible = false;
                     atm.menu2.visible = false;
+                    atm.menu3.visible = false;
                     for (let i = 1; i < 51; i++) {
                         atm.animals[i].visible = false;
                         atm.descr[i].visible = false;
@@ -3531,7 +3650,7 @@ class Menu extends Phaser.Scene {
             //MENU RADIO
             if (radio == true) {
                 if (opened == false) {
-                    atm.menu2.visible = true;
+                    atm.menu3.visible = true;
                     /*for (let i = 1; i < 6; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
