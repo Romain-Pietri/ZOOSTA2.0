@@ -55,8 +55,6 @@ let xps = 700;
 let level = 0;
 let nbvisit = 0;
 let switchSpace = false;
-let switchP = false;
-let switchM = false;
 let opened = false;
 let frameP = 0;
 
@@ -64,6 +62,9 @@ let testPosX = 0;
 let testPosY = 0;
 let testPosX2 = 0;
 let testPosY2 = 0;
+
+let tablette = false;
+let radio = false;
 
 let enclos1 = false;
 let enclos2 = false;
@@ -223,13 +224,30 @@ function monte_ok(cumul) {
     }
     return false
 }
+//&&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&&
 let indice_level = 1;
 let cumul_requis = [];
 cumul_requis[0] = 10000;
-for(let i = 1; i < 30; i++){
-    cumul_requis[i] = 10000+(i+i/10)*5000;
-    //console.log(cumul_requis[i]);
+let mode = "test";
+let speed = "fast";
+
+if(mode == "test"){
+    for(let i = 1; i < 30; i++){
+        cumul_requis[i] = 10000+(i+i/10)*5000;
+    }
 }
+else if(mode == "normal"){
+    for(let i = 1; i < 15; i++){
+        cumul_requis[i] = Math.floor(cumul_requis[i-1]*1.8);
+        console.log(cumul_requis[i]);
+    }
+    for(let i = 15; i < 30; i++){
+        cumul_requis[i] = Math.floor(cumul_requis[i-1]*(1+i/500));
+        console.log(cumul_requis[i]);
+    }
+}
+cumul_requis[30] = "max";
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 function how_many_money(niveau) {
 
@@ -280,7 +298,6 @@ function depensee(save, animaux) {
 //##############################################################################################################
 
 
-
 //##############################################################################################################
 //##############################################################################################################
 //###     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ###
@@ -296,17 +313,21 @@ class Boot extends Phaser.Scene {
 
         this.load.image('coin', '../img/coin.png');
         this.load.image('visiteur_icon','../img/visiteur_icon.png');
+        this.load.image('stats','../img/tablette.png');
         this.load.image('sell','../img/sell.png');
         this.load.image('stonks','../img/stonks.png');
         this.load.image('not_stonks','../img/not_stonks.png');
+        this.load.image('sound','../img/sound.png');
 
         this.load.spritesheet('xps', '../img/sprite_bar_xp.png', { frameWidth: 700, frameHeight: 17 });
+
         this.load.spritesheet('visiteur', '../img/visiteur.png', { frameWidth: 48, frameHeight: 98 });
         this.load.spritesheet('visiteur2', '../img/visiteur2.png', { frameWidth: 47, frameHeight: 95 });
         this.load.spritesheet('visiteur3', '../img/visiteur3.png', { frameWidth: 45, frameHeight: 82 });
         this.load.spritesheet('visiteur4', '../img/visiteur4.png', { frameWidth: 45, frameHeight: 80 });
         
         this.load.image('menu', '../img/HUD_enclos.png');
+        this.load.image('menu2', '../img/menu2.png');
 
         this.load.image('hashtag', '../img/hashtag.png');
 
@@ -435,11 +456,19 @@ class Boot extends Phaser.Scene {
 
         this.load.image('base_tile', '../map/tile.png');
         this.load.tilemapTiledJSON('mapData', '../map/map_m.json');
+        
+        this.load.audio('music1', ['../audio/music_1.mp3']);
+        this.load.audio('music2', ['../audio/music_2.mp3']);
+        this.load.audio('music3', ['../audio/music_3.mp3']);
+        //this.load.audio('music4', ['../audio/music_1.mp3']);
+        //this.load.audio('music5', ['../audio/music_1.mp3']);
+        //this.load.audio('music6', ['../audio/music_1.mp3']);
     }
     create() {
         this.scene.start('Game');
         this.scene.start('HUD');
         this.scene.start('Menu');
+
     }
 }
 
@@ -708,7 +737,9 @@ class Game extends Phaser.Scene {
     }
     create() {
 
+
         this.add.image(2438, 1080, 'background').setScale(1).setDepth(-1).setOrigin(1, 1);
+
 
         //#####################################
         //#                                   #
@@ -747,7 +778,7 @@ class Game extends Phaser.Scene {
 
             if (tile && testPosX == testPosX2 && testPosY == testPosY2) {
                 console.log(`Clicked on tile (${tile.x}, ${tile.y}) in layer '${tile.layer.name}'`);
-                if (tile.x <= 41 && tile.y <= 21 && pointer.isUp) {
+                if (tile.x <= 41 && tile.y <= 21) {
                     console.log('plaine droite');
                     enclos8 = true;
                 }
@@ -759,11 +790,11 @@ class Game extends Phaser.Scene {
                     console.log('vase');
                     enclos10 = true;
                 }
-                else if (tile.x <= 55 && tile.y <= 55) {
+                else if (tile.x <= 55 && tile.y <= 54) {
                     console.log('eau haut');
                     enclos11 = true;
                 }
-                else if (tile.x <= 26 && tile.y <= 96) {
+                else if (tile.x <= 26 && tile.y <= 93) {
                     console.log('savane haut');
                     enclos2 = true;
                 }
@@ -771,20 +802,20 @@ class Game extends Phaser.Scene {
                     console.log('savane droite');
                     enclos3 = true;
                 }
-                else if (tile.x <= 94 && tile.y <= 54) {
+                else if (tile.x <= 94 && tile.y <= 54 && tile.y > 30) {
                     console.log('boisé haut');
                     enclos5 = true;
                 }
-                else if (tile.x <= 127 && tile.y <= 26) {
-                    console.log('banquise');
+                else if (tile.x <= 127 && tile.y <= 27) {
+                    console.log('eau droite');
                     enclos9 = true;
                 }
-                else if (tile.x <= 57 && tile.y <= 124) {
-                    console.log('sauvage gauche');
+                else if (tile.x <= 55 && tile.y <= 124) {
+                    console.log('savane gauche');
                     enclos1 = true;
                 }
                 else if (tile.x <= 99 && tile.y <= 100) {
-                    console.log('eau mid');
+                    console.log('eau bas');
                     enclos12 = true;
                 }
                 else if (tile.x <= 125 && tile.y <= 54) {
@@ -796,11 +827,11 @@ class Game extends Phaser.Scene {
                     enclos6 = true;
                 }
                 else if (tile.x <= 124 && tile.y <= 92) {
-                    console.log('eau droite');
+                    console.log('banquise droite');
                     enclos14 = true;
                 }
                 else if (tile.x <= 125 && tile.y <= 125) {
-                    console.log('eau bas');
+                    console.log('banquise bas');
                     enclos13 = true;
                 }
             }
@@ -844,6 +875,10 @@ class Game extends Phaser.Scene {
             }
 
             if (stepCam >= 1 && stepCam < 16 && deltaY < 0 && opened == false) {
+                if (isoX >= -6.8 && isoX <= 6.8 && isoY >= -7 && isoY <= 7.5)  {
+                    //console.log("Mouse is over the map");
+                }
+                else { return; }
                 stepCam = stepCam * 2; //zoom
                 this.cameras.main.setZoom(stepCam);
                 const offsetX = (mouseWorldX - this.cameras.main.worldView.centerX) * (1 - 1 / stepCam);
@@ -1144,60 +1179,6 @@ class Game extends Phaser.Scene {
 
 //##############################################################################################################
 //##############################################################################################################
-//###     HUD     #####     HUD     #####     HUD     #####     HUD     #####     HUD     #####     HUD     ####
-//##############################################################################################################
-//##############################################################################################################
-class HUD extends Phaser.Scene {
-    constructor() {
-        super({ key: 'HUD' });
-    }
-    create() {
-
-        this.coin = this.add.image(200, 56, 'coin');
-        this.coin.setScale(0.8);
-        this.coin.state = 1000;
-        this.coin.depth = 8;
-
-
-        coinText = this.add.text(280, 28, '1000', { font: 'bold 40px Georgia', fill: '#fff' });
-        xpText = this.add.text(1220, 6, '0 / ???', { font: 'bold 40px Georgia', fill: '#fff' }).setOrigin(0.5,0);
-        lvlText = this.add.text(1780, 32, '0', { font: 'bold 64px Georgia', fill: '#fff' });
-
-        this.visit = this.add.image(200, 144, 'visiteur_icon');
-        this.visit.setScale(0.168);
-        this.visit.depth = 14;
-        nbvisitText = this.add.text(280, 112, '0', { font: 'bold 40px Georgia', fill: '#fff' });
-
-        posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
-        posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
-
-
-        this.P = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-
-
-    }
-    update() {
-        posXTest.setText(game.input.mousePointer.x);
-        posYTest.setText(game.input.mousePointer.y);
-
-        //PAS BESOIN DE MODIF JE PENSE (ce sera pas gardé de toute façon)
-        //BAR XP
-        /*
-        if (this.P.isDown && switchP == false) {
-            frameP = (frameP + 1) % 19;
-            this.anim_xp.setFrame(frameP);
-            //targetXP.setFrame(framePlus);
-            switchP = true;
-        }
-        else if (this.P.isUp && switchP == true) {
-            switchP = false;
-        }
-        */
-    }
-}
-
-//##############################################################################################################
-//##############################################################################################################
 //###     MENU     ####     MENU     ####     MENU     ####     MENU     ####     MENU     ####     MENU     ###
 //##############################################################################################################
 //##############################################################################################################
@@ -1206,6 +1187,35 @@ class Menu extends Phaser.Scene {
         super({ key: 'Menu' });
     }
     create() {
+        posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
+        posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
+
+        this.sound_logo = this.add.image(80, 1000, 'sound')
+        .setInteractive({ useHandCursor: true })
+            .on('pointerover', () => {
+                this.sound_logo.setScale(0.4);
+            })
+            .on('pointerout', () => {
+                this.sound_logo.setScale(0.32);
+            })
+            .on('pointerdown', () => {
+                this.sound_logo.setScale(0.26);
+            })
+            .on('pointerup', () => {
+                this.sound_logo.setScale(0.32);
+                radio = true;
+        });
+        this.sound_logo.setScale(0.32);
+
+
+        this.music1 = this.sound.add('music1', { loop: true });
+        this.music2 = this.sound.add('music2', { loop: true });
+        this.music3 = this.sound.add('music3', { loop: true });
+        //this.music4 = this.sound.add('music4', { loop: true });
+        //this.music5 = this.sound.add('music5', { loop: true });
+        //this.music6 = this.sound.add('music6', { loop: true });
+
+
         /*
         var config2 = {
             key: 'bar_xp_anim',
@@ -1224,7 +1234,58 @@ class Menu extends Phaser.Scene {
         this.anim_xp.setScale(1.4);
         this.anim_xp.depth = 14;
 
+        this.coin = this.add.image(200, 56, 'coin');
+        this.coin.setScale(0.8);
+        this.coin.state = 1000;
+        this.coin.depth = 8;
 
+
+        coinText = this.add.text(280, 28, '1000', { font: 'bold 40px Georgia', fill: '#fff' });
+        xpText = this.add.text(1220, 6, '0 / ???', { font: 'bold 40px Georgia', fill: '#fff' }).setOrigin(0.5,0);
+        lvlText = this.add.text(1780, 32, '0', { font: 'bold 64px Georgia', fill: '#fff' });
+
+        this.visit = this.add.image(200, 144, 'visiteur_icon');
+        this.visit.setScale(0.168);
+        this.visit.depth = 14;
+        nbvisitText = this.add.text(280, 112, '0', { font: 'bold 40px Georgia', fill: '#fff' });
+        
+        this.stats = this.add.image(2300, 920, 'stats')
+        .setInteractive({ useHandCursor: true })
+            .on('pointerover', () => {
+                this.stats.setScale(0.12);
+            })
+            .on('pointerout', () => {
+                this.stats.setScale(0.1);
+            })
+            .on('pointerdown', () => {
+                this.stats.setScale(0.08);
+            })
+            .on('pointerup', () => {
+                this.stats.setScale(0.1);
+                tablette = true;
+        });
+        this.stats.setScale(0.1);
+        this.stats.depth = 14;
+        this.stats.visible = true;
+
+
+
+
+        this.menu = this.add.image(1220, 572, 'menu');
+        this.menu.setScale(1.2);
+        this.menu.depth = 10;
+        this.menu.visible = false;
+        
+        this.menu2 = this.add.image(1220, 572, 'menu2');
+        this.menu2.setScale(2);
+        this.menu2.depth = 10;
+        this.menu2.visible = false;
+
+
+        this.hashtag = this.add.image(2220, 288, 'hashtag');
+        this.hashtag.setScale(1.8);
+        this.hashtag.depth = 10;
+        this.hashtag.visible = true;
 
 
 
@@ -1239,18 +1300,6 @@ class Menu extends Phaser.Scene {
         const mask = this.add.graphics().fillRect(xMask, yMask, widthMask, heightMask);
         viewport.mask = new Phaser.Display.Masks.GeometryMask(this, mask);
 
-        /*let xView2 = 0;
-        let yView2 = 0;
-        let xMask2 = 2068;
-        let yMask2 = 184;
-        let widthMask2 = 320;
-        let heightMask2 = 350;
-        const viewport2 = this.add.container(xView2, yView2);
-        viewport2.depth = 12;
-        const mask2 = this.add.graphics().fillRect(xMask2, yMask2, widthMask2, heightMask2);
-        viewport2.mask2 = new Phaser.Display.Masks.GeometryMask(this, mask2);*/
-        /*fillStyle(0xaaaaaa).*/
-        //viewport2.add(this.hashtagText[0]);
 
         this.hashtagText = [];
         this.hashtagText[0] = this.add.text(2100, 200, '-', { font: 'bold 28px Georgia', fill: '#000' });
@@ -1274,7 +1323,7 @@ class Menu extends Phaser.Scene {
         this.hashtagText[6] = this.add.text(2100, 500, '-', { font: 'bold 28px Georgia', fill: '#000' });
         this.hashtagText[6].visible = true;
         this.hashtagText[6].depth = 11;
-        this.hashtagText[7] = this.add.text(2100, 200, '#mynthos', { font: 'bold 28px Georgia', fill: '#000' });
+        this.hashtagText[7] = this.add.text(2100, 200, '-', { font: 'bold 28px Georgia', fill: '#000' });
         this.hashtagText[7].visible = false;
         this.hashtagText[7].depth = 11;
         this.hashtagText[8] = this.add.text(2100, 250, '-', { font: 'bold 28px Georgia', fill: '#000' });
@@ -1316,32 +1365,6 @@ class Menu extends Phaser.Scene {
         this.hashtagText[20] = this.add.text(2100, 500, '-', { font: 'bold 28px Georgia', fill: '#000' });
         this.hashtagText[20].visible = false;
         this.hashtagText[20].depth = 11;
-
-
-        this.menu = this.add.image(1220, 572, 'menu');
-        this.menu.setScale(1.2);
-        this.menu.depth = 10;
-        this.menu.visible = false;
-
-        this.hashtag = this.add.image(2220, 288, 'hashtag');
-        this.hashtag.setScale(1.8);
-        this.hashtag.depth = 10;
-        this.hashtag.visible = true;
-
-
-        this.resume = this.add.image(1214, 360, 'resume');
-        this.resume.setScale(1.46);
-        this.resume.depth = 11;
-        this.resume.visible = false;
-        this.settings = this.add.image(1214, 570, 'settings');
-        this.settings.setScale(0.52);
-        this.settings.depth = 11;
-        this.settings.visible = false;
-        this.quit = this.add.image(1214, 780, 'quit');
-        this.quit.setScale(1);
-        this.quit.depth = 11;
-        this.quit.visible = false;
-
 
 
         //===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS =====
@@ -3162,7 +3185,6 @@ class Menu extends Phaser.Scene {
 
 
         this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        this.M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
         //|||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL ||||
         let indiceWheel = 0;
@@ -3259,6 +3281,8 @@ class Menu extends Phaser.Scene {
 
     }
     update() {
+        posXTest.setText(game.input.mousePointer.x);
+        posYTest.setText(game.input.mousePointer.y);
 
 
         atm = this;
@@ -3301,7 +3325,12 @@ class Menu extends Phaser.Scene {
             if (compteurtick2 == 0) {
 
                 xps = (xps + 100) % 1000;
-                coinText.setText(coins);
+                if(coins > 0){
+                    coinText.setText(coins);
+                }
+                else{
+                    coinText.setText(0);
+                }
                 nbvisitText.setText(nbvisit);
                 xpText.setText(cumul + ' / ' + cumul_requis[indice_level]);
                 frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
@@ -3429,10 +3458,15 @@ class Menu extends Phaser.Scene {
                 }
 
             }
-            compteurtick2 = (compteurtick2 + 1) % 10;
+            if(speed == "fast"){
+                compteurtick2 = (compteurtick2 + 1)%4;
+            }
+            else if(speed == "normal"){
+                compteurtick2 = (compteurtick2 + 1)%8;
+            }
 
 
-            if(compteurtick3 == 0){
+            if(compteurtick3 == 0) {
                 if(atm.hashtagText[0].visible == true && atm.hashtagText[7].text != '-'){
                     for(let i = 0; i < 7; i++){
                         atm.hashtagText[i].visible = false;
@@ -3451,17 +3485,11 @@ class Menu extends Phaser.Scene {
                         atm.hashtagText[i].visible = true;
                     }
                 }
-                /*else if(atm.hashtagText[14].visible == true && atm.hashtagText[0].text != '-'){
-                    for(let i = 0; i < 7; i++){
-                        atm.hashtagText[i+14].visible = false;
-                        atm.hashtagText[i].visible = true;
-                    }
-                }*/
             }
             compteurtick3 = (compteurtick3+1)%64;
 
 
-            if(compteurtick4 == 0){
+            if(compteurtick4 == 0) {
                 [nbanimaux, popularitetot] = popularitetot_nbanimaux(save);
                 //console.log(nbanimaux,popularitetot);
                 nbvisit = gain_visiteur(nbanimaux, popularitetot);
@@ -3472,15 +3500,16 @@ class Menu extends Phaser.Scene {
                 if(gaintemp > 0){
                     cumul += gaintemp;
                 }
-                else{
-
-                }
+                else{ }
                 //console.log("coins : ", coins);
                 //console.log("nbvist : ", nbvisit);
             }
-            compteurtick4 = (compteurtick4+1)%30;
-
-
+            if(speed == "fast"){
+                compteurtick4 = (compteurtick4+1)%10;
+            }
+            else if(speed == "normal"){
+                compteurtick4 = (compteurtick4+1)%24;
+            }
 
 
             //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
@@ -3490,12 +3519,39 @@ class Menu extends Phaser.Scene {
             if (atm.echap.isDown) {
                 if (opened == true) {
                     atm.menu.visible = false;
+                    atm.menu2.visible = false;
                     for (let i = 1; i < 51; i++) {
                         atm.animals[i].visible = false;
                         atm.descr[i].visible = false;
                     }
                     opened = false;
                 }
+            }
+
+            //MENU RADIO
+            if (radio == true) {
+                if (opened == false) {
+                    atm.menu2.visible = true;
+                    /*for (let i = 1; i < 6; i++) {
+                        atm.animals[i].visible = true;
+                        atm.descr[i].visible = true;
+                    }*/
+                    opened = true;
+                }
+                radio = false;
+            }
+
+            //MENU STATISTIQUES
+            if (tablette == true) {
+                if (opened == false) {
+                    atm.menu2.visible = true;
+                    /*for (let i = 1; i < 6; i++) {
+                        atm.animals[i].visible = true;
+                        atm.descr[i].visible = true;
+                    }*/
+                    opened = true;
+                }
+                tablette = false;
             }
 
 
@@ -3690,15 +3746,17 @@ let config = {
     scene: [
         Boot,
         Game,
-        HUD,
         Menu
     ],
     physics: {
         default: "arcade",
         arcade: {
             debug: false,
-            gravity: { y: 0 },
+            gravity: { y: 0 }
         }
+    },
+    audio: {
+        disableWebAudio: true
     }
 };
 
