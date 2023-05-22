@@ -140,6 +140,17 @@ function new_game(){
 }
 
 function push_animaux(){
+    connection.query('DROP TABLE animaux', function(err, results, fields) {
+        if (err) throw err;
+        //console.log('Table dropped');
+        }
+    );
+    connection.query('CREATE TABLE IF NOT EXISTS animaux (  id INT NOT NULL AUTO_INCREMENT, nom varchar(255), enclos INT, alimentation varchar(255), niveau INT, popularite INT, prix INT, depense INT, description varchar(255), primary key(id))', function(err, results, fields) {
+        if (err) throw err;
+        //console.log('Table created');
+        }
+    );
+    
     //ouvre le fichier Animaux.json et recupere les noms des animaux en lowercase
     animaux =  fs.readFileSync("./JSON/Animaux.json");
     animaux = JSON.parse(animaux);//convertit en objet
