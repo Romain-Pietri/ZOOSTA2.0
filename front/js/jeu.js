@@ -46,6 +46,12 @@ let coinText = "";
 let xpText = "";
 let lvlText = "";
 let nbvisitText = "";
+let gainstotaux = "<==  Gains totaux";
+let depenses = "<==  Dépenses totales";
+let gainsreels = "<==  Gains réels";
+let stonksText = "";
+let not_stonksText = "";
+let stonks2Text = "";
 let posXTest = "";
 let posYTest = "";
 
@@ -286,7 +292,7 @@ let indice_level = 1;
 let cumul_requis = [];
 cumul_requis[0] = 10000;
 let mode = "test";
-let speed = "fast";
+let speed = "normal";
 
 if(mode == "test"){
     for(let i = 1; i < 30; i++){
@@ -1067,7 +1073,7 @@ class Game extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        let nombreVisiteurs = 100;// Nombre de visiteurs à créer
+        let nombreVisiteurs = 40;// Nombre de visiteurs à créer
         const nom_sprite = ["visiteur", "visiteur2", "visiteur3", "visiteur4"]
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown()) {
@@ -1373,10 +1379,50 @@ class Menu extends Phaser.Scene {
         this.coin.state = 1000;
         this.coin.depth = 8;
 
+        this.stonks = this.add.image(620, 400, 'stonks');
+        this.stonks.setScale(0.05);
+        this.stonks.state = 1000;
+        this.stonks.depth = 11;
+        this.stonks.visible = false;
+
+        this.not_stonks = this.add.image(620, 590, 'not_stonks');
+        this.not_stonks.setScale(0.05);
+        this.not_stonks.state = 1000;
+        this.not_stonks.depth = 11;
+        this.not_stonks.visible = false;
+
+        this.stonks2 = this.add.image(620, 780, 'stonks');
+        this.stonks2.setScale(0.05);
+        this.stonks2.state = 1000;
+        this.stonks2.depth = 11;
+        this.stonks2.visible = false;
+
 
         coinText = this.add.text(280, 28, '1000', { font: 'bold 40px Georgia', fill: '#fff' });
         xpText = this.add.text(1220, 6, '0 / ???', { font: 'bold 40px Georgia', fill: '#fff' }).setOrigin(0.5,0);
         lvlText = this.add.text(1780, 32, '0', { font: 'bold 64px Georgia', fill: '#fff' });
+        stonksText = this.add.text(760, 380, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        stonksText.depth = 11;
+        stonksText.visible = false;
+        not_stonksText = this.add.text(760, 570, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        not_stonksText.depth = 11;
+        not_stonksText.visible = false;
+        stonks2Text = this.add.text(760, 760, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        stonks2Text.depth = 11;
+        stonks2Text.visible = false;
+        
+        gainstotaux = this.add.text(960, 380, '<==  Gains totaux', { font: 'bold 40px Georgia', fill: '#000' });
+        gainstotaux.depth = 11;
+        gainstotaux.visible = false;
+
+        depenses = this.add.text(960, 570, '<==  Dépenses totales', { font: 'bold 40px Georgia', fill: '#000' });
+        depenses.depth = 11;
+        depenses.visible = false;
+
+        gainsreels = this.add.text(960, 760, '<==  Gains réels', { font: 'bold 40px Georgia', fill: '#000' });
+        gainsreels.depth = 11;
+        gainsreels.visible = false;
+
 
         this.visit = this.add.image(200, 144, 'visiteur_icon');
         this.visit.setScale(0.168);
@@ -1573,7 +1619,7 @@ class Menu extends Phaser.Scene {
         this.animals[3].depth = 11;
         this.animals[3].visible = false;
         viewport.add(this.animals[3]);
-        this.descr[3] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[3] = this.add.text(1000, 960, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[3].visible = false;
         viewport.add(this.descr[3]);
         //animal 4
@@ -1609,7 +1655,7 @@ class Menu extends Phaser.Scene {
         this.animals[4].depth = 11;
         this.animals[4].visible = false;
         viewport.add(this.animals[4]);
-        this.descr[4] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[4] = this.add.text(1000, 1260, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[4].visible = false;
         viewport.add(this.descr[4]);
         //animal 5
@@ -1645,7 +1691,7 @@ class Menu extends Phaser.Scene {
         this.animals[5].depth = 11;
         this.animals[5].visible = false;
         viewport.add(this.animals[5]);
-        this.descr[5] = this.add.text(1000, 1560, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[5] = this.add.text(1000, 1560, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[5].visible = false;
         viewport.add(this.descr[5]);
         //animal 6
@@ -1681,7 +1727,7 @@ class Menu extends Phaser.Scene {
         this.animals[6].depth = 11;
         this.animals[6].visible = false;
         viewport.add(this.animals[6]);
-        this.descr[6] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[6] = this.add.text(1000, 360, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[6].visible = false;
         viewport.add(this.descr[6]);
         //animal 7
@@ -1717,7 +1763,7 @@ class Menu extends Phaser.Scene {
         this.animals[7].depth = 11;
         this.animals[7].visible = false;
         viewport.add(this.animals[7]);
-        this.descr[7] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[7] = this.add.text(1000, 660, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[7].visible = false;
         viewport.add(this.descr[7]);
         //animal 8
@@ -1753,7 +1799,7 @@ class Menu extends Phaser.Scene {
         this.animals[8].depth = 11;
         this.animals[8].visible = false;
         viewport.add(this.animals[8]);
-        this.descr[8] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[8] = this.add.text(1000, 360, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[8].visible = false;
         viewport.add(this.descr[8]);
         //animal 9
@@ -1789,7 +1835,7 @@ class Menu extends Phaser.Scene {
         this.animals[9].depth = 11;
         this.animals[9].visible = false;
         viewport.add(this.animals[9]);
-        this.descr[9] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[9] = this.add.text(1000, 660, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[9].visible = false;
         viewport.add(this.descr[9]);
         //animal 10
@@ -1825,7 +1871,7 @@ class Menu extends Phaser.Scene {
         this.animals[10].depth = 11;
         this.animals[10].visible = false;
         viewport.add(this.animals[10]);
-        this.descr[10] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[10] = this.add.text(1000, 960, 'Déblocage au niveau 4\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[10].visible = false;
         viewport.add(this.descr[10]);
         //animal 11
@@ -1861,7 +1907,7 @@ class Menu extends Phaser.Scene {
         this.animals[11].depth = 11;
         this.animals[11].visible = false;
         viewport.add(this.animals[11]);
-        this.descr[11] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[11] = this.add.text(1000, 1260, 'Déblocage au niveau 4\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[11].visible = false;
         viewport.add(this.descr[11]);
         //animal 12
@@ -1897,7 +1943,7 @@ class Menu extends Phaser.Scene {
         this.animals[12].depth = 11;
         this.animals[12].visible = false;
         viewport.add(this.animals[12]);
-        this.descr[12] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[12] = this.add.text(1000, 360, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[12].visible = false;
         viewport.add(this.descr[12]);
         //animal 13
@@ -1933,7 +1979,7 @@ class Menu extends Phaser.Scene {
         this.animals[13].depth = 11;
         this.animals[13].visible = false;
         viewport.add(this.animals[13]);
-        this.descr[13] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[13] = this.add.text(1000, 660, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[13].visible = false;
         viewport.add(this.descr[13]);
         //animal 14
@@ -1969,7 +2015,7 @@ class Menu extends Phaser.Scene {
         this.animals[14].depth = 11;
         this.animals[14].visible = false;
         viewport.add(this.animals[14]);
-        this.descr[14] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[14] = this.add.text(1000, 360, 'Déblocage au niveau 6\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[14].visible = false;
         viewport.add(this.descr[14]);
         //animal 15
@@ -2005,7 +2051,7 @@ class Menu extends Phaser.Scene {
         this.animals[15].depth = 11;
         this.animals[15].visible = false;
         viewport.add(this.animals[15]);
-        this.descr[15] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[15] = this.add.text(1000, 660, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[15].visible = false;
         viewport.add(this.descr[15]);
         //animal 16
@@ -2041,7 +2087,7 @@ class Menu extends Phaser.Scene {
         this.animals[16].depth = 11;
         this.animals[16].visible = false;
         viewport.add(this.animals[16]);
-        this.descr[16] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[16] = this.add.text(1000, 960, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[16].visible = false;
         viewport.add(this.descr[16]);
         //animal 17
@@ -2077,7 +2123,7 @@ class Menu extends Phaser.Scene {
         this.animals[17].depth = 11;
         this.animals[17].visible = false;
         viewport.add(this.animals[17]);
-        this.descr[17] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[17] = this.add.text(1000, 1260, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[17].visible = false;
         viewport.add(this.descr[17]);
         //animal 18
@@ -2113,7 +2159,7 @@ class Menu extends Phaser.Scene {
         this.animals[18].depth = 11;
         this.animals[18].visible = false;
         viewport.add(this.animals[18]);
-        this.descr[18] = this.add.text(1000, 1560, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[18] = this.add.text(1000, 1560, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[18].visible = false;
         viewport.add(this.descr[18]);
         //animal 19
@@ -2149,7 +2195,7 @@ class Menu extends Phaser.Scene {
         this.animals[19].depth = 11;
         this.animals[19].visible = false;
         viewport.add(this.animals[19]);
-        this.descr[19] = this.add.text(1000, 1860, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[19] = this.add.text(1000, 1860, 'Déblocage au niveau 9\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[19].visible = false;
         viewport.add(this.descr[19]);
         //animal 20
@@ -2185,7 +2231,7 @@ class Menu extends Phaser.Scene {
         this.animals[20].depth = 11;
         this.animals[20].visible = false;
         viewport.add(this.animals[20]);
-        this.descr[20] = this.add.text(1000, 2160, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[20] = this.add.text(1000, 2160, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[20].visible = false;
         viewport.add(this.descr[20]);
         //animal 21
@@ -2221,7 +2267,7 @@ class Menu extends Phaser.Scene {
         this.animals[21].depth = 11;
         this.animals[21].visible = false;
         viewport.add(this.animals[21]);
-        this.descr[21] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[21] = this.add.text(1000, 360, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[21].visible = false;
         viewport.add(this.descr[21]);
         //animal 22
@@ -2257,7 +2303,7 @@ class Menu extends Phaser.Scene {
         this.animals[22].depth = 11;
         this.animals[22].visible = false;
         viewport.add(this.animals[22]);
-        this.descr[22] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[22] = this.add.text(1000, 660, 'Déblocage au niveau 6\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[22].visible = false;
         viewport.add(this.descr[22]);
         //animal 23
@@ -2293,7 +2339,7 @@ class Menu extends Phaser.Scene {
         this.animals[23].depth = 11;
         this.animals[23].visible = false;
         viewport.add(this.animals[23]);
-        this.descr[23] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[23] = this.add.text(1000, 960, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[23].visible = false;
         viewport.add(this.descr[23]);
         //animal 24
@@ -2329,7 +2375,7 @@ class Menu extends Phaser.Scene {
         this.animals[24].depth = 11;
         this.animals[24].visible = false;
         viewport.add(this.animals[24]);
-        this.descr[24] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[24] = this.add.text(1000, 1260, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[24].visible = false;
         viewport.add(this.descr[24]);
         //animal 25
@@ -2365,7 +2411,7 @@ class Menu extends Phaser.Scene {
         this.animals[25].depth = 11;
         this.animals[25].visible = false;
         viewport.add(this.animals[25]);
-        this.descr[25] = this.add.text(1000, 1560, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[25] = this.add.text(1000, 1560, 'Déblocage au niveau 9\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[25].visible = false;
         viewport.add(this.descr[25]);
         //animal 26
@@ -2401,7 +2447,7 @@ class Menu extends Phaser.Scene {
         this.animals[26].depth = 11;
         this.animals[26].visible = false;
         viewport.add(this.animals[26]);
-        this.descr[26] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[26] = this.add.text(1000, 360, 'Déblocage au niveau 10\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[26].visible = false;
         viewport.add(this.descr[26]);
         //animal 27
@@ -2437,7 +2483,7 @@ class Menu extends Phaser.Scene {
         this.animals[27].depth = 11;
         this.animals[27].visible = false;
         viewport.add(this.animals[27]);
-        this.descr[27] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[27] = this.add.text(1000, 660, 'Déblocage au niveau 10\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[27].visible = false;
         viewport.add(this.descr[27]);
         //animal 28
@@ -2473,7 +2519,7 @@ class Menu extends Phaser.Scene {
         this.animals[28].depth = 11;
         this.animals[28].visible = false;
         viewport.add(this.animals[28]);
-        this.descr[28] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[28] = this.add.text(1000, 960, 'Déblocage au niveau 12\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[28].visible = false;
         viewport.add(this.descr[28]);
         //animal 29
@@ -2509,7 +2555,7 @@ class Menu extends Phaser.Scene {
         this.animals[29].depth = 11;
         this.animals[29].visible = false;
         viewport.add(this.animals[29]);
-        this.descr[29] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[29] = this.add.text(1000, 1260, 'Déblocage au niveau 14\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[29].visible = false;
         viewport.add(this.descr[29]);
         //animal 30
@@ -2545,7 +2591,7 @@ class Menu extends Phaser.Scene {
         this.animals[30].depth = 11;
         this.animals[30].visible = false;
         viewport.add(this.animals[30]);
-        this.descr[30] = this.add.text(1000, 1560, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[30] = this.add.text(1000, 1560, 'Déblocage au niveau 30\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[30].visible = false;
         viewport.add(this.descr[30]);
         //animal 31
@@ -2581,7 +2627,7 @@ class Menu extends Phaser.Scene {
         this.animals[31].depth = 11;
         this.animals[31].visible = false;
         viewport.add(this.animals[31]);
-        this.descr[31] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[31] = this.add.text(1000, 360, 'Déblocage au niveau 11\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[31].visible = false;
         viewport.add(this.descr[31]);
         //animal 32
@@ -2617,7 +2663,7 @@ class Menu extends Phaser.Scene {
         this.animals[32].depth = 11;
         this.animals[32].visible = false;
         viewport.add(this.animals[32]);
-        this.descr[32] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[32] = this.add.text(1000, 660, 'Déblocage au niveau 13\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[32].visible = false;
         viewport.add(this.descr[32]);
         //animal 33
@@ -2653,7 +2699,7 @@ class Menu extends Phaser.Scene {
         this.animals[33].depth = 11;
         this.animals[33].visible = false;
         viewport.add(this.animals[33]);
-        this.descr[33] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[33] = this.add.text(1000, 960, 'Déblocage au niveau 13\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[33].visible = false;
         viewport.add(this.descr[33]);
         //animal 34
@@ -2689,7 +2735,7 @@ class Menu extends Phaser.Scene {
         this.animals[34].depth = 11;
         this.animals[34].visible = false;
         viewport.add(this.animals[34]);
-        this.descr[34] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[34] = this.add.text(1000, 360, 'Déblocage au niveau 15\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[34].visible = false;
         viewport.add(this.descr[34]);
         //animal 35
@@ -2725,7 +2771,7 @@ class Menu extends Phaser.Scene {
         this.animals[35].depth = 11;
         this.animals[35].visible = false;
         viewport.add(this.animals[35]);
-        this.descr[35] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[35] = this.add.text(1000, 660, 'Déblocage au niveau 16\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[35].visible = false;
         viewport.add(this.descr[35]);
         //animal 36
@@ -2761,7 +2807,7 @@ class Menu extends Phaser.Scene {
         this.animals[36].depth = 11;
         this.animals[36].visible = false;
         viewport.add(this.animals[36]);
-        this.descr[36] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[36] = this.add.text(1000, 960, 'Déblocage au niveau 19\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[36].visible = false;
         viewport.add(this.descr[36]);
         //animal 37
@@ -2797,7 +2843,7 @@ class Menu extends Phaser.Scene {
         this.animals[37].depth = 11;
         this.animals[37].visible = false;
         viewport.add(this.animals[37]);
-        this.descr[37] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[37] = this.add.text(1000, 360, 'Déblocage au niveau 17\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[37].visible = false;
         viewport.add(this.descr[37]);
         //animal 38
@@ -2833,7 +2879,7 @@ class Menu extends Phaser.Scene {
         this.animals[38].depth = 11;
         this.animals[38].visible = false;
         viewport.add(this.animals[38]);
-        this.descr[38] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[38] = this.add.text(1000, 660, 'Déblocage au niveau 18\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[38].visible = false;
         viewport.add(this.descr[38]);
         //animal 39
@@ -2869,7 +2915,7 @@ class Menu extends Phaser.Scene {
         this.animals[39].depth = 11;
         this.animals[39].visible = false;
         viewport.add(this.animals[39]);
-        this.descr[39] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[39] = this.add.text(1000, 360, 'Déblocage au niveau 23\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[39].visible = false;
         viewport.add(this.descr[39]);
         //animal 40
@@ -2905,7 +2951,7 @@ class Menu extends Phaser.Scene {
         this.animals[40].depth = 11;
         this.animals[40].visible = false;
         viewport.add(this.animals[40]);
-        this.descr[40] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[40] = this.add.text(1000, 660, 'Déblocage au niveau 24\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[40].visible = false;
         viewport.add(this.descr[40]);
         //animal 41
@@ -2941,7 +2987,7 @@ class Menu extends Phaser.Scene {
         this.animals[41].depth = 11;
         this.animals[41].visible = false;
         viewport.add(this.animals[41]);
-        this.descr[41] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[41] = this.add.text(1000, 960, 'Déblocage au niveau 24\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[41].visible = false;
         viewport.add(this.descr[41]);
         //animal 42
@@ -2977,7 +3023,7 @@ class Menu extends Phaser.Scene {
         this.animals[42].depth = 11;
         this.animals[42].visible = false;
         viewport.add(this.animals[42]);
-        this.descr[42] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[42] = this.add.text(1000, 360, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[42].visible = false;
         viewport.add(this.descr[42]);
         //animal 43
@@ -3013,7 +3059,7 @@ class Menu extends Phaser.Scene {
         this.animals[43].depth = 11;
         this.animals[43].visible = false;
         viewport.add(this.animals[43]);
-        this.descr[43] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[43] = this.add.text(1000, 660, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[43].visible = false;
         viewport.add(this.descr[43]);
         //animal 44
@@ -3049,7 +3095,7 @@ class Menu extends Phaser.Scene {
         this.animals[44].depth = 11;
         this.animals[44].visible = false;
         viewport.add(this.animals[44]);
-        this.descr[44] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[44] = this.add.text(1000, 960, 'Déblocage au niveau 21\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[44].visible = false;
         viewport.add(this.descr[44]);
         //animal 45
@@ -3085,7 +3131,7 @@ class Menu extends Phaser.Scene {
         this.animals[45].depth = 11;
         this.animals[45].visible = false;
         viewport.add(this.animals[45]);
-        this.descr[45] = this.add.text(1000, 1260, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[45] = this.add.text(1000, 1260, 'Déblocage au niveau 22\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[45].visible = false;
         viewport.add(this.descr[45]);
         //animal 46
@@ -3121,7 +3167,7 @@ class Menu extends Phaser.Scene {
         this.animals[46].depth = 11;
         this.animals[46].visible = false;
         viewport.add(this.animals[46]);
-        this.descr[46] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[46] = this.add.text(1000, 360, 'Déblocage au niveau 25\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[46].visible = false;
         viewport.add(this.descr[46]);
         //animal 47
@@ -3157,7 +3203,7 @@ class Menu extends Phaser.Scene {
         this.animals[47].depth = 11;
         this.animals[47].visible = false;
         viewport.add(this.animals[47]);
-        this.descr[47] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[47] = this.add.text(1000, 660, 'Déblocage au niveau 28\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[47].visible = false;
         viewport.add(this.descr[47]);
         //animal 48
@@ -3193,7 +3239,7 @@ class Menu extends Phaser.Scene {
         this.animals[48].depth = 11;
         this.animals[48].visible = false;
         viewport.add(this.animals[48]);
-        this.descr[48] = this.add.text(1000, 360, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[48] = this.add.text(1000, 360, 'Déblocage au niveau 26\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[48].visible = false;
         viewport.add(this.descr[48]);
         //animal 49
@@ -3229,7 +3275,7 @@ class Menu extends Phaser.Scene {
         this.animals[49].depth = 11;
         this.animals[49].visible = false;
         viewport.add(this.animals[49]);
-        this.descr[49] = this.add.text(1000, 660, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[49] = this.add.text(1000, 660, 'Déblocage au niveau 27\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[49].visible = false;
         viewport.add(this.descr[49]);
         //animal 50
@@ -3265,7 +3311,7 @@ class Menu extends Phaser.Scene {
         this.animals[50].depth = 11;
         this.animals[50].visible = false;
         viewport.add(this.animals[50]);
-        this.descr[50] = this.add.text(1000, 960, 'Déblocage au niveau ??\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
+        this.descr[50] = this.add.text(1000, 960, 'Déblocage au niveau 29\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
         this.descr[50].visible = false;
         viewport.add(this.descr[50]);
 
@@ -3453,9 +3499,12 @@ class Menu extends Phaser.Scene {
                 xpText.setText(cumul + ' / ' + cumul_requis[indice_level]);
                 frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
                 atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP));
+                stonksText.setText(gain_argent(nbvisit, nbanimaux, popularitetot));
+                not_stonksText.setText(depensee(save, animaux));
+                stonks2Text.setText(gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux));
                 
 
-                if (/*monte_lvl(cumul)*/monte_ok(cumul) && level < 30) {
+                if (monte_ok(cumul) && level < 30) {
                     save.niveau++;
                     level = save.niveau;
                     lvlText.setText(level);
@@ -3632,19 +3681,47 @@ class Menu extends Phaser.Scene {
 
             //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
 
-            // ====== AFFICHAGE FENETRES avec switch ====== AFFICHAGE FENETRES avec switch ======
+            // ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ======
             //MENU ECHAP
             if (atm.echap.isDown) {
                 if (opened == true) {
                     atm.menu.visible = false;
                     atm.menu2.visible = false;
                     atm.menu3.visible = false;
+                    atm.stonks.visible = false;
+                    atm.not_stonks.visible = false;
+                    atm.stonks2.visible = false;
+                    stonksText.visible = false;
+                    not_stonksText.visible = false;
+                    stonks2Text.visible = false;
+                    gainstotaux.visible = false;
+                    depenses.visible = false;
+                    gainsreels.visible = false;
                     for (let i = 1; i < 51; i++) {
                         atm.animals[i].visible = false;
                         atm.descr[i].visible = false;
                     }
                     opened = false;
                 }
+            }
+            
+            //MENU STATISTIQUES
+            if (tablette == true) {
+                if (opened == false) {
+                    atm.menu2.visible = true;
+                    atm.stonks.visible = true;
+                    atm.not_stonks.visible = true;
+                    atm.stonks2.visible = true;
+                    stonksText.visible = true;
+                    not_stonksText.visible = true;
+                    stonks2Text.visible = true;
+                    gainstotaux.visible = true;
+                    depenses.visible = true;
+                    gainsreels.visible = true;
+                    
+                    opened = true;
+                }
+                tablette = false;
             }
 
             //MENU RADIO
@@ -3660,18 +3737,6 @@ class Menu extends Phaser.Scene {
                 radio = false;
             }
 
-            //MENU STATISTIQUES
-            if (tablette == true) {
-                if (opened == false) {
-                    atm.menu2.visible = true;
-                    /*for (let i = 1; i < 6; i++) {
-                        atm.animals[i].visible = true;
-                        atm.descr[i].visible = true;
-                    }*/
-                    opened = true;
-                }
-                tablette = false;
-            }
 
 
             //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
