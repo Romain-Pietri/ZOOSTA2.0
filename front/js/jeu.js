@@ -71,6 +71,7 @@ let testPosY2 = 0;
 
 let tablette = false;
 let radio = false;
+let radioval = 0;
 
 let enclos1 = false;
 let enclos2 = false;
@@ -292,7 +293,7 @@ let indice_level = 1;
 let cumul_requis = [];
 cumul_requis[0] = 10000;
 let mode = "test";
-let speed = "normal";
+let speed = "fast";
 
 if(mode == "test"){
     for(let i = 1; i < 30; i++){
@@ -330,7 +331,7 @@ function achat_animal(i, en_c) {
 function vente_animal(i, en_c) {
     coins += Math.floor(animaux[i - 1].prix / 2);
     save.ec_na[en_c - 1].splice(save.ec_na[en_c - 1].indexOf(i), 1);
-    animaux_a_supprimer.push(i);
+    animaux_a_vendre.push(i);
 }
 
 function depensee(save, animaux) {
@@ -381,6 +382,8 @@ class Boot extends Phaser.Scene {
         this.load.image('stonks','../img/stonks.png');
         this.load.image('not_stonks','../img/not_stonks.png');
         this.load.image('sound','../img/sound.png');
+        this.load.image('sound2','../img/sound2.png');
+        this.load.image('sound3','../img/sound3.png');
 
         this.load.spritesheet('xps', '../img/sprite_bar_xp.png', { frameWidth: 700, frameHeight: 17 });
 
@@ -532,7 +535,6 @@ class Boot extends Phaser.Scene {
         this.scene.start('Game');
         this.scene.start('HUD');
         this.scene.start('Menu');
-
     }
 }
 
@@ -1285,15 +1287,25 @@ class Game extends Phaser.Scene {
         temps += deltaTime;
 
         // Vérifiez si 2 secondes se sont écoulées
-        if (temps >= 2000) {
-          
-          const idAnimal = 17; // Remplacez par l'ID de l'animal que vous souhaitez mettre à jour
-          this.updateAnimal(idAnimal, this);
-          if (EtatAnimaux[idAnimal] == 0) {
-            EtatAnimaux[idAnimal] = 1;
-          } else { EtatAnimaux[idAnimal] = 0; }
-          // Réinitialisez le temps écoulé
-          temps = 0;
+        if (temps >= 1400) {
+        
+            for(let i = 0; i < animaux_t.length; i++) {
+                const animalToUpdate = animaux_t[i].idAnimal;
+                //const idAnimal = 17; // Remplacez par l'ID de l'animal que vous souhaitez mettre à jour
+                this.updateAnimal(animalToUpdate, this);
+                if (EtatAnimaux[animalToUpdate] == 0) {
+                    EtatAnimaux[animalToUpdate] = 1;
+                } else { EtatAnimaux[animalToUpdate] = 0; }
+                // Réinitialisez le temps écoulé
+                temps = 0;
+            }
+            /*const animalToUpdate = 17;
+            this.updateAnimal(animalToUpdate, this);
+            if (EtatAnimaux[animalToUpdate] == 0) {
+                EtatAnimaux[animalToUpdate] = 1;
+            } else { EtatAnimaux[animalToUpdate] = 0; }
+            // Réinitialisez le temps écoulé
+            temps = 0;*/
         }
     }
 }
@@ -1308,6 +1320,7 @@ class Menu extends Phaser.Scene {
         super({ key: 'Menu' });
     }
     create() {
+
         posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
         posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
         
@@ -1330,22 +1343,143 @@ class Menu extends Phaser.Scene {
         this.stats.depth = 14;
         this.stats.visible = true;
 
-        this.sound_logo = this.add.image(80, 1000, 'sound')
+
+        this.sound1 = this.add.image(640, 380, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 1;
+        });
+        this.sound1.setScale(0.32);
+        this.sound1.depth = 11;
+        this.sound1.visible = false;
+
+        this.sound2 = this.add.image(640, 380, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound2.setScale(0.5);
+        this.sound2.depth = 11;
+        this.sound2.visible = false;
+
+        this.sound3 = this.add.image(640, 580, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 2;
+        });
+        this.sound3.setScale(0.32);
+        this.sound3.depth = 11;
+        this.sound3.visible = false;
+
+        this.sound4 = this.add.image(640, 580, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound4.setScale(0.5);
+        this.sound4.depth = 11;
+        this.sound4.visible = false;
+
+        this.sound5 = this.add.image(640, 780, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 3;
+        });
+        this.sound5.setScale(0.32);
+        this.sound5.depth = 11;
+        this.sound5.visible = false;
+
+        this.sound6 = this.add.image(640, 780, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound6.setScale(0.5);
+        this.sound6.depth = 11;
+        this.sound6.visible = false;
+
+        this.sound7 = this.add.image(1360, 380, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 4;
+        });
+        this.sound7.setScale(0.32);
+        this.sound7.depth = 11;
+        this.sound7.visible = false;
+
+        this.sound8 = this.add.image(1360, 380, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound8.setScale(0.5);
+        this.sound8.depth = 11;
+        this.sound8.visible = false;
+
+        this.sound9 = this.add.image(1360, 580, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 5;
+        });
+        this.sound9.setScale(0.32);
+        this.sound9.depth = 11;
+        this.sound9.visible = false;
+
+        this.sound10 = this.add.image(1360, 580, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound10.setScale(0.5);
+        this.sound10.depth = 11;
+        this.sound10.visible = false;
+
+        this.sound11 = this.add.image(1360, 780, 'sound')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 6;
+        });
+        this.sound11.setScale(0.32);
+        this.sound11.depth = 11;
+        this.sound11.visible = false;
+
+        this.sound12 = this.add.image(1360, 780, 'sound2')
+        .setInteractive({ useHandCursor: false })
+            .on('pointerdown', () => { })
+            .on('pointerup', () => {
+                radioval = 0;
+        });
+        this.sound12.setScale(0.5);
+        this.sound12.depth = 11;
+        this.sound12.visible = false;
+
+        this.sound_logo = this.add.image(100, 980, 'sound3')
         .setInteractive({ useHandCursor: true })
             .on('pointerover', () => {
-                this.sound_logo.setScale(0.4);
+                this.sound_logo.setScale(0.12);
             })
             .on('pointerout', () => {
-                this.sound_logo.setScale(0.32);
+                this.sound_logo.setScale(0.1);
             })
             .on('pointerdown', () => {
-                this.sound_logo.setScale(0.26);
+                this.sound_logo.setScale(0.08);
             })
             .on('pointerup', () => {
-                this.sound_logo.setScale(0.32);
+                this.sound_logo.setScale(0.1);
                 radio = true;
         });
-        this.sound_logo.setScale(0.32);
+        this.sound_logo.setScale(0.1);
 
 
         this.music1 = this.sound.add('music1', { loop: true });
@@ -1354,6 +1488,19 @@ class Menu extends Phaser.Scene {
         this.music4 = this.sound.add('music4', { loop: true });
         this.music5 = this.sound.add('music5', { loop: true });
         this.music6 = this.sound.add('music6', { loop: true });
+        
+        this.music1.play();
+        this.music1.pause();
+        this.music2.play();
+        this.music2.pause();
+        this.music3.play();
+        this.music3.pause();
+        this.music4.play();
+        this.music4.pause();
+        this.music5.play();
+        this.music5.pause();
+        this.music6.play();
+        this.music6.pause();
 
 
         /*
@@ -1391,8 +1538,9 @@ class Menu extends Phaser.Scene {
         this.not_stonks.depth = 11;
         this.not_stonks.visible = false;
 
-        this.stonks2 = this.add.image(620, 780, 'stonks');
-        this.stonks2.setScale(0.05);
+        this.stonks2 = this.add.image(620, 780, 'myn1');
+        //this.stonks2.setScale(0.05);
+        this.stonks2.setScale(0.32);
         this.stonks2.state = 1000;
         this.stonks2.depth = 11;
         this.stonks2.visible = false;
@@ -3416,7 +3564,7 @@ class Menu extends Phaser.Scene {
                 indiceNb = 4;
             }
             //wheel
-            if (opened == true && this.animals[indiceWheel].visible == true) {
+            if (opened == true && this.menu.visible == true && this.animals[indiceWheel].visible == true) {
                 //console.log(deltaY);
                 if (deltaY < 0 && this.animals[indiceWheel].y > 450) {
                     for (let i = indiceWheel; i < indiceWheel + indiceNb; i++) {
@@ -3497,8 +3645,14 @@ class Menu extends Phaser.Scene {
                 }
                 nbvisitText.setText(nbvisit);
                 xpText.setText(cumul + ' / ' + cumul_requis[indice_level]);
-                frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
-                atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP));
+                if(cumul_requis[indice_level] == 'max' && frameP != 18){
+                    frameP = 18;
+                    atm.anim_xp.setFrame(frameP);
+                }
+                else if(cumul_requis[indice_level] != 'max'){
+                    frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
+                    atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP));
+                }
                 stonksText.setText(gain_argent(nbvisit, nbanimaux, popularitetot));
                 not_stonksText.setText(depensee(save, animaux));
                 stonks2Text.setText(gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux));
@@ -3509,7 +3663,7 @@ class Menu extends Phaser.Scene {
                     level = save.niveau;
                     lvlText.setText(level);
                     indice_level++;
-                    console.log("next level : " + level);
+                    //console.log("next level : " + level);
 
 
                     if (level >= 1) {
@@ -3646,9 +3800,9 @@ class Menu extends Phaser.Scene {
                         atm.hashtagText[i+14].visible = true;
                     }
                 }
-                else if(atm.hashtagText[7].visible == true && atm.hashtagText[0].text != '-'){
+                else if(atm.hashtagText[14].visible == true && atm.hashtagText[0].text != '-'){
                     for(let i = 0; i < 7; i++){
-                        atm.hashtagText[i+7].visible = false;
+                        atm.hashtagText[i+14].visible = false;
                         atm.hashtagText[i].visible = true;
                     }
                 }
@@ -3697,6 +3851,18 @@ class Menu extends Phaser.Scene {
                     gainstotaux.visible = false;
                     depenses.visible = false;
                     gainsreels.visible = false;
+                    atm.sound1.visible = false;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = false;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = false;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = false;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = false;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = false;
+                    atm.sound12.visible = false;
                     for (let i = 1; i < 51; i++) {
                         atm.animals[i].visible = false;
                         atm.descr[i].visible = false;
@@ -3718,7 +3884,7 @@ class Menu extends Phaser.Scene {
                     gainstotaux.visible = true;
                     depenses.visible = true;
                     gainsreels.visible = true;
-                    
+
                     opened = true;
                 }
                 tablette = false;
@@ -3728,14 +3894,167 @@ class Menu extends Phaser.Scene {
             if (radio == true) {
                 if (opened == false) {
                     atm.menu3.visible = true;
-                    /*for (let i = 1; i < 6; i++) {
-                        atm.animals[i].visible = true;
-                        atm.descr[i].visible = true;
-                    }*/
+                    /*atm.sound1.visible = true;
+                    atm.sound3.visible = true;
+                    atm.sound5.visible = true;
+                    atm.sound7.visible = true;
+                    atm.sound9.visible = true;
+                    atm.sound11.visible = true;*/
+
                     opened = true;
                 }
                 radio = false;
             }
+            if(atm.menu3.visible == true){
+                if(radioval == 0){
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+
+                    atm.music1.pause();
+                    atm.music2.pause();
+                    atm.music3.pause();
+                    atm.music4.pause();
+                    atm.music5.pause();
+                    atm.music6.pause();
+                }
+                else if(radioval == 1){
+                    atm.sound1.visible = false;
+                    atm.sound2.visible = true;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+
+                    atm.music1.resume();
+                    atm.music2.pause();
+                    atm.music3.pause();
+                    atm.music4.pause();
+                    atm.music5.pause();
+                    atm.music6.pause();
+                }
+                else if(radioval == 2){
+                    atm.sound3.visible = false;
+                    atm.sound4.visible = true;
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+                    
+                    atm.music1.pause();
+                    atm.music2.resume();
+                    atm.music3.pause();
+                    atm.music4.pause();
+                    atm.music5.pause();
+                    atm.music6.pause();
+                }
+                else if(radioval == 3){
+                    atm.sound5.visible = false;
+                    atm.sound6.visible = true;
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+                    
+                    atm.music1.pause();
+                    atm.music2.pause();
+                    atm.music3.resume();
+                    atm.music4.pause();
+                    atm.music5.pause();
+                    atm.music6.pause();
+                }
+                else if(radioval == 4){
+                    atm.sound7.visible = false;
+                    atm.sound8.visible = true;
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+                    
+                    atm.music1.pause();
+                    atm.music2.pause();
+                    atm.music3.pause();
+                    atm.music4.resume();
+                    atm.music5.pause();
+                    atm.music6.pause();
+                }
+                else if(radioval == 5){
+                    atm.sound9.visible = false;
+                    atm.sound10.visible = true;
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound11.visible = true;
+                    atm.sound12.visible = false;
+                    
+                    atm.music1.pause();
+                    atm.music2.pause();
+                    atm.music3.pause();
+                    atm.music4.pause();
+                    atm.music5.resume();
+                    atm.music6.pause();
+                }
+                else if(radioval == 6){
+                    atm.sound1.visible = true;
+                    atm.sound2.visible = false;
+                    atm.sound3.visible = true;
+                    atm.sound4.visible = false;
+                    atm.sound5.visible = true;
+                    atm.sound6.visible = false;
+                    atm.sound7.visible = true;
+                    atm.sound8.visible = false;
+                    atm.sound9.visible = true;
+                    atm.sound10.visible = false;
+                    atm.sound11.visible = false;
+                    atm.sound12.visible = true;
+                    
+                    atm.music1.pause();
+                    atm.music2.pause();
+                    atm.music3.pause();
+                    atm.music4.pause();
+                    atm.music5.pause();
+                    atm.music6.resume();
+                }
+            }
+            
 
 
 
@@ -3920,6 +4239,7 @@ class Menu extends Phaser.Scene {
 let config = {
     type: Phaser.AUTO,
     parent: 'big-head',
+    pauseOnBlur: false,
     scale: {
         mode: Phaser.Scale.FIT,
         parent: 'phaser-example',
