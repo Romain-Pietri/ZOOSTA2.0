@@ -7,8 +7,8 @@
     "Alimentation": "Herbivore",
     "Niveau": "1",
     "Prix": "500",
-    "Depense": "75",
-    "Popularite": "50"
+    "Depense": "125",
+    "Popularite": "70"
   },
   {
     "Description": "La girafe est l'animal terrestre le plus grand, elle possède un long cou\net des taches brunes sur sa fourrure. Elle vit dans la savane africaine.",
@@ -18,7 +18,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "1",
     "Prix": "750",
-    "Depense": "125",
+    "Depense": "250",
     "Popularite": "75"
   },
   {
@@ -40,7 +40,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "2",
     "Prix": "1000",
-    "Depense": "230",
+    "Depense": "100",
     "Popularite": "60"
   },
   {
@@ -50,8 +50,8 @@
     "Type": "1",
     "Alimentation": "Carnivore",
     "Niveau": "3",
-    "Prix": "2250",
-    "Depense": "240",
+    "Prix": "1150",
+    "Depense": "260",
     "Popularite": "75"
   },
   {
@@ -62,7 +62,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "2",
     "Prix": "1500",
-    "Depense": "435",
+    "Depense": "275",
     "Popularite": "80"
   },
   {
@@ -73,7 +73,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "2",
     "Prix": "1500",
-    "Depense": "335",
+    "Depense": "145",
     "Popularite": "70"
   },
   {
@@ -84,8 +84,8 @@
     "Alimentation": "Carnivore",
     "Niveau": "3",
     "Prix": "2500",
-    "Depense": "1035",
-    "Popularite": "20"
+    "Depense": "50",
+    "Popularite": "50"
   },
   {
     "Description": "Le serpent est un animal sans pattes qui peut être venimeux ou\nnon-venimeux.Il vit dans le monde entier et est connu pour son agilité\net sa capacité à se camoufler.",
@@ -95,8 +95,8 @@
     "Alimentation": "Carnivore",
     "Niveau": "3",
     "Prix": "2500",
-    "Depense": "435",
-    "Popularite": "15"
+    "Depense": "300",
+    "Popularite": "45"
   },
   {
     "Description": "Le lion est un félin majestueux avec une crinière dorée. Il est le\nroi de la savane et est connu pour sa puissance et son rugissement.",
@@ -106,7 +106,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "4",
     "Prix": "3500",
-    "Depense": "550",
+    "Depense": "275",
     "Popularite": "85"
   },
   {
@@ -117,7 +117,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "4",
     "Prix": "3250",
-    "Depense": "545",
+    "Depense": "650",
     "Popularite": "60"
   },
   {
@@ -161,7 +161,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "7",
     "Prix": "6000",
-    "Depense": "675",
+    "Depense": "85",
     "Popularite": "65"
   },
   {
@@ -172,7 +172,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "7",
     "Prix": "5500",
-    "Depense": "870",
+    "Depense": "350",
     "Popularite": "90"
   },
   {
@@ -183,7 +183,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "8",
     "Prix": "7000",
-    "Depense": "190",
+    "Depense": "75",
     "Popularite": "65"
   },
   {
@@ -194,7 +194,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "8",
     "Prix": "6500",
-    "Depense": "290",
+    "Depense": "285",
     "Popularite": "80"
   },
   {
@@ -205,7 +205,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "9",
     "Prix": "8000",
-    "Depense": "100",
+    "Depense": "270",
     "Popularite": "75"
   },
   {
@@ -216,7 +216,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "20",
     "Prix": "19000",
-    "Depense": "210",
+    "Depense": "410",
     "Popularite": "98"
   },
   {
@@ -227,7 +227,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "5",
     "Prix": "4500",
-    "Depense": "965",
+    "Depense": "295",
     "Popularite": "80"
   },
   {
@@ -249,7 +249,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "7",
     "Prix": "6000",
-    "Depense": "1080",
+    "Depense": "280",
     "Popularite": "75"
   },
   {
@@ -260,7 +260,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "8",
     "Prix": "7000",
-    "Depense": "990",
+    "Depense": "290",
     "Popularite": "75"
   },
   {
@@ -271,7 +271,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "9",
     "Prix": "7500",
-    "Depense": "1200",
+    "Depense": "295",
     "Popularite": "85"
   },
   {
@@ -282,7 +282,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "10",
     "Prix": "8500",
-    "Depense": "210",
+    "Depense": "55",
     "Popularite": "50"
   },
   {
@@ -293,7 +293,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "10",
     "Prix": "8000",
-    "Depense": "210",
+    "Depense": "60",
     "Popularite": "50"
   },
   {
@@ -304,7 +304,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "12",
     "Prix": "10000",
-    "Depense": "409",
+    "Depense": "55",
     "Popularite": "55"
   },
   {
@@ -315,7 +315,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "14",
     "Prix": "13000",
-    "Depense": "620",
+    "Depense": "155",
     "Popularite": "70"
   },
   {
@@ -326,7 +326,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "30",
     "Prix": "1000000",
-    "Depense": "1",
+    "Depense": "400",
     "Popularite": "95"
   },
   {
@@ -348,7 +348,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "13",
     "Prix": "11000",
-    "Depense": "549",
+    "Depense": "65",
     "Popularite": "55"
   },
   {
@@ -392,7 +392,7 @@
     "Alimentation": "Herbivore",
     "Niveau": "19",
     "Prix": "18000",
-    "Depense": "587",
+    "Depense": "305",
     "Popularite": "80"
   },
   {
@@ -403,7 +403,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "17",
     "Prix": "16000",
-    "Depense": "719",
+    "Depense": "165",
     "Popularite": "70"
   },
   {
@@ -425,7 +425,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "23",
     "Prix": "22000",
-    "Depense": "999",
+    "Depense": "310",
     "Popularite": "80"
   },
   {
@@ -436,7 +436,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "24",
     "Prix": "23000",
-    "Depense": "976",
+    "Depense": "315",
     "Popularite": "80"
   },
   {
@@ -447,7 +447,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "24",
     "Prix": "23000",
-    "Depense": "1034",
+    "Depense": "315",
     "Popularite": "85"
   },
   {
@@ -458,7 +458,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "20",
     "Prix": "19500",
-    "Depense": "867",
+    "Depense": "315",
     "Popularite": "80"
   },
   {
@@ -480,7 +480,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "21",
     "Prix": "20000",
-    "Depense": "830",
+    "Depense": "300",
     "Popularite": "75"
   },
   {
@@ -491,7 +491,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "22",
     "Prix": "21000",
-    "Depense": "894",
+    "Depense": "75",
     "Popularite": "55"
   },
   {
@@ -502,7 +502,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "25",
     "Prix": "24000",
-    "Depense": "935",
+    "Depense": "320",
     "Popularite": "80"
   },
   {
@@ -524,7 +524,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "26",
     "Prix": "25000",
-    "Depense": "845",
+    "Depense": "335",
     "Popularite": "55"
   },
   {
@@ -535,7 +535,7 @@
     "Alimentation": "Carnivore",
     "Niveau": "27",
     "Prix": "26000",
-    "Depense": "1111",
+    "Depense": "65",
     "Popularite": "50"
   },
   {
@@ -546,7 +546,7 @@
     "Alimentation": "Omnivore",
     "Niveau": "29",
     "Prix": "28000",
-    "Depense": "10000",
+    "Depense": "325",
     "Popularite": "80"
   }
 ]

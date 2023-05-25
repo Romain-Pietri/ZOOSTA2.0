@@ -7,6 +7,9 @@ body {
       background-position: center center;
       background-size: cover;
 	}
+  #loading {
+    pointer-events: none;
+  }
 
 
     #passport-form {
@@ -102,3 +105,4 @@ body {
         color : red;
         text-align : center;
     }
+    

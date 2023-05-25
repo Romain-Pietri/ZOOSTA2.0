@@ -1,13 +1,22 @@
 
-// ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
-let nbanimaux;
-let charger = false;
-let animaux;
-let hashtags;
-let save;
-let visiteurs;
-let popularitetot;
+//var jeux = document.getElementById('ZOOSTA');
+//var loading = document.getElementById('loading');
 
+// ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
+let nbanimaux = 0;
+let animauxTotaux = 0;
+let charger = false;
+let animaux = 0;
+let hashtags;
+let save = 0;
+let visiteurs;
+let popularitetot = 0;
+let venteTotale = 0;
+let secret=false;
+let animalVedette = '';
+let hashtagVedette = 0;
+
+let animaux_achetes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 let animaux_a_afficher = [];
 let animaux_a_vendre = [];
 let tileHeight;
@@ -15,7 +24,7 @@ let tileWidth;
 
 /*    Enclos        1    2   3    4   5   6   7   8   9  10  11  12   13   14        */
 let Min_enclos_X = [30, 34, 54, 102, 72, 78, 30, 30, 92, 64, 50, 82, 108, 112];
-let Max_enclos_X = [66, 46, 68, 116, 94, 102, 42, 56, 118, 80, 64, 94, 114, 114];
+let Max_enclos_X = [66, 46, 68, 116, 94, 102, 42, 56, 116, 80, 64, 94, 114, 114];
 let Min_enclos_Y = [176, 124, 122, 74, 74, 178, 59, 30, 30, 34, 78, 126, 190, 118];
 let Max_enclos_Y = [196, 152, 152, 102, 98, 198, 100, 53, 50, 46, 94, 158, 198, 150];
 let animauxActuel_enclos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -26,6 +35,7 @@ let atm;
 let compteurtick2 = 1;
 let compteurtick3 = 1;
 let compteurtick4 = 1;
+let compteurtick5 = 1;
 let random = 0;
 let hauttick = 0;
 let bastick = 0;
@@ -35,6 +45,10 @@ let FrameUp = 0;
 let FrameDown = 0;
 let FrameRight = 0;
 let FrameLeft = 0;
+let regles_zou = false;
+let zou = 0;
+let gagaga = false;
+let intro = false;
 let stepCam = 1;
 let menuactive = false;
 let width = 2438;
@@ -49,26 +63,52 @@ let nbvisitText = "";
 let gainstotaux = "<==  Gains totaux";
 let depenses = "<==  Dépenses totales";
 let gainsreels = "<==  Gains réels";
+let statNbreAnimaux = "<==  Nombres Animaux";
 let stonksText = "";
 let not_stonksText = "";
 let stonks2Text = "";
+let tristeText = "";
+let etoileText = "";
+let popuText = "";
+let statgainsAnnuel = "";
+let  statTriste = "";
+let statPoulpi ="";
+let statEtoile = "";
+let nrbAnimauxText = "";
+let argentTotauxText = "";
+let TextGameOver = "";
+let TextGameOver2 = "";
+let TextGameOver3 = "";
+
+let music_name1 = "Envol du Rat";
+let music_name2 = "Marche du Snoopy";
+let music_name3 = "Zytho chez Chaton";
+let music_name4 = "Estebebou en voyage";
+let music_name5 = "Matthieu l'IA dans la matrice";
+let music_name6 = "L'humour d'un Cactus";
+
 let posXTest = "";
 let posYTest = "";
 
+let depenseTot = 0;
+let gainsTotal = 0;
 let coins = 1000;
 let cumul = 1000;
 let xps = 700;
 let level = 0;
 let nbvisit = 0;
-let switchSpace = false;
 let opened = false;
 let frameP = 0;
+let temps2 = 0;
+let win = 0;
+let gameover = 0;
 
 let testPosX = 0;
 let testPosY = 0;
 let testPosX2 = 0;
 let testPosY2 = 0;
 
+let echap = false;
 let tablette = false;
 let radio = false;
 let radioval = 0;
@@ -97,7 +137,7 @@ const nomsAnimaux = {
     5: 'fennec',
     6: 'elephant',
     7: 'rhino',
-    8: 'hyenne',
+    8: 'hyene',
     9: 'serpent',
     10: 'lion',
     11: 'guepard',
@@ -112,8 +152,8 @@ const nomsAnimaux = {
     20: 'panda',
     21: 'loup',
     22: 'leopard',
-    23: 'panthere_noire',
-    24: 'ours_brun',
+    23: 'panthere',
+    24: 'ours',
     25: 'tigre',
     26: 'chevre',
     27: 'mouton',
@@ -135,10 +175,10 @@ const nomsAnimaux = {
     43: 'raie',
     44: 'beluga',
     45: 'narval',
-    46: 'renard_polaire',
+    46: 'renard',
     47: 'manchot',
     48: 'morse',
-    49: 'lion_de_mer',
+    49: 'lion_mer',
     50: 'ours_polaire'
 }
 let EtatAnimaux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -247,6 +287,7 @@ function popularitetot_nbanimaux(save) {
     }
     //console.log("total animaux : ", nbanimaux)
     //console.log("popularite : ",popularitetot)
+
     return [nbanimaux, popularitetot]
 }
 
@@ -271,7 +312,7 @@ function gain_argent(nbvisit, nbanimaux, popularitetot) {
     if (nbanimaux == 0) {
         return 0;
     }
-
+    
     return Math.round((10 * nbvisit * (popularitetot / (nbanimaux * 150))));
 
 }
@@ -291,23 +332,23 @@ function monte_ok(cumul) {
 //&&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&&
 let indice_level = 1;
 let cumul_requis = [];
-cumul_requis[0] = 10000;
-let mode = "test";
+cumul_requis[0] = 2000;
+let mode = "normal";
 let speed = "fast";
 
 if(mode == "test"){
     for(let i = 1; i < 30; i++){
-        cumul_requis[i] = 10000+(i+i/10)*5000;
+        cumul_requis[i] = 2000+(i+i/10)*5000;
     }
 }
 else if(mode == "normal"){
     for(let i = 1; i < 15; i++){
-        cumul_requis[i] = Math.floor(cumul_requis[i-1]*1.8);
-        console.log(cumul_requis[i]);
+        cumul_requis[i] = Math.floor(cumul_requis[i-1]*1.6);
+        //console.log(cumul_requis[i]);
     }
     for(let i = 15; i < 30; i++){
-        cumul_requis[i] = Math.floor(cumul_requis[i-1]*(1+i/500));
-        console.log(cumul_requis[i]);
+        cumul_requis[i] = Math.floor(cumul_requis[i-1]*(1+i/1000));
+        //console.log(cumul_requis[i]);
     }
 }
 cumul_requis[30] = "max";
@@ -317,21 +358,25 @@ function how_many_money(niveau) {
 
     return Math.floor(Math.sqrt(1000000 * niveau, 1.5))
 }
-
+let maxEnclos = [0, 114, 56, 68, 64, 84, 78, 78, 94, 78, 36, 40, 63, 12, 18];
 function achat_animal(i, en_c) {
-    //console.log(coins)
-    if (animaux[i - 1].prix <= coins && save.niveau >= animaux[i - 1].niveau) {
+    console.log(en_c);
+    if (animaux[i - 1].prix <= coins && animauxActuel_enclos[en_c-1] <= maxEnclos[en_c]) {
         coins -= animaux[i - 1].prix;
         //console.log(save.ec_na)
         //console.log(save.ec_na)
         save.ec_na[en_c - 1].push(i);
         animaux_a_afficher.push(i);
+        animaux_achetes[i]++;
     }
 }
 function vente_animal(i, en_c) {
-    coins += Math.floor(animaux[i - 1].prix / 2);
-    save.ec_na[en_c - 1].splice(save.ec_na[en_c - 1].indexOf(i), 1);
-    animaux_a_vendre.push(i);
+    if(animaux_achetes[i] >= 1){
+        coins += Math.floor(animaux[i - 1].prix / 2);
+        save.ec_na[en_c - 1].splice(save.ec_na[en_c - 1].indexOf(i), 1);
+        animaux_a_vendre.push(i);
+        animaux_achetes[i]--;
+    }
 }
 
 function depensee(save, animaux) {
@@ -372,6 +417,7 @@ class Boot extends Phaser.Scene {
         super({ key: 'Boot' });
     }
     preload() {
+    
         this.load.image('player', '../img/Prof_Tilleul.png');
         this.load.image('background', '../map/background.png');
 
@@ -381,6 +427,12 @@ class Boot extends Phaser.Scene {
         this.load.image('sell','../img/sell.png');
         this.load.image('stonks','../img/stonks.png');
         this.load.image('not_stonks','../img/not_stonks.png');
+        this.load.image('stonk','../img/stonk.png');
+        this.load.image('poulpi','../img/poulpi.png');
+        this.load.image('logo_animaux','../img/logo_animaux.png');
+        this.load.image('etoile','../img/etoile.png');
+        this.load.image('argent','../img/argent.png');
+        this.load.image('triste','../img/triste.png');
         this.load.image('sound','../img/sound.png');
         this.load.image('sound2','../img/sound2.png');
         this.load.image('sound3','../img/sound3.png');
@@ -395,8 +447,18 @@ class Boot extends Phaser.Scene {
         this.load.image('menu', '../img/HUD_enclos.png');
         this.load.image('menu2', '../img/HUD_stats.png');
         this.load.image('menu3', '../img/HUD_radio.png');
+        this.load.image('menu4', '../img/HUD_gameover.png');
+        this.load.image('menu5', '../img/menu5.png');
+        this.load.image('win', '../img/HUD_win.png');
+        this.load.image('arbre', '../img/arbre.png');
+        this.load.image('groupe', '../img/groupe.png');
+        this.load.image('regles', '../img/regles_du_jeu.png');
         this.load.image('hashtag', '../img/hashtag.png');
+        this.load.image('x_button', '../img/x.png');
+        this.load.image('calimero', '../img/calimero.png');
+        this.load.image('error', '../img/error.png');
 
+        this.load.image('daniel', '../img/daniel.png');
         this.load.image('myn1', '../img/mynthos1.jpg');
         this.load.image('myn2', '../img/mynthos2.jpg');
         this.load.image('myn3', '../img/mynthos3.jpg');
@@ -409,18 +471,14 @@ class Boot extends Phaser.Scene {
         this.load.image('suricate', '../img/suricate.png');
         this.load.image('autruche', '../img/autruche.png');
         this.load.image('fennec', '../img/fennec.png');
-
         this.load.image('elephant', '../img/elephant.png');
         this.load.image('rhino', '../img/rhino.png');
-
         this.load.image('hyene', '../img/hyene.png');
         this.load.image('serpent', '../img/serpent.png');
         this.load.image('lion', '../img/lion.png');
         this.load.image('guepard', '../img/guepard.png');
-
         this.load.image('renne', '../img/renne.png');
         this.load.image('elan', '../img/elan.png');
-
         this.load.image('paresseux', '../img/paresseux.png');
         this.load.image('chimpanze', '../img/chimpanze.png');
         this.load.image('lemurien', '../img/lemurien.png');
@@ -428,42 +486,33 @@ class Boot extends Phaser.Scene {
         this.load.image('panda_roux', '../img/panda_roux.png');
         this.load.image('gorille', '../img/gorille.png');
         this.load.image('panda', '../img/panda.png');
-
         this.load.image('loup', '../img/loup.png');
         this.load.image('leopard', '../img/leopard.png');
         this.load.image('panthere', '../img/panthere.png');
         this.load.image('ours', '../img/ours.png');
         this.load.image('tigre', '../img/tigre.png');
-
         this.load.image('chevre', '../img/chevre.png');
         this.load.image('mouton', '../img/mouton.png');
         this.load.image('alpaga', '../img/alpaga.png');
         this.load.image('paon', '../img/paon.png');
         this.load.image('dodo', '../img/dodo.png');
-
         this.load.image('bison', '../img/bison.png');
         this.load.image('bouquetin', '../img/bouquetin.png');
         this.load.image('ane', '../img/ane.png');
-
         this.load.image('loutre', '../img/loutre.png');
         this.load.image('otarie', '../img/otarie.png');
         this.load.image('tortue', '../img/tortue.png');
-
         this.load.image('crocodile', '../img/crocodile.png');
         this.load.image('hippo', '../img/hippo.png');
-
         this.load.image('requin', '../img/requin.png');
         this.load.image('baleine', '../img/baleine.png');
         this.load.image('orque', '../img/orque.png');
-
         this.load.image('dauphin', '../img/dauphin.png');
         this.load.image('raie', '../img/raie.png');
         this.load.image('beluga', '../img/beluga.png');
         this.load.image('narval', '../img/narval.png');
-
         this.load.image('renard', '../img/renard.png');
         this.load.image('manchot', '../img/manchot.png');
-
         this.load.image('morse', '../img/morse.png');
         this.load.image('lion_mer', '../img/lion_mer.png');
         this.load.image('ours_polaire', '../img/ours_polaire.png');
@@ -486,14 +535,13 @@ class Boot extends Phaser.Scene {
         this.load.image('animal_15', '../img/animaux/boise/chimpanze.png');
         this.load.image('animal_16', '../img/animaux/boise/lemurien.png');
         this.load.image('animal_17', '../img/animaux/boise/koala.png');
-        this.load.image('koala2', '../img/animaux/boise/koala2.png');
         this.load.image('animal_18', '../img/animaux/boise/panda_roux.png');
         this.load.image('animal_19', '../img/animaux/boise/gorille.png');
         this.load.image('animal_20', '../img/animaux/boise/panda.png');
         this.load.image('animal_21', '../img/animaux/boise/loup.png');
         this.load.image('animal_22', '../img/animaux/boise/leopard.png');
-        this.load.image('animal_23', '../img/animaux/boise/panthere_noire.png');
-        this.load.image('animal_24', '../img/animaux/boise/ours_brun.png');
+        this.load.image('animal_23', '../img/animaux/boise/panthere.png');
+        this.load.image('animal_24', '../img/animaux/boise/ours.png');
         this.load.image('animal_25', '../img/animaux/boise/tigre.png');
         this.load.image('animal_26', '../img/animaux/plaine/chevre.png');
         this.load.image('animal_27', '../img/animaux/plaine/mouton.png');
@@ -515,11 +563,62 @@ class Boot extends Phaser.Scene {
         this.load.image('animal_43', '../img/animaux/aquatique/raie.png');
         this.load.image('animal_44', '../img/animaux/aquatique/beluga.png');
         this.load.image('animal_45', '../img/animaux/aquatique/narval.png');
-        this.load.image('animal_46', '../img/animaux/arctique/renard_polaire.png');
+        this.load.image('animal_46', '../img/animaux/arctique/renard.png');
         this.load.image('animal_47', '../img/animaux/arctique/manchot.png');
         this.load.image('animal_48', '../img/animaux/arctique/morse.png');
-        this.load.image('animal_49', '../img/animaux/arctique/lion_de_mer.png');
+        this.load.image('animal_49', '../img/animaux/arctique/lion_mer.png');
         this.load.image('animal_50', '../img/animaux/arctique/ours_polaire.png');
+
+        this.load.image('zebre2', '../img/animaux/savane/zebre2.png');
+        this.load.image('girafe2', '../img/animaux/savane/girafe2.png');
+        this.load.image('suricate2', '../img/animaux/savane/suricate2.png');
+        this.load.image('autruche2', '../img/animaux/savane/autruche2.png');
+        this.load.image('fennec2', '../img/animaux/savane/fennec2.png');
+        this.load.image('elephant2', '../img/animaux/savane/elephant2.png');
+        this.load.image('rhino2', '../img/animaux/savane/rhino2.png');
+        this.load.image('hyene2', '../img/animaux/savane/hyene2.png');
+        this.load.image('serpent2', '../img/animaux/savane/serpent2.png');
+        this.load.image('lion2', '../img/animaux/savane/lion2.png');
+        this.load.image('guepard2', '../img/animaux/savane/guepard2.png');
+        this.load.image('renne2', '../img/animaux/boise/renne2.png');
+        this.load.image('elan2', '../img/animaux/boise/elan2.png');
+        this.load.image('paresseux2', '../img/animaux/boise/paresseux2.png');
+        this.load.image('chimpanze2', '../img/animaux/boise/chimpanze2.png');
+        this.load.image('lemurien2', '../img/animaux/boise/lemurien2.png');
+        this.load.image('koala2', '../img/animaux/boise/koala2.png');
+        this.load.image('panda_roux2', '../img/animaux/boise/panda_roux2.png');
+        this.load.image('gorille2', '../img/animaux/boise/gorille2.png');
+        this.load.image('panda2', '../img/animaux/boise/panda2.png');
+        this.load.image('loup2', '../img/animaux/boise/loup2.png');
+        this.load.image('leopard2', '../img/animaux/boise/leopard2.png');
+        this.load.image('panthere_noire2', '../img/animaux/boise/panthere2.png');
+        this.load.image('ours2', '../img/animaux/boise/ours2.png');
+        this.load.image('tigre2', '../img/animaux/boise/tigre2.png');
+        this.load.image('chevre2', '../img/animaux/plaine/chevre2.png');
+        this.load.image('mouton2', '../img/animaux/plaine/mouton2.png');
+        this.load.image('alpaga2', '../img/animaux/plaine/alpaga2.png');
+        this.load.image('paon2', '../img/animaux/plaine/paon2.png');
+        this.load.image('dodo2', '../img/animaux/plaine/dodo2.png');
+        this.load.image('bison2', '../img/animaux/plaine/bison2.png');
+        this.load.image('bouquetin2', '../img/animaux/plaine/bouquetin2.png');
+        this.load.image('ane2', '../img/animaux/plaine/ane2.png');
+        this.load.image('loutre2', '../img/animaux/aquatique/loutre2.png');
+        this.load.image('otarie2', '../img/animaux/aquatique/otarie2.png');
+        this.load.image('tortue2', '../img/animaux/aquatique/tortue2.png');
+        this.load.image('crocodile2', '../img/animaux/aquatique/crocodile2.png');
+        this.load.image('hippopotame2', '../img/animaux/aquatique/hippopotame2.png');
+        this.load.image('requin2', '../img/animaux/aquatique/requin2.png');
+        this.load.image('baleine2', '../img/animaux/aquatique/baleine2.png');
+        this.load.image('orque2', '../img/animaux/aquatique/orque2.png');
+        this.load.image('dauphin2', '../img/animaux/aquatique/dauphin2.png');
+        this.load.image('raie2', '../img/animaux/aquatique/raie2.png');
+        this.load.image('beluga2', '../img/animaux/aquatique/beluga2.png');
+        this.load.image('narval2', '../img/animaux/aquatique/narval2.png');
+        this.load.image('renard2', '../img/animaux/arctique/renard2.png');
+        this.load.image('manchot2', '../img/animaux/arctique/manchot2.png');
+        this.load.image('morse2', '../img/animaux/arctique/morse2.png');
+        this.load.image('lion_mer2', '../img/animaux/arctique/lion_mer2.png');
+        this.load.image('ours_polaire2', '../img/animaux/arctique/ours_polaire2.png');
 
         this.load.image('base_tile', '../map/tile.png');
         this.load.tilemapTiledJSON('mapData', '../map/map_m.json');
@@ -530,8 +629,20 @@ class Boot extends Phaser.Scene {
         this.load.audio('music4', ['../audio/music_4.mp3']);
         this.load.audio('music5', ['../audio/music_5.mp3']);
         this.load.audio('music6', ['../audio/music_6.mp3']);
+
+       // this.load.audio('level_up', ['../audio/level_up.mp3']);
+        this.load.audio('kashing', ['../audio/kashing.mp3']);
+        this.load.audio('moulaga', ['../audio/moulaga.wav']);
+        this.load.audio('mort', ['../audio/mort.mp3']);
+
+        this.load.audio('minecraft', ['../audio/minecraft.mp3']);
+        this.load.audio('skyrim', ['../audio/skyrim.mp3']);
+        this.load.audio('skyrim3', ['../audio/skyrim3.mp3']);
+        this.load.audio('intro_so_long', ['../audio/intro_so_long.mp3']);
+        this.load.audio('gagaga', ['../audio/gagagagagaga.mp3']);
     }
     create() {
+        
         this.scene.start('Game');
         this.scene.start('HUD');
         this.scene.start('Menu');
@@ -635,7 +746,7 @@ class Game extends Phaser.Scene {
     }
     // Fonction pour supprimer un animal du tableau et de la scène
     suppressionAnimal(idAnimal, scene) {
-        console.log("suppression animal")
+        //console.log("suppression animal")
         let enclosIndex;
         if (1 <= idAnimal && idAnimal <= 5) {
             //console.log("enclos 1")
@@ -684,50 +795,8 @@ class Game extends Phaser.Scene {
             }
         }
     }
-    updateAnimal(idAnimal, scene) {
-            
-        const groupeAnimal = scene.animauxGroup;
-        const animalToUpdate = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
-    
-        if (animalToUpdate) {
-            // Supprimer l'animal existant
-            animalToUpdate.destroy();
-    
-            // Récupérer le nom de l'animal à partir de son ID
-            const nomAnimal = nomsAnimaux[idAnimal];
-    
-            if (nomAnimal && EtatAnimaux[idAnimal] == 0) {
-                // Créer un nouvel animal avec une nouvelle image
-                const nouvelleImage = nomAnimal + '2';
-                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
-                nouvelAnimal.idAnimal = idAnimal;
-    
-                // Réattribuer les mêmes propriétés à l'animal
-                nouvelAnimal.setOrigin(-50.85, 6.7);
-                nouvelAnimal.setDepth(3);
-                nouvelAnimal.setScale(0.04);
-    
-                // Remplacer l'animal dans le groupe
-                groupeAnimal.add(nouvelAnimal);
-            } else if (nomAnimal && EtatAnimaux[idAnimal] == 1) {
-                const nouvelleImage = 'animal_'+ idAnimal;
-            
-                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
-                nouvelAnimal.idAnimal = idAnimal;
-    
-                // Réattribuer les mêmes propriétés à l'animal
-                nouvelAnimal.setOrigin(-50.85, 6.7);
-                nouvelAnimal.setDepth(3);
-                nouvelAnimal.setScale(0.04);
-    
-                // Remplacer l'animal dans le groupe
-                groupeAnimal.add(nouvelAnimal);
-            }
-        
-        }
-    }
     afficherAnimal(idAnimal, scene) {
-        var animauxMax_enclos = [(Max_enclos_X[idAnimal] - Min_enclos_X[idAnimal]) / 2 * (((Max_enclos_Y[idAnimal] - 2) - (Min_enclos_Y[idAnimal] - 2)) / 4)];
+        
         //console.log(Max_enclos_X[0], Min_enclos_X[0], Max_enclos_Y[0], Min_enclos_Y[0], animauxActuel_enclos[0], animauxMax_enclos[0]);
         // Vérification de l'ID de l'animal et détermination de l'index de l'enclos correspondant
         let enclosIndex;
@@ -777,9 +846,10 @@ class Game extends Phaser.Scene {
             console.error("L'ID de l'animal est invalide.");
             return;
         }
-
+        var animauxMax_enclos = (((Max_enclos_X[enclosIndex] - Min_enclos_X[enclosIndex]) / 2 + 1 )* ((Max_enclos_Y[enclosIndex]  - Min_enclos_Y[enclosIndex] ) / 4 + 1));
+        console.log(animauxMax_enclos);
         // Vérification de la capacité maximale de l'enclos
-        if (animauxActuel_enclos[enclosIndex] + 1 === animauxMax_enclos[enclosIndex]) {
+        if (animauxActuel_enclos[enclosIndex] + 1 > animauxMax_enclos[enclosIndex]) {
             console.log("plus de place pour les animaux");
             return;
         }
@@ -843,12 +913,69 @@ class Game extends Phaser.Scene {
         // Définition du groupe d'animaux
 
     }
+    updateAnimal(idAnimal, scene) {
+            
+        const groupeAnimal = scene.animauxGroup;
+        const animalToUpdate = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
+    
+        if (animalToUpdate) {
+            // Supprimer l'animal existant
+            animalToUpdate.destroy();
+    
+            // Récupérer le nom de l'animal à partir de son ID
+            const nomAnimal = nomsAnimaux[idAnimal];
+           
+          
+            if (nomAnimal && EtatAnimaux[idAnimal-1] == 0) {
+                // Créer un nouvel animal avec une nouvelle image
+                const nouvelleImage = nomAnimal + '2';
+                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
+                nouvelAnimal.idAnimal = idAnimal;
+    
+                // Réattribuer les mêmes propriétés à l'animal
+                nouvelAnimal.setOrigin(-50.85, 6.7);
+                nouvelAnimal.setDepth(3);
+                nouvelAnimal.setScale(0.04);
+                EtatAnimaux[idAnimal-1] = 1;
+                // Remplacer l'animal dans le groupe
+                groupeAnimal.add(nouvelAnimal);
+            } else if (nomAnimal && EtatAnimaux[idAnimal-1] == 1) {
+                const nouvelleImage = 'animal_'+ idAnimal;
+            
+                const nouvelAnimal = scene.add.sprite(animalToUpdate.x, animalToUpdate.y, nouvelleImage);
+                nouvelAnimal.idAnimal = idAnimal;
+    
+                // Réattribuer les mêmes propriétés à l'animal
+                nouvelAnimal.setOrigin(-50.85, 6.7);
+                nouvelAnimal.setDepth(3);
+                nouvelAnimal.setScale(0.04);
+                EtatAnimaux[idAnimal-1] = 0;
+                // Remplacer l'animal dans le groupe
+                groupeAnimal.add(nouvelAnimal);
+            }
+        
+        }
+    }
     create() {
+        
 
+        this.menu5 = this.add.image(1220, 572, 'menu5');
+        this.menu5.setScale(1.28);
+        this.menu5.depth = 15;
+        this.menu5.visible = false;
 
+        this.groupe = this.add.image(1220, 572, 'groupe');
+        this.groupe.setScale(0.2);
+        this.groupe.depth = 16;
+        this.groupe.visible = false;
+
+        this.add.image(1940, 1002, 'arbre').setScale(0.3).setDepth(5).setInteractive()
+            .on('pointerdown', () => {
+            secret = true;
+        });
         this.add.image(2438, 1080, 'background').setScale(1).setDepth(-1).setOrigin(1, 1);
 
-
+        
         //#####################################
         //#                                   #
         //# --   Création de la caméra    --  #
@@ -886,60 +1013,64 @@ class Game extends Phaser.Scene {
 
             if (tile && testPosX == testPosX2 && testPosY == testPosY2) {
                 console.log(`Clicked on tile (${tile.x}, ${tile.y}) in layer '${tile.layer.name}'`);
-                if (tile.x <= 41 && tile.y <= 21) {
-                    console.log('plaine droite');
+                if(tile.x == 31 && tile.y == 41){
+                    gagaga = true;
+                    console.log(gagaga);
+                }
+                else if (tile.x <= 41 && tile.y <= 21) {
+                    //console.log('plaine droite');
                     enclos8 = true;
                 }
                 else if (tile.x <= 21 && tile.y <= 55) {
-                    console.log('plaine gauche');
+                    //console.log('plaine gauche');
                     enclos7 = true;
                 }
                 else if (tile.x <= 78 && tile.y <= 20) {
-                    console.log('vase');
+                    //console.log('vase');
                     enclos10 = true;
                 }
                 else if (tile.x <= 55 && tile.y <= 54) {
-                    console.log('eau haut');
+                    //console.log('eau haut');
                     enclos11 = true;
                 }
                 else if (tile.x <= 26 && tile.y <= 93) {
-                    console.log('savane haut');
+                    //console.log('savane haut');
                     enclos2 = true;
                 }
                 else if (tile.x <= 59 && tile.y <= 93) {
-                    console.log('savane droite');
+                    //console.log('savane droite');
                     enclos3 = true;
                 }
                 else if (tile.x <= 94 && tile.y <= 54 && tile.y > 30) {
-                    console.log('boisé haut');
+                    //console.log('boisé haut');
                     enclos5 = true;
                 }
                 else if (tile.x <= 127 && tile.y <= 27) {
-                    console.log('eau droite');
+                    //console.log('eau droite');
                     enclos9 = true;
                 }
                 else if (tile.x <= 55 && tile.y <= 124) {
-                    console.log('savane gauche');
+                    //console.log('savane gauche');
                     enclos1 = true;
                 }
                 else if (tile.x <= 99 && tile.y <= 100) {
-                    console.log('eau bas');
+                    //console.log('eau bas');
                     enclos12 = true;
                 }
                 else if (tile.x <= 125 && tile.y <= 54) {
-                    console.log('boisé droite');
+                    //console.log('boisé droite');
                     enclos4 = true;
                 }
                 else if (tile.x <= 105 && tile.y <= 123) {
-                    console.log('boisé gauche');
+                    //console.log('boisé gauche');
                     enclos6 = true;
                 }
                 else if (tile.x <= 124 && tile.y <= 92) {
-                    console.log('banquise droite');
+                    //console.log('banquise droite');
                     enclos14 = true;
                 }
                 else if (tile.x <= 125 && tile.y <= 125) {
-                    console.log('banquise bas');
+                    //console.log('banquise bas');
                     enclos13 = true;
                 }
             }
@@ -1073,14 +1204,13 @@ class Game extends Phaser.Scene {
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         let nombreVisiteurs = 40;// Nombre de visiteurs à créer
         const nom_sprite = ["visiteur", "visiteur2", "visiteur3", "visiteur4"]
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown()) {
                 const { x, y } = pointer;
-                console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
+                //console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
             }
         });
         hell.then(data => {
@@ -1126,9 +1256,11 @@ class Game extends Phaser.Scene {
         this.input.on('pointerdown', (pointer) => {
             if (pointer.leftButtonDown()) {
                 const { x, y } = pointer;
-                console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
+                //console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
             }
         });
+        
+        
     }
     wich_direction(x, y, targetx, targety) {
         if (targetx - x < 0 && targety - y < 0) {
@@ -1179,77 +1311,10 @@ class Game extends Phaser.Scene {
 
 
                 }
-                if (this.frame[i][2] == 300) {
-                    this.frame[i][2] = 0;
-                    let proba = Phaser.Math.Between(0, 300);
-                    if (proba == 1) {
-                        this.smiley[i].setText("😀");
-                    }
-                    else if (proba == 2) {
-                        this.smiley[i].setText("😂");
-                    }
-                    else if (proba == 3) {
-                        this.smiley[i].setText("😍");
-                    }
-                    else if (proba == 4) {
-                        this.smiley[i].setText("😘");
-                    }
-                    else if (proba == 5) {
-                        this.smiley[i].setText("😜");
-                    }
-                    else if (proba == 6) {
-                        this.smiley[i].setText("😎");
-                    }
-                    else if (proba == 7) {
-                        this.smiley[i].setText("😡");
-                    }
-                    else if (proba == 8) {
-                        this.smiley[i].setText("😱");
-                    }
-                    else if (proba == 9) {
-                        this.smiley[i].setText("😭");
-                    }
-                    else {
-                        this.smiley[i].setText("");
-                    }
-                }
-                if (this.frame[i][2] == 300) {
-                    this.frame[i][2] = 0;
-                    let proba = Phaser.Math.Between(0, 300);
-                    if (proba == 1) {
-                        this.smiley[i].setText("😀");
-                    }
-                    else if (proba == 2) {
-                        this.smiley[i].setText("😂");
-                    }
-                    else if (proba == 3) {
-                        this.smiley[i].setText("😍");
-                    }
-                    else if (proba == 4) {
-                        this.smiley[i].setText("😘");
-                    }
-                    else if (proba == 5) {
-                        this.smiley[i].setText("😜");
-                    }
-                    else if (proba == 6) {
-                        this.smiley[i].setText("😎");
-                    }
-                    else if (proba == 7) {
-                        this.smiley[i].setText("😡");
-                    }
-                    else if (proba == 8) {
-                        this.smiley[i].setText("😱");
-                    }
-                    else if (proba == 9) {
-                        this.smiley[i].setText("😭");
-                    }
-                    else {
-                        this.smiley[i].setText("");
-                    }
-
-                }
+                
+                
                 this.frame[i][1] += 1;
-                this.frame[i][2] += 1;
+                //this.frame[i][2] += 1;
 
                 //console.log(this.frame[i])
 
@@ -1264,15 +1329,25 @@ class Game extends Phaser.Scene {
                 // Appel récursif pour passer à la cible suivante
                 this.currentTargetIndex[i]++;
                 this.moveVisiteurToNextTarget(i, chemin, vitesse);
-                this.frame[i][0] = (this.frame[i][0] + 1) % 3 + this.wich_direction(this.visiteur[i].x, this.visiteur[i].y, chemin);
+                //this.frame[i][0] = (this.frame[i][0] + 1) % 3 + this.wich_direction(this.visiteur[i].x, this.visiteur[i].y, chemin);
                 this.visiteur[i].setFrame(this.frame[i][0]);
-                this.frame[i][1] = 0;
+                //this.frame[i][1] = 0;
 
 
             }
         });
     }
     update() {
+        if (secret) {
+            this.menu5.visible = true;
+            this.groupe.visible = true;
+            secret++;
+            if (secret >= 100) {
+                this.groupe.visible = false;
+                this.menu5.visible = false;
+                secret = false;
+            }
+        }
         for (let i = 0; i < animaux_a_afficher.length; i++) {
             this.afficherAnimal(animaux_a_afficher[i], this);
             animaux_a_afficher.splice(i, 1);
@@ -1287,8 +1362,7 @@ class Game extends Phaser.Scene {
         temps += deltaTime;
 
         // Vérifiez si 2 secondes se sont écoulées
-        if (temps >= 1400) {
-        
+        if (temps >= 2000) {
             for(let i = 0; i < animaux_t.length; i++) {
                 const animalToUpdate = animaux_t[i].idAnimal;
                 //const idAnimal = 17; // Remplacez par l'ID de l'animal que vous souhaitez mettre à jour
@@ -1299,13 +1373,6 @@ class Game extends Phaser.Scene {
                 // Réinitialisez le temps écoulé
                 temps = 0;
             }
-            /*const animalToUpdate = 17;
-            this.updateAnimal(animalToUpdate, this);
-            if (EtatAnimaux[animalToUpdate] == 0) {
-                EtatAnimaux[animalToUpdate] = 1;
-            } else { EtatAnimaux[animalToUpdate] = 0; }
-            // Réinitialisez le temps écoulé
-            temps = 0;*/
         }
     }
 }
@@ -1344,7 +1411,7 @@ class Menu extends Phaser.Scene {
         this.stats.visible = true;
 
 
-        this.sound1 = this.add.image(640, 380, 'sound')
+        this.sound1 = this.add.image(628, 380, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1354,7 +1421,7 @@ class Menu extends Phaser.Scene {
         this.sound1.depth = 11;
         this.sound1.visible = false;
 
-        this.sound2 = this.add.image(640, 380, 'sound2')
+        this.sound2 = this.add.image(628, 380, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1364,7 +1431,7 @@ class Menu extends Phaser.Scene {
         this.sound2.depth = 11;
         this.sound2.visible = false;
 
-        this.sound3 = this.add.image(640, 580, 'sound')
+        this.sound3 = this.add.image(628, 580, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1374,7 +1441,7 @@ class Menu extends Phaser.Scene {
         this.sound3.depth = 11;
         this.sound3.visible = false;
 
-        this.sound4 = this.add.image(640, 580, 'sound2')
+        this.sound4 = this.add.image(628, 580, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1384,7 +1451,7 @@ class Menu extends Phaser.Scene {
         this.sound4.depth = 11;
         this.sound4.visible = false;
 
-        this.sound5 = this.add.image(640, 780, 'sound')
+        this.sound5 = this.add.image(628, 780, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1394,7 +1461,7 @@ class Menu extends Phaser.Scene {
         this.sound5.depth = 11;
         this.sound5.visible = false;
 
-        this.sound6 = this.add.image(640, 780, 'sound2')
+        this.sound6 = this.add.image(628, 780, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1404,7 +1471,7 @@ class Menu extends Phaser.Scene {
         this.sound6.depth = 11;
         this.sound6.visible = false;
 
-        this.sound7 = this.add.image(1360, 380, 'sound')
+        this.sound7 = this.add.image(1224, 380, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1414,7 +1481,7 @@ class Menu extends Phaser.Scene {
         this.sound7.depth = 11;
         this.sound7.visible = false;
 
-        this.sound8 = this.add.image(1360, 380, 'sound2')
+        this.sound8 = this.add.image(1224, 380, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1424,7 +1491,7 @@ class Menu extends Phaser.Scene {
         this.sound8.depth = 11;
         this.sound8.visible = false;
 
-        this.sound9 = this.add.image(1360, 580, 'sound')
+        this.sound9 = this.add.image(1224, 580, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1434,7 +1501,7 @@ class Menu extends Phaser.Scene {
         this.sound9.depth = 11;
         this.sound9.visible = false;
 
-        this.sound10 = this.add.image(1360, 580, 'sound2')
+        this.sound10 = this.add.image(1224, 580, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1444,7 +1511,7 @@ class Menu extends Phaser.Scene {
         this.sound10.depth = 11;
         this.sound10.visible = false;
 
-        this.sound11 = this.add.image(1360, 780, 'sound')
+        this.sound11 = this.add.image(1224, 780, 'sound')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1454,7 +1521,7 @@ class Menu extends Phaser.Scene {
         this.sound11.depth = 11;
         this.sound11.visible = false;
 
-        this.sound12 = this.add.image(1360, 780, 'sound2')
+        this.sound12 = this.add.image(1224, 780, 'sound2')
         .setInteractive({ useHandCursor: false })
             .on('pointerdown', () => { })
             .on('pointerup', () => {
@@ -1483,12 +1550,17 @@ class Menu extends Phaser.Scene {
 
 
         this.music1 = this.sound.add('music1', { loop: true });
+        this.music1.setVolume(0.5);
         this.music2 = this.sound.add('music2', { loop: true });
+        this.music2.setVolume(0.5);
         this.music3 = this.sound.add('music3', { loop: true });
+        this.music3.setVolume(0.5);
         this.music4 = this.sound.add('music4', { loop: true });
+        this.music4.setVolume(0.5);
         this.music5 = this.sound.add('music5', { loop: true });
+        this.music5.setVolume(0.5);
         this.music6 = this.sound.add('music6', { loop: true });
-        
+        this.music6.setVolume(0.5);
         this.music1.play();
         this.music1.pause();
         this.music2.play();
@@ -1501,22 +1573,45 @@ class Menu extends Phaser.Scene {
         this.music5.pause();
         this.music6.play();
         this.music6.pause();
+        music_name1 = this.add.text(712, 358, music_name1, { font: 'bold 38px Georgia', fill: '#ea8300' });
+        music_name1.depth = 11;
+        music_name1.visible = false;
+        music_name2 = this.add.text(712, 558, music_name2, { font: 'bold 38px Georgia', fill: '#f00' });
+        music_name2.depth = 11;
+        music_name2.visible = false;
+        music_name3 = this.add.text(712, 758, music_name3, { font: 'bold 38px Georgia', fill: '#f0f' });
+        music_name3.depth = 11;
+        music_name3.visible = false;
+        music_name4 = this.add.text(1312, 358, music_name4, { font: 'bold 38px Georgia', fill: '#13f' });
+        music_name4.depth = 11;
+        music_name4.visible = false;
+        music_name5 = this.add.text(1312, 558, music_name5, { font: 'bold 38px Georgia', fill: '#777' });
+        music_name5.depth = 11;
+        music_name5.visible = false;
+        music_name6 = this.add.text(1312, 758, music_name6, { font: 'bold 38px Georgia', fill: '#249c50' });
+        music_name6.depth = 11;
+        music_name6.visible = false;
+
+       // this.level_up = this.sound.add('level_up', { loop: false });
+        this.kashing = this.sound.add('kashing', { loop: false });
+        this.moulaga = this.sound.add('moulaga', { loop: false });
+        this.moulaga.setVolume(1);
+        this.mort = this.sound.add('mort', { loop: false });
+        this.mort.setVolume(1);
+        
+        this.minecraft = this.sound.add('minecraft', { loop: false });
+        this.minecraft.setVolume(0.32);
+        this.skyrim = this.sound.add('skyrim', { loop: false });
+        this.skyrim.setVolume(0.6);
+        this.skyrim3 = this.sound.add('skyrim3', { loop: false });
+        this.skyrim3.setVolume(1);
+        this.intro_so_long = this.sound.add('intro_so_long', { loop: false });
+        this.intro_so_long.setVolume(1);
+        this.gagaga = this.sound.add('gagaga', { loop: false });
+        this.gagaga.setVolume(0.5);
 
 
-        /*
-        var config2 = {
-            key: 'bar_xp_anim',
-            frames: this.anims.generateFrameNumbers('xps', {
-                start: 0,
-                end: 18,
-                first: 0
-            }),
-            frameRate: 8,
-            repeat: -1
-        };
-        */
-        //this.anims.create(config2);
-        //this.add.sprite(960, 50, "xps").play("bar_xp_anim");
+
         this.anim_xp = this.add.image(1224, 72, 'xps');
         this.anim_xp.setScale(1.4);
         this.anim_xp.depth = 14;
@@ -1526,50 +1621,114 @@ class Menu extends Phaser.Scene {
         this.coin.state = 1000;
         this.coin.depth = 8;
 
-        this.stonks = this.add.image(620, 400, 'stonks');
+        this.stonks = this.add.image(550, 320, 'stonks');
         this.stonks.setScale(0.05);
         this.stonks.state = 1000;
         this.stonks.depth = 11;
         this.stonks.visible = false;
 
-        this.not_stonks = this.add.image(620, 590, 'not_stonks');
+        this.not_stonks = this.add.image(550, 480, 'not_stonks');
         this.not_stonks.setScale(0.05);
         this.not_stonks.state = 1000;
         this.not_stonks.depth = 11;
         this.not_stonks.visible = false;
 
-        this.stonks2 = this.add.image(620, 780, 'myn1');
-        //this.stonks2.setScale(0.05);
-        this.stonks2.setScale(0.32);
+        this.stonks2 = this.add.image(560, 650, 'stonk');
+        this.stonks2.setScale(0.05);
         this.stonks2.state = 1000;
         this.stonks2.depth = 11;
         this.stonks2.visible = false;
+
+        this.logo_animaux = this.add.image(535, 830, 'logo_animaux');
+        this.logo_animaux.setScale(0.24);
+        this.logo_animaux.state = 1000;
+        this.logo_animaux.depth = 11;
+        this.logo_animaux.visible = false;
+
+        this.argent = this.add.image(1245, 320, 'argent');
+        this.argent.setScale(0.4);
+        this.argent.state = 1000;
+        this.argent.depth = 11;
+        this.argent.visible = false;
+
+        this.triste = this.add.image(1245, 480, 'triste');
+        this.triste.setScale(0.1);
+        this.triste.state = 1000;
+        this.triste.depth = 11;
+        this.triste.visible = false;
+
+        this.poulpi = this.add.image(1245, 650, 'poulpi');
+        this.poulpi.setScale(0.4);
+        this.poulpi.state = 1000;
+        this.poulpi.depth = 11;
+        this.poulpi.visible = false;
+
+        this.etoile = this.add.image(1245, 830, 'etoile');
+        this.etoile.setScale(0.4);
+        this.etoile.state = 1000;
+        this.etoile.depth = 11;
+        this.etoile.visible = false;
 
 
         coinText = this.add.text(280, 28, '1000', { font: 'bold 40px Georgia', fill: '#fff' });
         xpText = this.add.text(1220, 6, '0 / ???', { font: 'bold 40px Georgia', fill: '#fff' }).setOrigin(0.5,0);
         lvlText = this.add.text(1780, 32, '0', { font: 'bold 64px Georgia', fill: '#fff' });
-        stonksText = this.add.text(760, 380, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        stonksText = this.add.text(640, 310, '0', { font: 'bold 40px Georgia', fill: '#000' });
         stonksText.depth = 11;
         stonksText.visible = false;
-        not_stonksText = this.add.text(760, 570, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        not_stonksText = this.add.text(640, 460, '0', { font: 'bold 40px Georgia', fill: '#000' });
         not_stonksText.depth = 11;
         not_stonksText.visible = false;
-        stonks2Text = this.add.text(760, 760, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        stonks2Text = this.add.text(640, 630, '0', { font: 'bold 40px Georgia', fill: '#000' });
         stonks2Text.depth = 11;
         stonks2Text.visible = false;
+        nrbAnimauxText = this.add.text(640, 810, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        nrbAnimauxText.depth = 11;
+        nrbAnimauxText.visible = false;
+        argentTotauxText = this.add.text(1360, 310, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        argentTotauxText.depth = 11;
+        argentTotauxText.visible = false;
+        tristeText = this.add.text(1360, 460, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        tristeText.depth = 11;
+        tristeText.visible = false;
+        popuText = this.add.text(1360, 630, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        popuText.depth = 11;
+        popuText.visible = false;
+        etoileText = this.add.text(1360, 810, '0', { font: 'bold 40px Georgia', fill: '#000' });
+        etoileText.depth = 11;
+        etoileText.visible = false;
         
-        gainstotaux = this.add.text(960, 380, '<==  Gains totaux', { font: 'bold 40px Georgia', fill: '#000' });
+        gainstotaux = this.add.text(760, 310, '<=  Gains', { font: 'bold 40px Georgia', fill: '#000' });
         gainstotaux.depth = 11;
         gainstotaux.visible = false;
 
-        depenses = this.add.text(960, 570, '<==  Dépenses totales', { font: 'bold 40px Georgia', fill: '#000' });
+        depenses = this.add.text(760, 460, '<=  Dépenses', { font: 'bold 40px Georgia', fill: '#000' });
         depenses.depth = 11;
         depenses.visible = false;
 
-        gainsreels = this.add.text(960, 760, '<==  Gains réels', { font: 'bold 40px Georgia', fill: '#000' });
+        gainsreels = this.add.text(760, 630, '<=  Gains réels', { font: 'bold 40px Georgia', fill: '#000' });
         gainsreels.depth = 11;
         gainsreels.visible = false;
+
+        statNbreAnimaux = this.add.text(760, 810, '<= Animaux', { font: 'bold 40px Georgia', fill: '#000' });
+        statNbreAnimaux.depth = 11;
+        statNbreAnimaux.visible = false;
+
+        statgainsAnnuel = this.add.text(1560, 310, '<= Gains totaux', { font: 'bold 40px Georgia', fill: '#000' });
+        statgainsAnnuel.depth = 11;
+        statgainsAnnuel.visible = false;
+
+        statTriste = this.add.text(1560, 460, '<= Pertes totales', { font: 'bold 40px Georgia', fill: '#000' });
+        statTriste.depth = 11;
+        statTriste.visible = false;
+
+        statPoulpi = this.add.text(1560, 630, '<= Popularité Zoo', { font: 'bold 40px Georgia', fill: '#000' });
+        statPoulpi.depth = 11;
+        statPoulpi.visible = false;
+
+        statEtoile = this.add.text(1560, 810, '<= Animal Vedette', { font: 'bold 40px Georgia', fill: '#000' });
+        statEtoile.depth = 11;
+        statEtoile.visible = false;
 
 
         this.visit = this.add.image(200, 144, 'visiteur_icon');
@@ -1593,12 +1752,70 @@ class Menu extends Phaser.Scene {
         this.menu3.depth = 10;
         this.menu3.visible = false;
 
+        this.menu4 = this.add.image(1220, 572, 'menu4');
+        this.menu4.setScale(1.28);
+        this.menu4.depth = 14;
+        this.menu4.visible = false;
+        
+        this.win = this.add.image(1220, 572, 'win');
+        this.win.setScale(1.28);
+        this.win.depth = 14;
+        this.win.visible = false;
+
+        this.calimero = this.add.image(1820, 422, 'calimero');
+        this.calimero.setScale(1);
+        this.calimero.depth = 15;
+        this.calimero.visible = false;
+
+        this.error = this.add.image(660, 412, 'error');
+        this.error.setScale(0.5);
+        this.error.depth = 15;
+        this.error.visible = false;
+
+        TextGameOver = this.add.text(920, 350, 'GAME OVER', { font: 'bold 90px Georgia', fill: '#CC2800' ,align: 'center'});
+        TextGameOver.depth = 15;
+        TextGameOver.visible = false;
+
+        TextGameOver2 = this.add.text(740, 580, 'Tu as fais faillite, essaye de mieux gérer ton Zoo', { font: 'bold 40px Georgia', fill: '#000' ,align: 'center'});
+        TextGameOver2.depth = 15;
+        TextGameOver2.visible = false;
+
+        TextGameOver3 = this.add.text(540, 720, 'Si tu veux réessayer, rafraîchis la page (ctrl+R ou F5)', { font: 'bold 50px Georgia', fill: '#000' ,align: 'center'});
+        TextGameOver3.depth = 15;
+        TextGameOver3.visible = false;
+        
+        this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.G = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+        this.O = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
+        this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+
+        this.x_button = this.add.image(1912, 262, 'x_button')
+        .setInteractive({ useHandCursor: true })
+            .on('pointerup', () => {
+                echap = true;
+        });
+        this.x_button.setScale(0.2);
+        this.x_button.depth = 11;
+        this.x_button.visible = false;
+        
+        this.regles = this.add.image(1220, 532, 'regles')
+            .setInteractive({ useHandCursor: true })
+            .on('pointerover', () => {
+                console.log("§§ DIO §§");
+            })
+            .on('pointerup', () => {
+                regles_zou = true;
+        });
+        this.regles.setScale(1);
+        this.regles.depth = 18;
+        this.regles.visible = true;
+        opened = true;
 
         this.hashtag = this.add.image(2220, 288, 'hashtag');
         this.hashtag.setScale(1.8);
         this.hashtag.depth = 10;
         this.hashtag.visible = true;
-
 
 
         let xView = 0;
@@ -1680,1823 +1897,155 @@ class Menu extends Phaser.Scene {
 
 
         //===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS =====
+        let posCadrey = [0,460,760,1060,1360,1660,460,760,460,760,1060,1360,460,760,460,760,1060,
+                         1360,1660,1960,2260,460,760,1060,1360,1660,460,760,1060,1360,1660,460,760,
+                         1060,460,760,1060,460,760,460,760,1060,460,760,1060,1360,460,760,460,760,1060];
+        let posDescry = [0,360,660,960,1260,1560,360,660,360,660,960,1260,360,660,360,660,960,
+                         1260,1560,1860,2160,360,660,960,1260,1560,360,660,960,1260,1560,360,660,
+                         960,360,660,960,360,660,360,660,960,360,660,960,1260,360,660,360,660,960];
+        let posSelly = [0,540,840,1140,1440,1740,540,840,540,840,1140,1440,540,840,540,840,1140,
+                         1440,1740,2040,2340,540,840,1140,1440,1740,540,840,1140,1440,1740,540,840,
+                         1140,540,840,1140,540,840,540,840,1140,540,840,1140,1440,540,840,540,840,1140];
+        let posNbAy = [0,358,658,958,1258,1558,358,658,358,658,958,1258,358,658,358,658,958,
+                         1258,1558,1858,2158,358,658,958,1258,1558,358,658,958,1258,1558,358,658,
+                         958,358,658,958,358,658,358,658,958,358,658,958,1258,358,658,358,658,958];
+        let nbEnclos = [0,1,1,1,1,1,2,2,3,3,3,3,4,4,5,5,5,5,5,5,5,6,6,6,6,6,7,7,7,
+                        7,7,8,8,8,9,9,9,10,10,11,11,11,12,12,12,12,13,13,14,14,14];
+        let lvlCadre = [0,0,0,2,2,3,2,2,3,3,4,4,5,5,6,7,7,8,8,9,20,5,6,7,8,9,10,10,12,14,
+                        30,11,13,13,15,16,19,17,18,23,24,24,20,20,21,22,25,28,26,27,29];
+        let animalsCadre = ['nada','zebre','girafe','suricate','autruche','fennec','elephant','rhino','hyene','serpent','lion','guepard','renne','elan','paresseux','chimpanze','lemurien','koala','panda_roux','gorille','panda','loup','leopard','panthere','ours','tigre','chevre','mouton','alpaga','paon','dodo','bison','bouquetin','ane','loutre','otarie','tortue','crocodile','hippo','requin','baleine','orque','dauphin','raie','beluga','narval','renard','manchot','morse','lion_mer','ours_polaire'];
+
+
+        this.sell = [];
         this.descr = [];
         this.animals = [];
-        //animal 1
-        this.animals[1] = this.add.image(750, 460, 'zebre')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                this.animals[1].setTint(0xffaaff),
-                this.animals[1].setScale(0.54);
-            })
-            .on('pointerout', () => {
-                this.animals[1].setTint(0xffffff),
-                this.animals[1].setScale(0.5);
-            })
-            .on('pointerdown', () => {
-                this.animals[1].setTint(0xffffff),
-                this.animals[1].setScale(0.42);
-                achat_animal(1, 1);
-            })
-            .on('pointerup', () => {
-                this.animals[1].setScale(0.5);
-        });
-        this.animals[1].setScale(0.5);
-        this.animals[1].depth = 11;
-        this.animals[1].visible = false;
-        viewport.add(this.animals[1]);
-        this.descr[1] = this.add.text(1000, 360, '\n\nDéblocage au niveau 1', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[1].visible = false;
-        viewport.add(this.descr[1]);
-        //animal 2
-        this.animals[2] = this.add.image(750, 760, 'girafe')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                this.animals[2].setTint(0xffaaff),
-                this.animals[2].setScale(0.54);
-            })
-            .on('pointerout', () => {
-                this.animals[2].setTint(0xffffff),
-                this.animals[2].setScale(0.5);
-            })
-            .on('pointerdown', () => {
-                this.animals[2].setTint(0xffffff),
-                this.animals[2].setScale(0.42);
-                achat_animal(2, 1);
-            })
-            .on('pointerup', () => {
-                this.animals[2].setScale(0.5);
-        });
-        this.animals[2].setScale(0.5);
-        this.animals[2].depth = 11;
-        this.animals[2].visible = false;
-        viewport.add(this.animals[2]);
-        this.descr[2] = this.add.text(1000, 660, '\n\nDéblocage au niveau 1', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[2].visible = false;
-        viewport.add(this.descr[2]);
-        //animal 3
-        this.animals[3] = this.add.image(750, 1060, 'suricate')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 2) {
-                    this.animals[3].setTint(0xffaaff),
-                    this.animals[3].setScale(0.54);
-                }
-                else {
-                    this.animals[3].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 2) {
-                    this.animals[3].setTint(0xffffff),
-                    this.animals[3].setScale(0.5);
-                }
-                else {
-                    this.animals[3].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[3].setTint(0xffffff),
-                    this.animals[3].setScale(0.42);
-                achat_animal(3, 1);
-            })
-            .on('pointerup', () => {
-                this.animals[3].setScale(0.5);
-        });
-        this.animals[3].setScale(0.5);
-        this.animals[3].depth = 11;
-        this.animals[3].visible = false;
-        viewport.add(this.animals[3]);
-        this.descr[3] = this.add.text(1000, 960, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[3].visible = false;
-        viewport.add(this.descr[3]);
-        //animal 4
-        this.animals[4] = this.add.image(750, 1360, 'autruche')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 2) {
-                    this.animals[4].setTint(0xffaaff),
-                    this.animals[4].setScale(0.54);
-                }
-                else {
-                    this.animals[4].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 2) {
-                    this.animals[4].setTint(0xffffff),
-                    this.animals[4].setScale(0.5);
-                }
-                else {
-                    this.animals[4].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[4].setTint(0xffffff),
-                this.animals[4].setScale(0.42);
-                achat_animal(4, 1);
-            })
-            .on('pointerup', () => {
-                this.animals[4].setScale(0.5);
-        });
-        this.animals[4].setScale(0.5);
-        this.animals[4].depth = 11;
-        this.animals[4].visible = false;
-        viewport.add(this.animals[4]);
-        this.descr[4] = this.add.text(1000, 1260, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[4].visible = false;
-        viewport.add(this.descr[4]);
-        //animal 5
-        this.animals[5] = this.add.image(750, 1660, 'fennec')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 3) {
-                    this.animals[5].setTint(0xffaaff),
-                    this.animals[5].setScale(0.54);
-                }
-                else {
-                    this.animals[5].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 3) {
-                    this.animals[5].setTint(0xffffff),
-                    this.animals[5].setScale(0.5);
-                }
-                else {
-                    this.animals[5].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[5].setTint(0xffffff),
-                this.animals[5].setScale(0.42);
-                achat_animal(5, 1);
-            })
-            .on('pointerup', () => {
-                this.animals[5].setScale(0.5);
-        });
-        this.animals[5].setScale(0.5);
-        this.animals[5].depth = 11;
-        this.animals[5].visible = false;
-        viewport.add(this.animals[5]);
-        this.descr[5] = this.add.text(1000, 1560, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[5].visible = false;
-        viewport.add(this.descr[5]);
-        //animal 6
-        this.animals[6] = this.add.image(750, 460, 'elephant')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 2) {
-                    this.animals[6].setTint(0xffaaff),
-                    this.animals[6].setScale(0.54);
-                }
-                else {
-                    this.animals[6].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 2) {
-                    this.animals[6].setTint(0xffffff),
-                    this.animals[6].setScale(0.5);
-                }
-                else {
-                    this.animals[6].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[6].setTint(0xffffff),
-                this.animals[6].setScale(0.42);
-                achat_animal(6, 2);
-            })
-            .on('pointerup', () => {
-                this.animals[6].setScale(0.5);
-        });
-        this.animals[6].setScale(0.5);
-        this.animals[6].depth = 11;
-        this.animals[6].visible = false;
-        viewport.add(this.animals[6]);
-        this.descr[6] = this.add.text(1000, 360, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[6].visible = false;
-        viewport.add(this.descr[6]);
-        //animal 7
-        this.animals[7] = this.add.image(750, 760, 'rhino')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 2) {
-                    this.animals[7].setTint(0xffaaff),
-                    this.animals[7].setScale(0.54);
-                }
-                else {
-                    this.animals[7].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 2) {
-                    this.animals[7].setTint(0xffffff),
-                    this.animals[7].setScale(0.5);
-                }
-                else {
-                    this.animals[7].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[7].setTint(0xffffff),
-                this.animals[7].setScale(0.42);
-                achat_animal(7, 2);
-            })
-            .on('pointerup', () => {
-                this.animals[7].setScale(0.5);
-        });
-        this.animals[7].setScale(0.5);
-        this.animals[7].depth = 11;
-        this.animals[7].visible = false;
-        viewport.add(this.animals[7]);
-        this.descr[7] = this.add.text(1000, 660, 'Déblocage au niveau 2\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[7].visible = false;
-        viewport.add(this.descr[7]);
-        //animal 8
-        this.animals[8] = this.add.image(750, 460, 'hyene')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 3) {
-                    this.animals[8].setTint(0xffaaff),
-                    this.animals[8].setScale(0.54);
-                }
-                else {
-                    this.animals[8].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 3) {
-                    this.animals[8].setTint(0xffffff),
-                    this.animals[8].setScale(0.5);
-                }
-                else {
-                    this.animals[8].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[8].setTint(0xffffff),
-                this.animals[8].setScale(0.42);
-                achat_animal(8, 3);
-            })
-            .on('pointerup', () => {
-                this.animals[8].setScale(0.5);
-        });
-        this.animals[8].setScale(0.5);
-        this.animals[8].depth = 11;
-        this.animals[8].visible = false;
-        viewport.add(this.animals[8]);
-        this.descr[8] = this.add.text(1000, 360, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[8].visible = false;
-        viewport.add(this.descr[8]);
-        //animal 9
-        this.animals[9] = this.add.image(750, 760, 'serpent')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 3) {
-                    this.animals[9].setTint(0xffaaff),
-                    this.animals[9].setScale(0.54);
-                }
-                else {
-                    this.animals[9].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 3) {
-                    this.animals[9].setTint(0xffffff),
-                    this.animals[9].setScale(0.5);
-                }
-                else {
-                    this.animals[9].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[9].setTint(0xffffff),
-                this.animals[9].setScale(0.42);
-                achat_animal(9, 3);
-            })
-            .on('pointerup', () => {
-                this.animals[9].setScale(0.5);
-        });
-        this.animals[9].setScale(0.5);
-        this.animals[9].depth = 11;
-        this.animals[9].visible = false;
-        viewport.add(this.animals[9]);
-        this.descr[9] = this.add.text(1000, 660, 'Déblocage au niveau 3\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[9].visible = false;
-        viewport.add(this.descr[9]);
-        //animal 10
-        this.animals[10] = this.add.image(750, 1060, 'lion')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 4) {
-                    this.animals[10].setTint(0xffaaff),
-                    this.animals[10].setScale(0.54);
-                }
-                else {
-                    this.animals[10].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 4) {
-                    this.animals[10].setTint(0xffffff),
-                    this.animals[10].setScale(0.5);
-                }
-                else {
-                    this.animals[10].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[10].setTint(0xffffff),
-                this.animals[10].setScale(0.42);
-                achat_animal(10, 3);
-            })
-            .on('pointerup', () => {
-                this.animals[10].setScale(0.5);
-        });
-        this.animals[10].setScale(0.5);
-        this.animals[10].depth = 11;
-        this.animals[10].visible = false;
-        viewport.add(this.animals[10]);
-        this.descr[10] = this.add.text(1000, 960, 'Déblocage au niveau 4\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[10].visible = false;
-        viewport.add(this.descr[10]);
-        //animal 11
-        this.animals[11] = this.add.image(750, 1360, 'guepard')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 4) {
-                    this.animals[11].setTint(0xffaaff),
-                    this.animals[11].setScale(0.54);
-                }
-                else {
-                    this.animals[11].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 4) {
-                    this.animals[11].setTint(0xffffff),
-                    this.animals[11].setScale(0.5);
-                }
-                else {
-                    this.animals[11].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[11].setTint(0xffffff),
-                this.animals[11].setScale(0.42);
-                achat_animal(11, 3);
-            })
-            .on('pointerup', () => {
-                this.animals[11].setScale(0.5);
-        });
-        this.animals[11].setScale(0.5);
-        this.animals[11].depth = 11;
-        this.animals[11].visible = false;
-        viewport.add(this.animals[11]);
-        this.descr[11] = this.add.text(1000, 1260, 'Déblocage au niveau 4\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[11].visible = false;
-        viewport.add(this.descr[11]);
-        //animal 12
-        this.animals[12] = this.add.image(750, 460, 'renne')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 5) {
-                    this.animals[12].setTint(0xffaaff),
-                    this.animals[12].setScale(0.54);
-                }
-                else {
-                    this.animals[12].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 5) {
-                    this.animals[12].setTint(0xffffff),
-                    this.animals[12].setScale(0.5);
-                }
-                else {
-                    this.animals[12].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[12].setTint(0xffffff),
-                this.animals[12].setScale(0.42);
-                achat_animal(12, 4);
-            })
-            .on('pointerup', () => {
-                this.animals[12].setScale(0.5);
-        });
-        this.animals[12].setScale(0.5);
-        this.animals[12].depth = 11;
-        this.animals[12].visible = false;
-        viewport.add(this.animals[12]);
-        this.descr[12] = this.add.text(1000, 360, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[12].visible = false;
-        viewport.add(this.descr[12]);
-        //animal 13
-        this.animals[13] = this.add.image(750, 760, 'elan')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 5) {
-                    this.animals[13].setTint(0xffaaff),
-                    this.animals[13].setScale(0.54);
-                }
-                else {
-                    this.animals[13].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 5) {
-                    this.animals[13].setTint(0xffffff),
-                    this.animals[13].setScale(0.5);
-                }
-                else {
-                    this.animals[13].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[13].setTint(0xffffff),
-                this.animals[13].setScale(0.42);
-                achat_animal(13, 4);
-            })
-            .on('pointerup', () => {
-                this.animals[13].setScale(0.5);
-        });
-        this.animals[13].setScale(0.5);
-        this.animals[13].depth = 11;
-        this.animals[13].visible = false;
-        viewport.add(this.animals[13]);
-        this.descr[13] = this.add.text(1000, 660, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[13].visible = false;
-        viewport.add(this.descr[13]);
-        //animal 14
-        this.animals[14] = this.add.image(750, 460, 'paresseux')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 6) {
-                    this.animals[14].setTint(0xffaaff),
-                    this.animals[14].setScale(0.54);
-                }
-                else {
-                    this.animals[14].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 6) {
-                    this.animals[14].setTint(0xffffff),
-                    this.animals[14].setScale(0.5);
-                }
-                else {
-                    this.animals[14].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[14].setTint(0xffffff),
-                this.animals[14].setScale(0.42);
-                achat_animal(14, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[14].setScale(0.5);
-        });
-        this.animals[14].setScale(0.5);
-        this.animals[14].depth = 11;
-        this.animals[14].visible = false;
-        viewport.add(this.animals[14]);
-        this.descr[14] = this.add.text(1000, 360, 'Déblocage au niveau 6\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[14].visible = false;
-        viewport.add(this.descr[14]);
-        //animal 15
-        this.animals[15] = this.add.image(750, 760, 'chimpanze')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 7) {
-                    this.animals[15].setTint(0xffaaff),
-                    this.animals[15].setScale(0.54);
-                }
-                else {
-                    this.animals[15].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 7) {
-                    this.animals[15].setTint(0xffffff),
-                    this.animals[15].setScale(0.5);
-                }
-                else {
-                    this.animals[15].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[15].setTint(0xffffff),
-                this.animals[15].setScale(0.42);
-                achat_animal(15, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[15].setScale(0.5);
-        });
-        this.animals[15].setScale(0.5);
-        this.animals[15].depth = 11;
-        this.animals[15].visible = false;
-        viewport.add(this.animals[15]);
-        this.descr[15] = this.add.text(1000, 660, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[15].visible = false;
-        viewport.add(this.descr[15]);
-        //animal 16
-        this.animals[16] = this.add.image(750, 1060, 'lemurien')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 7) {
-                    this.animals[16].setTint(0xffaaff),
-                    this.animals[16].setScale(0.54);
-                }
-                else {
-                    this.animals[16].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 7) {
-                    this.animals[16].setTint(0xffffff),
-                    this.animals[16].setScale(0.5);
-                }
-                else {
-                    this.animals[16].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[16].setTint(0xffffff),
-                this.animals[16].setScale(0.42);
-                achat_animal(16, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[16].setScale(0.5);
-        });
-        this.animals[16].setScale(0.5);
-        this.animals[16].depth = 11;
-        this.animals[16].visible = false;
-        viewport.add(this.animals[16]);
-        this.descr[16] = this.add.text(1000, 960, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[16].visible = false;
-        viewport.add(this.descr[16]);
-        //animal 17
-        this.animals[17] = this.add.image(750, 1360, 'koala')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 8) {
-                    this.animals[17].setTint(0xffaaff),
-                    this.animals[17].setScale(0.54);
-                }
-                else {
-                    this.animals[17].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 8) {
-                    this.animals[17].setTint(0xffffff),
-                    this.animals[17].setScale(0.5);
-                }
-                else {
-                    this.animals[17].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[17].setTint(0xffffff),
-                this.animals[17].setScale(0.42);
-                achat_animal(17, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[17].setScale(0.5);
-        });
-        this.animals[17].setScale(0.5);
-        this.animals[17].depth = 11;
-        this.animals[17].visible = false;
-        viewport.add(this.animals[17]);
-        this.descr[17] = this.add.text(1000, 1260, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[17].visible = false;
-        viewport.add(this.descr[17]);
-        //animal 18
-        this.animals[18] = this.add.image(750, 1660, 'panda_roux')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 8) {
-                    this.animals[18].setTint(0xffaaff),
-                    this.animals[18].setScale(0.54);
-                }
-                else {
-                    this.animals[18].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 8) {
-                    this.animals[18].setTint(0xffffff),
-                    this.animals[18].setScale(0.5);
-                }
-                else {
-                    this.animals[18].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[18].setTint(0xffffff),
-                this.animals[18].setScale(0.42);
-                achat_animal(18, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[18].setScale(0.5);
-        });
-        this.animals[18].setScale(0.5);
-        this.animals[18].depth = 11;
-        this.animals[18].visible = false;
-        viewport.add(this.animals[18]);
-        this.descr[18] = this.add.text(1000, 1560, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[18].visible = false;
-        viewport.add(this.descr[18]);
-        //animal 19
-        this.animals[19] = this.add.image(750, 1960, 'gorille')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 9) {
-                    this.animals[19].setTint(0xffaaff),
-                    this.animals[19].setScale(0.54);
-                }
-                else {
-                    this.animals[19].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 9) {
-                    this.animals[19].setTint(0xffffff),
-                    this.animals[19].setScale(0.5);
-                }
-                else {
-                    this.animals[19].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[19].setTint(0xffffff),
-                this.animals[19].setScale(0.42);
-                achat_animal(19, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[19].setScale(0.5);
-        });
-        this.animals[19].setScale(0.5);
-        this.animals[19].depth = 11;
-        this.animals[19].visible = false;
-        viewport.add(this.animals[19]);
-        this.descr[19] = this.add.text(1000, 1860, 'Déblocage au niveau 9\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[19].visible = false;
-        viewport.add(this.descr[19]);
-        //animal 20
-        this.animals[20] = this.add.image(750, 2260, 'panda')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 20) {
-                    this.animals[20].setTint(0xffaaff),
-                    this.animals[20].setScale(0.54);
-                }
-                else {
-                    this.animals[20].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 20) {
-                    this.animals[20].setTint(0xffffff),
-                    this.animals[20].setScale(0.5);
-                }
-                else {
-                    this.animals[20].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[20].setTint(0xffffff),
-                this.animals[20].setScale(0.42);
-                achat_animal(20, 5);
-            })
-            .on('pointerup', () => {
-                this.animals[20].setScale(0.5);
-        });
-        this.animals[20].setScale(0.5);
-        this.animals[20].depth = 11;
-        this.animals[20].visible = false;
-        viewport.add(this.animals[20]);
-        this.descr[20] = this.add.text(1000, 2160, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[20].visible = false;
-        viewport.add(this.descr[20]);
-        //animal 21
-        this.animals[21] = this.add.image(750, 460, 'loup')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 5) {
-                    this.animals[21].setTint(0xffaaff),
-                    this.animals[21].setScale(0.54);
-                }
-                else {
-                    this.animals[21].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 5) {
-                    this.animals[21].setTint(0xffffff),
-                    this.animals[21].setScale(0.5);
-                }
-                else {
-                    this.animals[21].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[21].setTint(0xffffff),
-                this.animals[21].setScale(0.42);
-                achat_animal(21, 6);
-            })
-            .on('pointerup', () => {
-                this.animals[21].setScale(0.5);
-        });
-        this.animals[21].setScale(0.5);
-        this.animals[21].depth = 11;
-        this.animals[21].visible = false;
-        viewport.add(this.animals[21]);
-        this.descr[21] = this.add.text(1000, 360, 'Déblocage au niveau 5\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[21].visible = false;
-        viewport.add(this.descr[21]);
-        //animal 22
-        this.animals[22] = this.add.image(750, 760, 'leopard')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 6) {
-                    this.animals[22].setTint(0xffaaff),
-                    this.animals[22].setScale(0.54);
-                }
-                else {
-                    this.animals[22].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 6) {
-                    this.animals[22].setTint(0xffffff),
-                    this.animals[22].setScale(0.5);
-                }
-                else {
-                    this.animals[22].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[22].setTint(0xffffff),
-                this.animals[22].setScale(0.42);
-                achat_animal(22, 6);
-            })
-            .on('pointerup', () => {
-                this.animals[22].setScale(0.5);
-        });
-        this.animals[22].setScale(0.5);
-        this.animals[22].depth = 11;
-        this.animals[22].visible = false;
-        viewport.add(this.animals[22]);
-        this.descr[22] = this.add.text(1000, 660, 'Déblocage au niveau 6\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[22].visible = false;
-        viewport.add(this.descr[22]);
-        //animal 23
-        this.animals[23] = this.add.image(750, 1060, 'panthere')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 7) {
-                    this.animals[23].setTint(0xffaaff),
-                    this.animals[23].setScale(0.54);
-                }
-                else {
-                    this.animals[23].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 7) {
-                    this.animals[23].setTint(0xffffff),
-                    this.animals[23].setScale(0.5);
-                }
-                else {
-                    this.animals[23].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[23].setTint(0xffffff),
-                this.animals[23].setScale(0.42);
-                achat_animal(23, 6);
-            })
-            .on('pointerup', () => {
-                this.animals[23].setScale(0.5);
-        });
-        this.animals[23].setScale(0.5);
-        this.animals[23].depth = 11;
-        this.animals[23].visible = false;
-        viewport.add(this.animals[23]);
-        this.descr[23] = this.add.text(1000, 960, 'Déblocage au niveau 7\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[23].visible = false;
-        viewport.add(this.descr[23]);
-        //animal 24
-        this.animals[24] = this.add.image(750, 1360, 'ours')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 8) {
-                    this.animals[24].setTint(0xffaaff),
-                    this.animals[24].setScale(0.54);
-                }
-                else {
-                    this.animals[24].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 8) {
-                    this.animals[24].setTint(0xffffff),
-                    this.animals[24].setScale(0.5);
-                }
-                else {
-                    this.animals[24].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[24].setTint(0xffffff),
-                this.animals[24].setScale(0.42);
-                achat_animal(24, 6);
-            })
-            .on('pointerup', () => {
-                this.animals[24].setScale(0.5);
-        });
-        this.animals[24].setScale(0.5);
-        this.animals[24].depth = 11;
-        this.animals[24].visible = false;
-        viewport.add(this.animals[24]);
-        this.descr[24] = this.add.text(1000, 1260, 'Déblocage au niveau 8\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[24].visible = false;
-        viewport.add(this.descr[24]);
-        //animal 25
-        this.animals[25] = this.add.image(750, 1660, 'tigre')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 9) {
-                    this.animals[25].setTint(0xffaaff),
-                    this.animals[25].setScale(0.54);
-                }
-                else {
-                    this.animals[25].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 9) {
-                    this.animals[25].setTint(0xffffff),
-                    this.animals[25].setScale(0.5);
-                }
-                else {
-                    this.animals[25].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[25].setTint(0xffffff),
-                this.animals[25].setScale(0.42);
-                achat_animal(25, 6);
-            })
-            .on('pointerup', () => {
-                this.animals[25].setScale(0.5);
-        });
-        this.animals[25].setScale(0.5);
-        this.animals[25].depth = 11;
-        this.animals[25].visible = false;
-        viewport.add(this.animals[25]);
-        this.descr[25] = this.add.text(1000, 1560, 'Déblocage au niveau 9\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[25].visible = false;
-        viewport.add(this.descr[25]);
-        //animal 26
-        this.animals[26] = this.add.image(750, 460, 'chevre')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 10) {
-                    this.animals[26].setTint(0xffaaff),
-                    this.animals[26].setScale(0.54);
-                }
-                else {
-                    this.animals[26].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 10) {
-                    this.animals[26].setTint(0xffffff),
-                    this.animals[26].setScale(0.5);
-                }
-                else {
-                    this.animals[26].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[26].setTint(0xffffff),
-                this.animals[26].setScale(0.42);
-                achat_animal(26, 7);
-            })
-            .on('pointerup', () => {
-                this.animals[26].setScale(0.5);
-        });
-        this.animals[26].setScale(0.5);
-        this.animals[26].depth = 11;
-        this.animals[26].visible = false;
-        viewport.add(this.animals[26]);
-        this.descr[26] = this.add.text(1000, 360, 'Déblocage au niveau 10\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[26].visible = false;
-        viewport.add(this.descr[26]);
-        //animal 27
-        this.animals[27] = this.add.image(750, 760, 'mouton')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 10) {
-                    this.animals[27].setTint(0xffaaff),
-                    this.animals[27].setScale(0.54);
-                }
-                else {
-                    this.animals[27].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 10) {
-                    this.animals[27].setTint(0xffffff),
-                    this.animals[27].setScale(0.5);
-                }
-                else {
-                    this.animals[27].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[27].setTint(0xffffff),
-                this.animals[27].setScale(0.42);
-                achat_animal(27, 7);
-            })
-            .on('pointerup', () => {
-                this.animals[27].setScale(0.5);
-        });
-        this.animals[27].setScale(0.5);
-        this.animals[27].depth = 11;
-        this.animals[27].visible = false;
-        viewport.add(this.animals[27]);
-        this.descr[27] = this.add.text(1000, 660, 'Déblocage au niveau 10\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[27].visible = false;
-        viewport.add(this.descr[27]);
-        //animal 28
-        this.animals[28] = this.add.image(750, 1060, 'alpaga')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 12) {
-                    this.animals[28].setTint(0xffaaff),
-                    this.animals[28].setScale(0.54);
-                }
-                else {
-                    this.animals[28].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 12) {
-                    this.animals[28].setTint(0xffffff),
-                    this.animals[28].setScale(0.5);
-                }
-                else {
-                    this.animals[28].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[28].setTint(0xffffff),
-                this.animals[28].setScale(0.42);
-                achat_animal(28, 7);
-            })
-            .on('pointerup', () => {
-                this.animals[28].setScale(0.5);
-        });
-        this.animals[28].setScale(0.5);
-        this.animals[28].depth = 11;
-        this.animals[28].visible = false;
-        viewport.add(this.animals[28]);
-        this.descr[28] = this.add.text(1000, 960, 'Déblocage au niveau 12\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[28].visible = false;
-        viewport.add(this.descr[28]);
-        //animal 29
-        this.animals[29] = this.add.image(750, 1360, 'paon')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 14) {
-                    this.animals[29].setTint(0xffaaff),
-                    this.animals[29].setScale(0.54);
-                }
-                else {
-                    this.animals[29].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 14) {
-                    this.animals[29].setTint(0xffffff),
-                    this.animals[29].setScale(0.5);
-                }
-                else {
-                    this.animals[29].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[29].setTint(0xffffff),
-                this.animals[29].setScale(0.42);
-                achat_animal(29, 7);
-            })
-            .on('pointerup', () => {
-                this.animals[29].setScale(0.5);
-        });
-        this.animals[29].setScale(0.5);
-        this.animals[29].depth = 11;
-        this.animals[29].visible = false;
-        viewport.add(this.animals[29]);
-        this.descr[29] = this.add.text(1000, 1260, 'Déblocage au niveau 14\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[29].visible = false;
-        viewport.add(this.descr[29]);
-        //animal 30
-        this.animals[30] = this.add.image(750, 1660, 'dodo')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 30) {
-                    this.animals[30].setTint(0xffaaff),
-                    this.animals[30].setScale(0.54);
-                }
-                else {
-                    this.animals[30].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 30) {
-                    this.animals[30].setTint(0xffffff),
-                    this.animals[30].setScale(0.5);
-                }
-                else {
-                    this.animals[30].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[30].setTint(0xffffff),
-                this.animals[30].setScale(0.42);
-                achat_animal(30, 7);
-            })
-            .on('pointerup', () => {
-                this.animals[30].setScale(0.5);
-        });
-        this.animals[30].setScale(0.5);
-        this.animals[30].depth = 11;
-        this.animals[30].visible = false;
-        viewport.add(this.animals[30]);
-        this.descr[30] = this.add.text(1000, 1560, 'Déblocage au niveau 30\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[30].visible = false;
-        viewport.add(this.descr[30]);
-        //animal 31
-        this.animals[31] = this.add.image(750, 460, 'bison')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 11) {
-                    this.animals[31].setTint(0xffaaff),
-                    this.animals[31].setScale(0.54);
-                }
-                else {
-                    this.animals[31].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 11) {
-                    this.animals[31].setTint(0xffffff),
-                    this.animals[31].setScale(0.5);
-                }
-                else {
-                    this.animals[31].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[31].setTint(0xffffff),
-                this.animals[31].setScale(0.42);
-                achat_animal(31, 8);
-            })
-            .on('pointerup', () => {
-                this.animals[31].setScale(0.5);
-        });
-        this.animals[31].setScale(0.5);
-        this.animals[31].depth = 11;
-        this.animals[31].visible = false;
-        viewport.add(this.animals[31]);
-        this.descr[31] = this.add.text(1000, 360, 'Déblocage au niveau 11\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[31].visible = false;
-        viewport.add(this.descr[31]);
-        //animal 32
-        this.animals[32] = this.add.image(750, 760, 'bouquetin')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 13) {
-                    this.animals[32].setTint(0xffaaff),
-                    this.animals[32].setScale(0.54);
-                }
-                else {
-                    this.animals[32].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 13) {
-                    this.animals[32].setTint(0xffffff),
-                    this.animals[32].setScale(0.5);
-                }
-                else {
-                    this.animals[32].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[32].setTint(0xffffff),
-                this.animals[32].setScale(0.42);
-                achat_animal(32, 8);
-            })
-            .on('pointerup', () => {
-                this.animals[32].setScale(0.5);
-        });
-        this.animals[32].setScale(0.5);
-        this.animals[32].depth = 11;
-        this.animals[32].visible = false;
-        viewport.add(this.animals[32]);
-        this.descr[32] = this.add.text(1000, 660, 'Déblocage au niveau 13\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[32].visible = false;
-        viewport.add(this.descr[32]);
-        //animal 33
-        this.animals[33] = this.add.image(750, 1060, 'ane')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 13) {
-                    this.animals[33].setTint(0xffaaff),
-                    this.animals[33].setScale(0.54);
-                }
-                else {
-                    this.animals[33].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 13) {
-                    this.animals[33].setTint(0xffffff),
-                    this.animals[33].setScale(0.5);
-                }
-                else {
-                    this.animals[33].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[33].setTint(0xffffff),
-                this.animals[33].setScale(0.42);
-                achat_animal(33, 8);
-            })
-            .on('pointerup', () => {
-                this.animals[33].setScale(0.5);
-        });
-        this.animals[33].setScale(0.5);
-        this.animals[33].depth = 11;
-        this.animals[33].visible = false;
-        viewport.add(this.animals[33]);
-        this.descr[33] = this.add.text(1000, 960, 'Déblocage au niveau 13\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[33].visible = false;
-        viewport.add(this.descr[33]);
-        //animal 34
-        this.animals[34] = this.add.image(750, 460, 'loutre')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 15) {
-                    this.animals[34].setTint(0xffaaff),
-                    this.animals[34].setScale(0.54);
-                }
-                else {
-                    this.animals[34].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 15) {
-                    this.animals[34].setTint(0xffffff),
-                    this.animals[34].setScale(0.5);
-                }
-                else {
-                    this.animals[34].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[34].setTint(0xffffff),
-                this.animals[34].setScale(0.42);
-                achat_animal(34, 9);
-            })
-            .on('pointerup', () => {
-                this.animals[34].setScale(0.5);
-        });
-        this.animals[34].setScale(0.5);
-        this.animals[34].depth = 11;
-        this.animals[34].visible = false;
-        viewport.add(this.animals[34]);
-        this.descr[34] = this.add.text(1000, 360, 'Déblocage au niveau 15\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[34].visible = false;
-        viewport.add(this.descr[34]);
-        //animal 35
-        this.animals[35] = this.add.image(750, 760, 'otarie')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 16) {
-                    this.animals[35].setTint(0xffaaff),
-                    this.animals[35].setScale(0.54);
-                }
-                else {
-                    this.animals[35].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 16) {
-                    this.animals[35].setTint(0xffffff),
-                    this.animals[35].setScale(0.5);
-                }
-                else {
-                    this.animals[35].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[35].setTint(0xffffff),
-                this.animals[35].setScale(0.42);
-                achat_animal(35, 9);
-            })
-            .on('pointerup', () => {
-                this.animals[35].setScale(0.5);
-        });
-        this.animals[35].setScale(0.5);
-        this.animals[35].depth = 11;
-        this.animals[35].visible = false;
-        viewport.add(this.animals[35]);
-        this.descr[35] = this.add.text(1000, 660, 'Déblocage au niveau 16\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[35].visible = false;
-        viewport.add(this.descr[35]);
-        //animal 36
-        this.animals[36] = this.add.image(750, 1060, 'tortue')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 19) {
-                    this.animals[36].setTint(0xffaaff),
-                    this.animals[36].setScale(0.54);
-                }
-                else {
-                    this.animals[36].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 19) {
-                    this.animals[36].setTint(0xffffff),
-                    this.animals[36].setScale(0.5);
-                }
-                else {
-                    this.animals[36].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[36].setTint(0xffffff),
-                this.animals[36].setScale(0.42);
-                achat_animal(36, 9);
-            })
-            .on('pointerup', () => {
-                this.animals[36].setScale(0.5);
-        });
-        this.animals[36].setScale(0.5);
-        this.animals[36].depth = 11;
-        this.animals[36].visible = false;
-        viewport.add(this.animals[36]);
-        this.descr[36] = this.add.text(1000, 960, 'Déblocage au niveau 19\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[36].visible = false;
-        viewport.add(this.descr[36]);
-        //animal 37
-        this.animals[37] = this.add.image(750, 460, 'crocodile')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 17) {
-                    this.animals[37].setTint(0xffaaff),
-                    this.animals[37].setScale(0.54);
-                }
-                else {
-                    this.animals[37].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 17) {
-                    this.animals[37].setTint(0xffffff),
-                    this.animals[37].setScale(0.5);
-                }
-                else {
-                    this.animals[37].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[37].setTint(0xffffff),
-                this.animals[37].setScale(0.42);
-                achat_animal(37, 10);
-            })
-            .on('pointerup', () => {
-                this.animals[37].setScale(0.5);
-        });
-        this.animals[37].setScale(0.5);
-        this.animals[37].depth = 11;
-        this.animals[37].visible = false;
-        viewport.add(this.animals[37]);
-        this.descr[37] = this.add.text(1000, 360, 'Déblocage au niveau 17\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[37].visible = false;
-        viewport.add(this.descr[37]);
-        //animal 38
-        this.animals[38] = this.add.image(750, 760, 'hippo')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 18) {
-                    this.animals[38].setTint(0xffaaff),
-                    this.animals[38].setScale(0.54);
-                }
-                else {
-                    this.animals[38].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 18) {
-                    this.animals[38].setTint(0xffffff),
-                    this.animals[38].setScale(0.5);
-                }
-                else {
-                    this.animals[38].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[38].setTint(0xffffff),
-                this.animals[38].setScale(0.42);
-                achat_animal(38, 10);
-            })
-            .on('pointerup', () => {
-                this.animals[38].setScale(0.5);
-        });
-        this.animals[38].setScale(0.5);
-        this.animals[38].depth = 11;
-        this.animals[38].visible = false;
-        viewport.add(this.animals[38]);
-        this.descr[38] = this.add.text(1000, 660, 'Déblocage au niveau 18\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[38].visible = false;
-        viewport.add(this.descr[38]);
-        //animal 39
-        this.animals[39] = this.add.image(750, 460, 'requin')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 23) {
-                    this.animals[39].setTint(0xffaaff),
-                    this.animals[39].setScale(0.54);
-                }
-                else {
-                    this.animals[39].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 23) {
-                    this.animals[39].setTint(0xffffff),
-                    this.animals[39].setScale(0.5);
-                }
-                else {
-                    this.animals[39].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[39].setTint(0xffffff),
-                this.animals[39].setScale(0.42);
-                achat_animal(39, 11);
-            })
-            .on('pointerup', () => {
-                this.animals[39].setScale(0.5);
-        });
-        this.animals[39].setScale(0.5);
-        this.animals[39].depth = 11;
-        this.animals[39].visible = false;
-        viewport.add(this.animals[39]);
-        this.descr[39] = this.add.text(1000, 360, 'Déblocage au niveau 23\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[39].visible = false;
-        viewport.add(this.descr[39]);
-        //animal 40
-        this.animals[40] = this.add.image(750, 760, 'baleine')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 24) {
-                    this.animals[40].setTint(0xffaaff),
-                    this.animals[40].setScale(0.54);
-                }
-                else {
-                    this.animals[40].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 24) {
-                    this.animals[40].setTint(0xffffff),
-                    this.animals[40].setScale(0.5);
-                }
-                else {
-                    this.animals[40].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[40].setTint(0xffffff),
-                this.animals[40].setScale(0.42);
-                achat_animal(40, 11);
-            })
-            .on('pointerup', () => {
-                this.animals[40].setScale(0.5);
-        });
-        this.animals[40].setScale(0.5);
-        this.animals[40].depth = 11;
-        this.animals[40].visible = false;
-        viewport.add(this.animals[40]);
-        this.descr[40] = this.add.text(1000, 660, 'Déblocage au niveau 24\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[40].visible = false;
-        viewport.add(this.descr[40]);
-        //animal 41
-        this.animals[41] = this.add.image(750, 1060, 'orque')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 24) {
-                    this.animals[41].setTint(0xffaaff),
-                    this.animals[41].setScale(0.54);
-                }
-                else {
-                    this.animals[41].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 24) {
-                    this.animals[41].setTint(0xffffff),
-                    this.animals[41].setScale(0.5);
-                }
-                else {
-                    this.animals[41].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[41].setTint(0xffffff),
-                this.animals[41].setScale(0.42);
-                achat_animal(41, 11);
-            })
-            .on('pointerup', () => {
-                this.animals[41].setScale(0.5);
-        });
-        this.animals[41].setScale(0.5);
-        this.animals[41].depth = 11;
-        this.animals[41].visible = false;
-        viewport.add(this.animals[41]);
-        this.descr[41] = this.add.text(1000, 960, 'Déblocage au niveau 24\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[41].visible = false;
-        viewport.add(this.descr[41]);
-        //animal 42
-        this.animals[42] = this.add.image(750, 460, 'dauphin')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 20) {
-                    this.animals[42].setTint(0xffaaff),
-                    this.animals[42].setScale(0.54);
-                }
-                else {
-                    this.animals[42].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 20) {
-                    this.animals[42].setTint(0xffffff),
-                    this.animals[42].setScale(0.5);
-                }
-                else {
-                    this.animals[42].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[42].setTint(0xffffff),
-                this.animals[42].setScale(0.42);
-                achat_animal(42, 12);
-            })
-            .on('pointerup', () => {
-                this.animals[42].setScale(0.5);
-        });
-        this.animals[42].setScale(0.5);
-        this.animals[42].depth = 11;
-        this.animals[42].visible = false;
-        viewport.add(this.animals[42]);
-        this.descr[42] = this.add.text(1000, 360, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[42].visible = false;
-        viewport.add(this.descr[42]);
-        //animal 43
-        this.animals[43] = this.add.image(750, 760, 'raie')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 20) {
-                    this.animals[43].setTint(0xffaaff),
-                    this.animals[43].setScale(0.54);
-                }
-                else {
-                    this.animals[43].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 20) {
-                    this.animals[43].setTint(0xffffff),
-                    this.animals[43].setScale(0.5);
-                }
-                else {
-                    this.animals[43].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[43].setTint(0xffffff),
-                this.animals[43].setScale(0.42);
-                achat_animal(43, 12);
-            })
-            .on('pointerup', () => {
-                this.animals[43].setScale(0.5);
-        });
-        this.animals[43].setScale(0.5);
-        this.animals[43].depth = 11;
-        this.animals[43].visible = false;
-        viewport.add(this.animals[43]);
-        this.descr[43] = this.add.text(1000, 660, 'Déblocage au niveau 20\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[43].visible = false;
-        viewport.add(this.descr[43]);
-        //animal 44
-        this.animals[44] = this.add.image(750, 1060, 'beluga')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 21) {
-                    this.animals[44].setTint(0xffaaff),
-                    this.animals[44].setScale(0.54);
-                }
-                else {
-                    this.animals[44].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 21) {
-                    this.animals[44].setTint(0xffffff),
-                    this.animals[44].setScale(0.5);
-                }
-                else {
-                    this.animals[44].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[44].setTint(0xffffff),
-                this.animals[44].setScale(0.42);
-                achat_animal(44, 12);
-            })
-            .on('pointerup', () => {
-                this.animals[44].setScale(0.5);
-        });
-        this.animals[44].setScale(0.5);
-        this.animals[44].depth = 11;
-        this.animals[44].visible = false;
-        viewport.add(this.animals[44]);
-        this.descr[44] = this.add.text(1000, 960, 'Déblocage au niveau 21\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[44].visible = false;
-        viewport.add(this.descr[44]);
-        //animal 45
-        this.animals[45] = this.add.image(750, 1360, 'narval')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 22) {
-                    this.animals[45].setTint(0xffaaff),
-                    this.animals[45].setScale(0.54);
-                }
-                else {
-                    this.animals[45].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 22) {
-                    this.animals[45].setTint(0xffffff),
-                    this.animals[45].setScale(0.5);
-                }
-                else {
-                    this.animals[45].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[45].setTint(0xffffff),
-                this.animals[45].setScale(0.42);
-                achat_animal(45, 12);
-            })
-            .on('pointerup', () => {
-                this.animals[45].setScale(0.5);
-        });
-        this.animals[45].setScale(0.5);
-        this.animals[45].depth = 11;
-        this.animals[45].visible = false;
-        viewport.add(this.animals[45]);
-        this.descr[45] = this.add.text(1000, 1260, 'Déblocage au niveau 22\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[45].visible = false;
-        viewport.add(this.descr[45]);
-        //animal 46
-        this.animals[46] = this.add.image(750, 460, 'renard')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 25) {
-                    this.animals[46].setTint(0xffaaff),
-                    this.animals[46].setScale(0.54);
-                }
-                else {
-                    this.animals[46].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 25) {
-                    this.animals[46].setTint(0xffffff),
-                    this.animals[46].setScale(0.5);
-                }
-                else {
-                    this.animals[46].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[46].setTint(0xffffff),
-                this.animals[46].setScale(0.42);
-                achat_animal(46, 13);
-            })
-            .on('pointerup', () => {
-                this.animals[46].setScale(0.5);
-        });
-        this.animals[46].setScale(0.5);
-        this.animals[46].depth = 11;
-        this.animals[46].visible = false;
-        viewport.add(this.animals[46]);
-        this.descr[46] = this.add.text(1000, 360, 'Déblocage au niveau 25\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[46].visible = false;
-        viewport.add(this.descr[46]);
-        //animal 47
-        this.animals[47] = this.add.image(750, 760, 'manchot')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 28) {
-                    this.animals[47].setTint(0xffaaff),
-                    this.animals[47].setScale(0.54);
-                }
-                else {
-                    this.animals[47].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 28) {
-                    this.animals[47].setTint(0xffffff),
-                    this.animals[47].setScale(0.5);
-                }
-                else {
-                    this.animals[47].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[47].setTint(0xffffff),
-                this.animals[47].setScale(0.42);
-                achat_animal(47, 13);
-            })
-            .on('pointerup', () => {
-                this.animals[47].setScale(0.5);
-        });
-        this.animals[47].setScale(0.5);
-        this.animals[47].depth = 11;
-        this.animals[47].visible = false;
-        viewport.add(this.animals[47]);
-        this.descr[47] = this.add.text(1000, 660, 'Déblocage au niveau 28\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[47].visible = false;
-        viewport.add(this.descr[47]);
-        //animal 48
-        this.animals[48] = this.add.image(750, 460, 'morse')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 26) {
-                    this.animals[48].setTint(0xffaaff),
-                    this.animals[48].setScale(0.54);
-                }
-                else {
-                    this.animals[48].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 26) {
-                    this.animals[48].setTint(0xffffff),
-                    this.animals[48].setScale(0.5);
-                }
-                else {
-                    this.animals[48].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[48].setTint(0xffffff),
-                this.animals[48].setScale(0.42);
-                achat_animal(48, 14);
-            })
-            .on('pointerup', () => {
-                this.animals[48].setScale(0.5);
-        });
-        this.animals[48].setScale(0.5);
-        this.animals[48].depth = 11;
-        this.animals[48].visible = false;
-        viewport.add(this.animals[48]);
-        this.descr[48] = this.add.text(1000, 360, 'Déblocage au niveau 26\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[48].visible = false;
-        viewport.add(this.descr[48]);
-        //animal 49
-        this.animals[49] = this.add.image(750, 760, 'lion_mer')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 27) {
-                    this.animals[49].setTint(0xffaaff),
-                    this.animals[49].setScale(0.54);
-                }
-                else {
-                    this.animals[49].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 27) {
-                    this.animals[49].setTint(0xffffff),
-                    this.animals[49].setScale(0.5);
-                }
-                else {
-                    this.animals[49].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[49].setTint(0xffffff),
-                this.animals[49].setScale(0.42);
-                achat_animal(49, 14);
-            })
-            .on('pointerup', () => {
-                this.animals[49].setScale(0.5);
-        });
-        this.animals[49].setScale(0.5);
-        this.animals[49].depth = 11;
-        this.animals[49].visible = false;
-        viewport.add(this.animals[49]);
-        this.descr[49] = this.add.text(1000, 660, 'Déblocage au niveau 27\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[49].visible = false;
-        viewport.add(this.descr[49]);
-        //animal 50
-        this.animals[50] = this.add.image(750, 1060, 'ours_polaire')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                if (level >= 29) {
-                    this.animals[50].setTint(0xffaaff),
-                    this.animals[50].setScale(0.54);
-                }
-                else {
-                    this.animals[50].setTint(0x888888);
-                }
-            })
-            .on('pointerout', () => {
-                if (level >= 29) {
-                    this.animals[50].setTint(0xffffff),
-                    this.animals[50].setScale(0.5);
-                }
-                else {
-                    this.animals[50].setTint(0x888888);
-                }
-            })
-            .on('pointerdown', () => {
-                this.animals[50].setTint(0xffffff),
-                this.animals[50].setScale(0.42);
-                achat_animal(50, 14);
-            })
-            .on('pointerup', () => {
-                this.animals[50].setScale(0.5);
-        });
-        this.animals[50].setScale(0.5);
-        this.animals[50].depth = 11;
-        this.animals[50].visible = false;
-        viewport.add(this.animals[50]);
-        this.descr[50] = this.add.text(1000, 960, 'Déblocage au niveau 29\n\nInformations supplémentaires', { font: 'bold 24px Georgia', fill: '#000' });
-        this.descr[50].visible = false;
-        viewport.add(this.descr[50]);
+        this.nbA = [];
+
+        for(let i = 1; i < 51; i++){
+            this.animals[i] = this.add.image(750, posCadrey[i], animalsCadre[i])
+                .setInteractive({ useHandCursor: false })
+                .on('pointerover', () => {
+                    if(this.animals[i].y > 324 && this.animals[i].y < 890){
+                        if (level >= lvlCadre[i] && coins >= animaux[i - 1].prix) {
+                            this.animals[i].setTint(0x00bb00);
+                            this.animals[i].setScale(0.54);
+                        }
+                        else if(level >= lvlCadre[i] && coins < animaux[i - 1].prix){
+                            this.animals[i].setTint(0xbb0000);
+                        }
+                        else {
+                            this.animals[i].setTint(0x888888);
+                        }
+                    }
+                    else{
+                        this.animals[i].setTint(0xffffff);
+                        this.animals[i].setScale(0.5);
+                    }
+                })
+                .on('pointerout', () => {
+                    this.animals[i].setTint(0xffffff);
+                    this.animals[i].setScale(0.5);
+                })
+                .on('pointerdown', () => {
+                    if(this.animals[i].y > 325 && this.animals[i].y < 883){
+                        if (level >= lvlCadre[i] && coins >= animaux[i - 1].prix) {
+                            this.kashing.play();
+                            this.animals[i].setTint(0xffffff);
+                            this.animals[i].setScale(0.42);
+                            achat_animal(i, nbEnclos[i]);
+                            this.nbA[i].setText(animaux_achetes[i]);
+                        }
+                    }
+                })
+                .on('pointerup', () => {
+                    this.animals[i].setScale(0.5);
+            });
+            this.animals[i].setScale(0.5);
+            this.animals[i].depth = 11;
+            this.animals[i].visible = false;
+            viewport.add(this.animals[i]);
+            this.descr[i] = this.add.text(1000, posDescry[i], '-', { font: 'bold 24px Georgia', fill: '#000' });
+            this.descr[i].setText("Déblocage au niveau "+lvlCadre[i]+"\n\nInformations supplémentaires");
+            this.descr[i].visible = false;
+            viewport.add(this.descr[i]);
+            this.sell[i] = this.add.image(1820, posSelly[i], 'sell')
+                .setInteractive({ useHandCursor: false })
+                .on('pointerover', () => {
+                    if(animaux_achetes[i] >= 1){
+                        this.sell[i].setTint(0x00bb00);
+                        this.sell[i].setScale(0.24);
+                    }
+                    else{
+                        if (level >= lvlCadre[i]) {
+                            this.sell[i].setTint(0xbb0000);
+                        }
+                        else {
+                            this.sell[i].setTint(0x888888);
+                        }
+                    }
+                })
+                .on('pointerout', () => {
+                    this.sell[i].setTint(0xffffff);
+                    this.sell[i].setScale(0.2);
+                })
+                .on('pointerdown', () => {
+                    if(this.sell[i].y > 360 && this.sell[i].y < 850){
+                        if (level >= lvlCadre[i] && animaux_achetes[i] >= 1) {
+                            this.moulaga.play();
+                            this.sell[i].setTint(0xffffff);
+                            this.sell[i].setScale(0.172);
+                            vente_animal(i, nbEnclos[i]);
+                            this.nbA[i].setText(animaux_achetes[i]);
+                        }
+                    }
+                })
+                .on('pointerup', () => {
+                    this.sell[i].setScale(0.2);
+            });
+            this.sell[i].setScale(0.2);
+            this.sell[i].depth = 11;
+            this.sell[i].visible = false;
+            viewport.add(this.sell[i]);
+            this.nbA[i] = this.add.text(1806, posNbAy[i], '0', { font: 'bold 32px Georgia', fill: '#000' })
+            this.nbA[i].depth = 11;
+            this.nbA[i].visible = false;
+            viewport.add(this.nbA[i]);
+        }
+        
 
 
-
+        //daniel version animal 110
+        this.animals[110] = this.add.image(1220, 500, 'daniel')
+            .setInteractive({ useHandCursor: false })
+        this.animals[110].setScale(6);
+        this.animals[110].depth = 15;
+        this.animals[110].visible = false;
         //mynthos version animal 111-114
         this.animals[111] = this.add.image(750, 460, 'myn1')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => { console.log("yolo"); });
-        this.animals[111].setScale(0.6);
-        this.animals[111].depth = 11;
+        .setInteractive({ useHandCursor: false })
+        this.animals[111].setScale(8);
+        this.animals[111].depth = 15;
         this.animals[111].visible = false;
         //viewport.add(this.animals[111]);
         this.animals[112] = this.add.image(750, 760, 'myn2')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => { console.log("yolo"); });
+        .setInteractive({ useHandCursor: false })
         this.animals[112].setScale(0.6);
         this.animals[112].depth = 11;
         this.animals[112].visible = false;
         //viewport.add(this.animals[112]);
         this.animals[113] = this.add.image(750, 1060, 'myn3')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => { console.log("yolo"); });
+        .setInteractive({ useHandCursor: false })
         this.animals[113].setScale(1.2);
         this.animals[113].depth = 11;
         this.animals[113].visible = false;
         //viewport.add(this.animals[113]);
         this.animals[114] = this.add.image(750, 1360, 'myn4')
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => { console.log("yolo"); });
+        .setInteractive({ useHandCursor: false })
         this.animals[114].setScale(1.2);
         this.animals[114].depth = 11;
         this.animals[114].visible = false;
         //viewport.add(this.animals[114]);
 
-
-        this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         //|||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL ||||
         let indiceWheel = 0;
@@ -3565,11 +2114,12 @@ class Menu extends Phaser.Scene {
             }
             //wheel
             if (opened == true && this.menu.visible == true && this.animals[indiceWheel].visible == true) {
-                //console.log(deltaY);
                 if (deltaY < 0 && this.animals[indiceWheel].y > 450) {
                     for (let i = indiceWheel; i < indiceWheel + indiceNb; i++) {
                         this.animals[i].y = 460 + 300 * multiplicateur;
                         this.descr[i].y = 360 + 300 * multiplicateur;
+                        this.sell[i].y = 540 + 300 * multiplicateur;
+                        this.nbA[i].y = 358 + 300 * multiplicateur;
                         multiplicateur++;
                     }
                     multiplicateur = 0;
@@ -3578,6 +2128,8 @@ class Menu extends Phaser.Scene {
                     for (let i = indiceWheel; i < indiceWheel + indiceNb; i++) {
                         this.animals[i].y = (460 - 300 * (indiceNb - 1)) + 300 * multiplicateur;
                         this.descr[i].y = (360 - 300 * (indiceNb - 1)) + 300 * multiplicateur;
+                        this.sell[i].y = (540 - 300 * (indiceNb - 1)) + 300 * multiplicateur;
+                        this.nbA[i].y = (358 - 300 * (indiceNb - 1)) + 300 * multiplicateur;
                         multiplicateur++;
                     }
                     multiplicateur = 0;
@@ -3586,22 +2138,40 @@ class Menu extends Phaser.Scene {
                     for (let i = indiceWheel; i < indiceWheel + indiceNb; i++) {
                         this.animals[i].y -= deltaY;
                         this.descr[i].y -= deltaY;
+                        this.sell[i].y -= deltaY;
+                        this.nbA[i].y -= deltaY;
                     }
                 }
             }
         }, this);
+        
+        
+        //jeux.style.display = 'block';
+        /*jeux.style.display = "block";
+        jeux.style.zIndex = "100"*/
+/*
+        loading.style.display = "none";
+        loading.parentNode.removeChild(loading);
+        */
+        //jeux.style.display = 'block';
+        //loading.style.display = 'none';
+        //loading.style.zIndex = '-1';
+        //loading.parentNode.removeChild(loading);
+        //console.log("CHARGEMENT FINI");
 
     }
     update() {
-        posXTest.setText(game.input.mousePointer.x);
-        posYTest.setText(game.input.mousePointer.y);
+        
+
+        //posXTest.setText(game.input.mousePointer.x);
+        //posYTest.setText(game.input.mousePointer.y);
 
 
         atm = this;
         hell.then(function (value) {
 
             if (charger == false) {
-                console.log(value);
+                //console.log(value);
                 charger = true;
                 animaux = value.animaux;
                 hashtags = value.hashtags;
@@ -3613,11 +2183,15 @@ class Menu extends Phaser.Scene {
                 //console.log("visiteurs");
                 //console.log(visiteurs);
 
-                //parcours les animaux
+                //parcours animaux
                 for (let i = 0; i < animaux.length; i++) {
                     for (let j = 0; j < hashtags.length; j++) {
                         if (j <= 20) {
                             atm.hashtagText[j].setText('#'+hashtags[j].hashtag+' x'+hashtags[j].number);
+                            if(hashtagVedette < hashtags[j].number){
+                                hashtagVedette = hashtags[j].number;
+                                animalVedette = hashtags[j].hashtag;
+                            }
                         }
                         if (animaux[i].nom.toLowerCase() == hashtags[j].hashtag.toLowerCase()) {
                             animaux[i].popularite += 25 * hashtags[j].number;
@@ -3637,25 +2211,60 @@ class Menu extends Phaser.Scene {
             if (compteurtick2 == 0) {
 
                 xps = (xps + 100) % 1000;
-                if(coins > 0){
-                    coinText.setText(coins);
-                }
-                else{
-                    coinText.setText(0);
-                }
+                coinText.setText(coins);
                 nbvisitText.setText(nbvisit);
                 xpText.setText(cumul + ' / ' + cumul_requis[indice_level]);
-                if(cumul_requis[indice_level] == 'max' && frameP != 18){
-                    frameP = 18;
-                    atm.anim_xp.setFrame(frameP);
+                frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
+                if(level < 30){
+                    atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP)%19);
                 }
-                else if(cumul_requis[indice_level] != 'max'){
-                    frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
-                    atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP));
+                else if(level >= 30){
+                    atm.anim_xp.setFrame(18);
                 }
                 stonksText.setText(gain_argent(nbvisit, nbanimaux, popularitetot));
+                stonksText.setStyle({ fill: '#00ff00' });
                 not_stonksText.setText(depensee(save, animaux));
-                stonks2Text.setText(gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux));
+                not_stonksText.setStyle({ fill: '#ff0000' });
+                
+                // Calculez la valeur du texte
+                const valeurTexte = gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux);
+
+                let couleurTexte = '#0000ff';
+                // Définissez la couleur du texte en fonction de la valeur
+                if(valeurTexte < 0) {
+                    couleurTexte = '#ff0000';
+                }
+                if(valeurTexte > 0) {
+                    couleurTexte = '#00ff00';
+                }
+
+                // Créez le texte avec la couleur définie
+                stonks2Text.setText(gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux).toString());
+                stonks2Text.setStyle({ fill: couleurTexte });
+
+                if(animauxTotaux != 0){
+                    temps2++;
+                }
+                if(temps2 % 3 == 0){
+                    depenseTot += depensee(save, animaux)
+                    tristeText.setText(depenseTot.toString());
+                    tristeText.setStyle({ fill: '#C41500' });
+                    temps2 = 0;
+                }
+
+                etoileText.setText(animalVedette.toString());
+                etoileText.setStyle({fill : '#02C4B0'});
+                if(nbanimaux !=0){popuText.setText((Math.round(popularitetot/nbanimaux)).toString());}
+                else{ popuText.setText("0");}
+                popuText.setStyle({fill : '#9200C4'});
+                
+
+                nrbAnimauxText.setText(nbanimaux);
+                nrbAnimauxText.setStyle({ fill: '#0000ff' });
+
+                
+                argentTotauxText.setText(cumul/*.toString(), false*/);
+                argentTotauxText.setStyle({ fill: '#C4CB00' });
                 
 
                 if (monte_ok(cumul) && level < 30) {
@@ -3664,6 +2273,14 @@ class Menu extends Phaser.Scene {
                     lvlText.setText(level);
                     indice_level++;
                     //console.log("next level : " + level);
+                    //atm.level_up.play();
+                    if(level >= 30){
+                        atm.skyrim.play();
+                    }
+                    else{
+                        atm.minecraft.play();
+                    }
+                    //atm.intro_so_long.play();
 
 
                     if (level >= 1) {
@@ -3783,7 +2400,7 @@ class Menu extends Phaser.Scene {
                 compteurtick2 = (compteurtick2 + 1)%4;
             }
             else if(speed == "normal"){
-                compteurtick2 = (compteurtick2 + 1)%8;
+                compteurtick2 = (compteurtick2 + 1)%35;
             }
 
 
@@ -3798,6 +2415,12 @@ class Menu extends Phaser.Scene {
                     for(let i = 0; i < 7; i++){
                         atm.hashtagText[i+7].visible = false;
                         atm.hashtagText[i+14].visible = true;
+                    }
+                }
+                else if(atm.hashtagText[7].visible == true && atm.hashtagText[14].text == '-'){
+                    for(let i = 0; i < 7; i++){
+                        atm.hashtagText[i+7].visible = false;
+                        atm.hashtagText[i].visible = true;
                     }
                 }
                 else if(atm.hashtagText[14].visible == true && atm.hashtagText[0].text != '-'){
@@ -3836,8 +2459,21 @@ class Menu extends Phaser.Scene {
             //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
 
             // ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ======
+            //MENU REGLES
+            if(regles_zou == true){
+                if(compteurtick5 == 0) {
+                    atm.regles.setPosition(1220, 532 - zou);
+                    zou += 38;
+                }
+                compteurtick5 = (compteurtick5+1)%1;
+                if(zou > 1200){
+                    atm.regles.visible = false;
+                    opened = false;
+                    regles_zou = false;
+                }
+            }
             //MENU ECHAP
-            if (atm.echap.isDown) {
+            if (atm.echap.isDown || echap == true) {
                 if (opened == true) {
                     atm.menu.visible = false;
                     atm.menu2.visible = false;
@@ -3845,12 +2481,39 @@ class Menu extends Phaser.Scene {
                     atm.stonks.visible = false;
                     atm.not_stonks.visible = false;
                     atm.stonks2.visible = false;
+                    atm.logo_animaux.visible = false;
+                    atm.argent.visible = false;
+                    atm.triste.visible = false;
+                    atm.poulpi.visible = false;
+                    atm.etoile.visible = false;
                     stonksText.visible = false;
                     not_stonksText.visible = false;
                     stonks2Text.visible = false;
+                    statgainsAnnuel.visible = false;
+                    statTriste.visible = false;
+                    statPoulpi.visible = false;
+                    statEtoile.visible = false;
+                    gainstotaux.visible = false;
                     gainstotaux.visible = false;
                     depenses.visible = false;
                     gainsreels.visible = false;
+                    statNbreAnimaux.visible = false;
+                    nrbAnimauxText.visible = false;
+                    argentTotauxText.visible = false;
+                    tristeText.visible = false;
+                    popuText.visible = false;
+                    etoileText.visible = false;
+                    atm.animals[110].visible = false;
+                    atm.animals[111].visible = false;
+                    atm.x_button.visible = false;
+
+                    music_name1.visible = false;
+                    music_name2.visible = false;
+                    music_name3.visible = false;
+                    music_name4.visible = false;
+                    music_name5.visible = false;
+                    music_name6.visible = false;
+
                     atm.sound1.visible = false;
                     atm.sound2.visible = false;
                     atm.sound3.visible = false;
@@ -3866,8 +2529,11 @@ class Menu extends Phaser.Scene {
                     for (let i = 1; i < 51; i++) {
                         atm.animals[i].visible = false;
                         atm.descr[i].visible = false;
+                        atm.sell[i].visible = false;
+                        atm.nbA[i].visible = false;
                     }
                     opened = false;
+                    echap = false;
                 }
             }
             
@@ -3878,12 +2544,29 @@ class Menu extends Phaser.Scene {
                     atm.stonks.visible = true;
                     atm.not_stonks.visible = true;
                     atm.stonks2.visible = true;
+                    atm.logo_animaux.visible = true;
+                    atm.argent.visible = true;
+                    atm.triste.visible = true;
+                    atm.poulpi.visible = true;
+                    atm.etoile.visible = true;
                     stonksText.visible = true;
                     not_stonksText.visible = true;
                     stonks2Text.visible = true;
+                    statgainsAnnuel.visible = true;
+                    statTriste.visible = true;
+                    statPoulpi.visible = true;
+                    statEtoile.visible = true;
                     gainstotaux.visible = true;
                     depenses.visible = true;
                     gainsreels.visible = true;
+                    statNbreAnimaux.visible = true;
+                    nrbAnimauxText.visible = true;
+                    argentTotauxText.visible = true;
+                    tristeText.visible = true;
+                    popuText.visible = true;
+                    etoileText.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1962,234);
 
                     opened = true;
                 }
@@ -3894,12 +2577,14 @@ class Menu extends Phaser.Scene {
             if (radio == true) {
                 if (opened == false) {
                     atm.menu3.visible = true;
-                    /*atm.sound1.visible = true;
-                    atm.sound3.visible = true;
-                    atm.sound5.visible = true;
-                    atm.sound7.visible = true;
-                    atm.sound9.visible = true;
-                    atm.sound11.visible = true;*/
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1912,262);
+                    music_name1.visible = true;
+                    music_name2.visible = true;
+                    music_name3.visible = true;
+                    music_name4.visible = true;
+                    music_name5.visible = true;
+                    music_name6.visible = true;
 
                     opened = true;
                 }
@@ -4055,8 +2740,52 @@ class Menu extends Phaser.Scene {
                 }
             }
             
+            //MENU GAME OVER
+            if(coins < 0){
+                for (let i = 0; i < animaux_t.length;i++){
+                    const id2 = animaux_t[i].idAnimal;
+                    //console.log(animaux[id2-1].prix);
+                    venteTotale += (animaux[id2-1].prix/2);    
+                }
+            }
+            if (coins < (venteTotale * (-1))) {
+                atm.menu4.visible = true;
+                atm.calimero.visible = true;
+                atm.error.visible = true;
+                TextGameOver.visible = true;
+                TextGameOver2.visible = true;
+                TextGameOver3.visible = true;
+                //console.log(gameover);
+                if(atm.mort.isPlaying == false && gameover == 0){
+                    gameover = 1;
+                    atm.mort.play();
+                }
+                if(atm.mort.isPlaying == false){
+                    gameover++;
+                }
+                if(gameover > 4){
+                    game.destroy();
+                }
+            }else {venteTotale = 0;}
 
-
+            //MENU WIN
+            if(animaux_achetes[50] >= 3 && animaux_achetes[30] >= 3 && win == 0){
+                for(let i = 1; i < 51; i++){
+                    if(animaux_achetes[i] >= 3){
+                        win++;
+                    }
+                }
+                if(atm.skyrim3.isPlaying == false && win >= 50){
+                    atm.win.visible = true;
+                    win = 60;
+                    atm.skyrim3.play();
+                }
+            }
+            if(win == 60){
+                if(atm.skyrim3.isPlaying == false){
+                    atm.win.visible = false;
+                }
+            }
 
             //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             //$$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$
@@ -4065,9 +2794,13 @@ class Menu extends Phaser.Scene {
             if (enclos1 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 1; i < 6; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4077,9 +2810,13 @@ class Menu extends Phaser.Scene {
             if (enclos2 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 6; i < 8; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4089,9 +2826,13 @@ class Menu extends Phaser.Scene {
             if (enclos3 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 8; i < 12; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4101,9 +2842,13 @@ class Menu extends Phaser.Scene {
             if (enclos4 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 12; i < 14; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4113,9 +2858,13 @@ class Menu extends Phaser.Scene {
             if (enclos5 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 14; i < 21; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4125,9 +2874,13 @@ class Menu extends Phaser.Scene {
             if (enclos6 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 21; i < 26; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4137,9 +2890,13 @@ class Menu extends Phaser.Scene {
             if (enclos7 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 26; i < 31; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4149,9 +2906,13 @@ class Menu extends Phaser.Scene {
             if (enclos8 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 31; i < 34; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4161,9 +2922,13 @@ class Menu extends Phaser.Scene {
             if (enclos9 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 34; i < 37; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4173,9 +2938,13 @@ class Menu extends Phaser.Scene {
             if (enclos10 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 37; i < 39; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4185,9 +2954,13 @@ class Menu extends Phaser.Scene {
             if (enclos11 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 39; i < 42; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4197,9 +2970,13 @@ class Menu extends Phaser.Scene {
             if (enclos12 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 42; i < 46; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4209,9 +2986,13 @@ class Menu extends Phaser.Scene {
             if (enclos13 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 46; i < 48; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
@@ -4221,13 +3002,39 @@ class Menu extends Phaser.Scene {
             if (enclos14 == true) {
                 if (opened == false) {
                     atm.menu.visible = true;
+                    atm.x_button.visible = true;
+                    atm.x_button.setPosition(1908,266);
                     for (let i = 48; i < 51; i++) {
                         atm.animals[i].visible = true;
                         atm.descr[i].visible = true;
+                        atm.sell[i].visible = true;
+                        atm.nbA[i].visible = true;
                     }
                     opened = true;
                 }
                 enclos14 = false;
+            }
+
+            if (atm.G.isDown && atm.A.isDown && gagaga == false) {
+                gagaga = true;
+            }
+            if(gagaga == true/* && atm.gagaga.isPlaying == false*/){
+                atm.animals[111].visible = true;
+                opened = true;
+                atm.gagaga.play();
+                gagaga = false;
+            }
+            if(atm.G.isUp && atm.A.isUp && gagaga == true){
+                gagaga = false;
+            }
+            if (atm.S.isDown && atm.O.isDown && intro == false) {
+                intro = true;
+            }
+            if(intro == true/* && atm.gagaga.isPlaying == false*/){
+                atm.animals[110].visible = true;
+                opened = true;
+                atm.intro_so_long.play();
+                intro = false;
             }
 
 

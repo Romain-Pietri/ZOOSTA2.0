@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link href="../img/error.png" type="image/x-icon" rel="icon" />
     <style>
         html,
         body {
@@ -12,12 +12,15 @@
             padding: 0px;
             overflow: hidden;
             height: 100%;
-            background-color: forestgreen;
+            background-image: url('../map/backtoblack2.png');
+            /*background-color: forestgreen;*/
         }
     </style>
-
+    
+    
     <script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.js"></script>
-
+   
+    
     <title>ZOOSTA ! </title>
 </head>
 <body>
@@ -34,12 +37,25 @@
         <!-- ##                                      ## -->
         <!-- ########################################## -->
 
-
-        <div class="JEU" id="ZOOSTA">
+        
+      
+        <div id="ZOOSTA">
             <!-- <script type="text/javascript" src="../Objects/rexuiplugin.min.js"></script> -->       
             <script type="text/javascript" src="/js/jeu.js"></script> <!-- type="module" -->
         </div>
+        
+        <!-- <img id="loading" src="../img/loading.png" alt="Loading" width="1338" height="580" zIndex ='2'/> -->
+        
+       
 
+        <script type="text/javascript">
+            //var loading = document.getElementById('loading');
+            //var jeux = document.getElementById('ZOOSTA');
+            //jeux.style.zIndex = '1';
+           // jeux.style.display = "none";
+            //console.log('test');
+            
+        </script>
 
 
     </div>
