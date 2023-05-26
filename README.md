@@ -23,7 +23,10 @@ git clone https://github.com/Romain-Pietri/ZOOSTA2.0
 ```bash
 npm install
 ```
-3. Get all our images from our google drive
+3. Get all our images and sound from this link and put them in the folder front
+
+https://cdn.discordapp.com/attachments/1088099892976701541/1111604963899097198/audio.zip
+https://cdn.discordapp.com/attachments/1088099892976701541/1111604964159131689/img.zip
 
 4. Make sur you have the right password for your database in the file 'back/bdd_connect.js'
 ```javascript
