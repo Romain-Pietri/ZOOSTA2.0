@@ -65,7 +65,7 @@ After few seconds, you're getting redirected to the website on your browser.
 
 - [Romain Pietri](https://github.com/Romain-Pietri)
 - [Remy Ficheux](https://github.com/Remfich)
-- [Esteban Delplanque](https://github.com/estebandsplq)
+- [Esteban Desplanques](https://github.com/estebandsplq)
 - [Auguste Buriez](https://github.com/AugusteBuriez)
 - [Juliane Loridan](https://github.com/Juliane4101)
 - [Matthieu Lacroix](https://github.com/Xarveyn)
