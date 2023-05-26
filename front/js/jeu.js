@@ -1,7 +1,4 @@
 
-//var jeux = document.getElementById('ZOOSTA');
-//var loading = document.getElementById('loading');
-
 // ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
 let nbanimaux = 0;
 let animauxTotaux = 0;
@@ -12,7 +9,7 @@ let save = 0;
 let visiteurs;
 let popularitetot = 0;
 let venteTotale = 0;
-let secret=false;
+let secret = false;
 let animalVedette = '';
 let hashtagVedette = 0;
 
@@ -37,18 +34,8 @@ let compteurtick3 = 1;
 let compteurtick4 = 1;
 let compteurtick5 = 1;
 let random = 0;
-let hauttick = 0;
-let bastick = 0;
-let droitetick = 0;
-let gauchetick = 0;
-let FrameUp = 0;
-let FrameDown = 0;
-let FrameRight = 0;
-let FrameLeft = 0;
 let regles_zou = false;
 let zou = 0;
-let gagaga = false;
-let intro = false;
 let stepCam = 1;
 let menuactive = false;
 let width = 2438;
@@ -87,8 +74,8 @@ let music_name4 = "Estebebou en voyage";
 let music_name5 = "Matthieu l'IA dans la matrice";
 let music_name6 = "L'humour d'un Cactus";
 
-let posXTest = "";
-let posYTest = "";
+//let posXTest = "";
+//let posYTest = "";
 
 let depenseTot = 0;
 let gainsTotal = 0;
@@ -186,9 +173,6 @@ let EtatAnimaux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 let temps = 0;
 
 
-
-
-
 function hello() {
     const data = fetch('/hello', {
         method: 'POST',
@@ -203,15 +187,12 @@ function hello() {
             return data
         }
         );
-    //console.log("hell")
     return data;
 }
 const hell = hello();
 
-
 function ec_n_to_tab(ec_n) {
     let tab = [];
-    //ec_n est une string de la forme 1 2 14 ... et ca devrait donner tab=[1,2,14,...]
     let last_space = 0;
     if (ec_n != null) {
         for (let i = 0; i < ec_n.length; i++) {
@@ -281,13 +262,9 @@ function popularitetot_nbanimaux(save) {
     let popularitetot = 0
     for (let i = 0; i < save.ec_na.length; i++) {
         for (let j = 0; j < save.ec_na[i].length; j++) {
-            //console.log(animaux[save.ec_na[i][j]-1].popularite)
             popularitetot += animaux[save.ec_na[i][j] - 1].popularite;
         }
     }
-    //console.log("total animaux : ", nbanimaux)
-    //console.log("popularite : ",popularitetot)
-
     return [nbanimaux, popularitetot]
 }
 
@@ -312,64 +289,57 @@ function gain_argent(nbvisit, nbanimaux, popularitetot) {
     if (nbanimaux == 0) {
         return 0;
     }
-    
     return Math.round((10 * nbvisit * (popularitetot / (nbanimaux * 150))));
-
 }
 
-function monte_lvl(cumul) {
-    if (Math.floor(Math.pow(cumul, 1.5) / 100000) >= save.niveau + 1) {
-        return true;
-    }
-    return false;
-}
 function monte_ok(cumul) {
     if(cumul > cumul_requis[indice_level]){
         return true;
     }
     return false
 }
+
 //&&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&&
 let indice_level = 1;
 let cumul_requis = [];
 cumul_requis[0] = 2000;
+cumul_requis[1] = 8000;
+cumul_requis[2] = 20000;
 let mode = "normal";
-let speed = "fast";
+let speed = "normal";
 
 if(mode == "test"){
-    for(let i = 1; i < 30; i++){
-        cumul_requis[i] = 2000+(i+i/10)*5000;
+    for(let i = 3; i < 30; i++){
+        cumul_requis[i] = 2000+(i+i/10)*10000;
     }
 }
 else if(mode == "normal"){
-    for(let i = 1; i < 15; i++){
+    for(let i = 3; i < 15; i++){
         cumul_requis[i] = Math.floor(cumul_requis[i-1]*1.6);
-        //console.log(cumul_requis[i]);
     }
     for(let i = 15; i < 30; i++){
         cumul_requis[i] = Math.floor(cumul_requis[i-1]*(1+i/1000));
-        //console.log(cumul_requis[i]);
     }
 }
 cumul_requis[30] = "max";
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 function how_many_money(niveau) {
-
     return Math.floor(Math.sqrt(1000000 * niveau, 1.5))
 }
+
 let maxEnclos = [0, 114, 56, 68, 64, 84, 78, 78, 94, 78, 36, 40, 63, 12, 18];
+
 function achat_animal(i, en_c) {
     console.log(en_c);
     if (animaux[i - 1].prix <= coins && animauxActuel_enclos[en_c-1] <= maxEnclos[en_c]) {
         coins -= animaux[i - 1].prix;
-        //console.log(save.ec_na)
-        //console.log(save.ec_na)
         save.ec_na[en_c - 1].push(i);
         animaux_a_afficher.push(i);
         animaux_achetes[i]++;
     }
 }
+
 function vente_animal(i, en_c) {
     if(animaux_achetes[i] >= 1){
         coins += Math.floor(animaux[i - 1].prix / 2);
@@ -406,7 +376,6 @@ function depensee(save, animaux) {
 //##############################################################################################################
 //##############################################################################################################
 
-
 //##############################################################################################################
 //##############################################################################################################
 //###     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ####     BOOT     ###
@@ -417,8 +386,6 @@ class Boot extends Phaser.Scene {
         super({ key: 'Boot' });
     }
     preload() {
-    
-        this.load.image('player', '../img/Prof_Tilleul.png');
         this.load.image('background', '../map/background.png');
 
         this.load.image('coin', '../img/coin.png');
@@ -457,12 +424,6 @@ class Boot extends Phaser.Scene {
         this.load.image('x_button', '../img/x.png');
         this.load.image('calimero', '../img/calimero.png');
         this.load.image('error', '../img/error.png');
-
-        this.load.image('daniel', '../img/daniel.png');
-        this.load.image('myn1', '../img/mynthos1.jpg');
-        this.load.image('myn2', '../img/mynthos2.jpg');
-        this.load.image('myn3', '../img/mynthos3.jpg');
-        this.load.image('myn4', '../img/mynthos4.jpg');
 
 
         //====== ANIMAUX PRELOAD ====== ANIMAUX PRELOAD ====== ANIMAUX PRELOAD ====== ANIMAUX PRELOAD ====== ANIMAUX PRELOAD ======
@@ -630,19 +591,13 @@ class Boot extends Phaser.Scene {
         this.load.audio('music5', ['../audio/music_5.mp3']);
         this.load.audio('music6', ['../audio/music_6.mp3']);
 
-       // this.load.audio('level_up', ['../audio/level_up.mp3']);
-        this.load.audio('kashing', ['../audio/kashing.mp3']);
-        this.load.audio('moulaga', ['../audio/moulaga.wav']);
-        this.load.audio('mort', ['../audio/mort.mp3']);
-
-        this.load.audio('minecraft', ['../audio/minecraft.mp3']);
+        this.load.audio('level_up', ['../audio/level_up.mp3']);
         this.load.audio('skyrim', ['../audio/skyrim.mp3']);
-        this.load.audio('skyrim3', ['../audio/skyrim3.mp3']);
-        this.load.audio('intro_so_long', ['../audio/intro_so_long.mp3']);
-        this.load.audio('gagaga', ['../audio/gagagagagaga.mp3']);
+        this.load.audio('kashing', ['../audio/kashing.mp3']);
+        this.load.audio('money', ['../audio/money.wav']);
+        this.load.audio('mort', ['../audio/mort.mp3']);
     }
     create() {
-        
         this.scene.start('Game');
         this.scene.start('HUD');
         this.scene.start('Menu');
@@ -659,7 +614,8 @@ class Game extends Phaser.Scene {
         super('Game');
         this.path = null;
         this.visiteur = [];
-        this.targetCoordinates = [[
+        this.targetCoordinates = [
+        [
             { x: 1245, y: 540 },
             { x: 970, y: 391 },
             { x: 1220, y: 275 },
@@ -695,14 +651,15 @@ class Game extends Phaser.Scene {
             { x: 966, y: 679 },
             { x: 805, y: 770 },
         ],
-        [{ x: 1253, y: 539 },
-        { x: 1508, y: 662 },
-        { x: 1692, y: 565 },
-        { x: 1695, y: 520 },
-        { x: 1220, y: 276 },
-        { x: 965, y: 402 },
-        { x: 1236, y: 542 },
-        { x: 805, y: 770 },
+        [
+            { x: 1253, y: 539 },
+            { x: 1508, y: 662 },
+            { x: 1692, y: 565 },
+            { x: 1695, y: 520 },
+            { x: 1220, y: 276 },
+            { x: 965, y: 402 },
+            { x: 1236, y: 542 },
+            { x: 805, y: 770 },
         ],
         [
             { x: 965, y: 681 },
@@ -715,25 +672,24 @@ class Game extends Phaser.Scene {
             { x: 1235, y: 543 },
             { x: 805, y: 770 },
         ],
-        [{ x: 1249, y: 542 },
-        { x: 1203, y: 525 },
-        { x: 1450, y: 392 },
-        { x: 1693, y: 518 },
-        { x: 1697, y: 557 },
-        { x: 1503, y: 662 },
-        { x: 1254, y: 544 },
-        { x: 975, y: 683 },
-        { x: 759, y: 566 },
-        { x: 998, y: 422 },
-        { x: 963, y: 405 },
-        { x: 1216, y: 275 },
-        { x: 1452, y: 393 },
-        { x: 1207, y: 525 },
-        { x: 1252, y: 543 },]
+        [
+            { x: 1249, y: 542 },
+            { x: 1203, y: 525 },
+            { x: 1450, y: 392 },
+            { x: 1693, y: 518 },
+            { x: 1697, y: 557 },
+            { x: 1503, y: 662 },
+            { x: 1254, y: 544 },
+            { x: 975, y: 683 },
+            { x: 759, y: 566 },
+            { x: 998, y: 422 },
+            { x: 963, y: 405 },
+            { x: 1216, y: 275 },
+            { x: 1452, y: 393 },
+            { x: 1207, y: 525 },
+            { x: 1252, y: 543 },
+        ]];
 
-
-
-        ];
         this.currentTargetIndex = [0];
         this.text_visiteur = [];
         this.frame = []
@@ -746,10 +702,8 @@ class Game extends Phaser.Scene {
     }
     // Fonction pour supprimer un animal du tableau et de la scène
     suppressionAnimal(idAnimal, scene) {
-        //console.log("suppression animal")
         let enclosIndex;
         if (1 <= idAnimal && idAnimal <= 5) {
-            //console.log("enclos 1")
             enclosIndex = 0;
         } else if (idAnimal == 6 || idAnimal == 7) {
             enclosIndex = 1;
@@ -796,8 +750,6 @@ class Game extends Phaser.Scene {
         }
     }
     afficherAnimal(idAnimal, scene) {
-        
-        //console.log(Max_enclos_X[0], Min_enclos_X[0], Max_enclos_Y[0], Min_enclos_Y[0], animauxActuel_enclos[0], animauxMax_enclos[0]);
         // Vérification de l'ID de l'animal et détermination de l'index de l'enclos correspondant
         let enclosIndex;
         if (1 <= idAnimal && idAnimal <= 5) {
@@ -900,13 +852,10 @@ class Game extends Phaser.Scene {
         // Ajout de l'animal à la couche "enclos" de la carte aux coordonnées isométriques avec la taille prédéfinie
         const animalSprite = scene.animauxGroup.create(isoX, isoY, "animal_" + idAnimal);
         animalSprite.idAnimal = idAnimal;
-        //console.log(isoX, isoY, "animal_" + idAnimal);
 
         animalSprite.setOrigin(-50.85, 6.7);
         animalSprite.setDepth(3);
         animalSprite.setScale(0.04);
-
-        //console.log(animaux_X, animaux_Y);
 
         // Démarrage du chargement des ressources
         scene.load.start();
@@ -914,7 +863,6 @@ class Game extends Phaser.Scene {
 
     }
     updateAnimal(idAnimal, scene) {
-            
         const groupeAnimal = scene.animauxGroup;
         const animalToUpdate = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
     
@@ -925,7 +873,6 @@ class Game extends Phaser.Scene {
             // Récupérer le nom de l'animal à partir de son ID
             const nomAnimal = nomsAnimaux[idAnimal];
            
-          
             if (nomAnimal && EtatAnimaux[idAnimal-1] == 0) {
                 // Créer un nouvel animal avec une nouvelle image
                 const nouvelleImage = nomAnimal + '2';
@@ -953,12 +900,9 @@ class Game extends Phaser.Scene {
                 // Remplacer l'animal dans le groupe
                 groupeAnimal.add(nouvelAnimal);
             }
-        
         }
     }
     create() {
-        
-
         this.menu5 = this.add.image(1220, 572, 'menu5');
         this.menu5.setScale(1.28);
         this.menu5.depth = 15;
@@ -975,7 +919,6 @@ class Game extends Phaser.Scene {
         });
         this.add.image(2438, 1080, 'background').setScale(1).setDepth(-1).setOrigin(1, 1);
 
-        
         //#####################################
         //#                                   #
         //# --   Création de la caméra    --  #
@@ -1012,7 +955,7 @@ class Game extends Phaser.Scene {
             testPosY = pointer.y;
 
             if (tile && testPosX == testPosX2 && testPosY == testPosY2) {
-                console.log(`Clicked on tile (${tile.x}, ${tile.y}) in layer '${tile.layer.name}'`);
+                //console.log(`Clicked on tile (${tile.x}, ${tile.y}) in layer '${tile.layer.name}'`);
                 if(tile.x == 31 && tile.y == 41){
                     gagaga = true;
                     console.log(gagaga);
@@ -1075,22 +1018,17 @@ class Game extends Phaser.Scene {
                 }
             }
         }
+
         function stockthepos(pointer2) {
             testPosX2 = pointer2.x;
             testPosY2 = pointer2.y;
         }
+
         this.input.on('pointerdown', stockthepos, this);
         this.input.on('pointerup', detectTileClick, this);
 
-
         this.animauxGroup = this.add.group();
         this.cameras.main.setZoom(1);
-
-        /* de côté ça peut aider
-        this.input.keyboard.on("keydown-A", function () {
-            this.cameras.main.ignore([this.coinText, this.xpText]);
-        }, this);
-        */
 
         //Ajout des contrôles de la caméra
         this.input.on("wheel", function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
@@ -1102,7 +1040,6 @@ class Game extends Phaser.Scene {
             const tileHeight = 64;
             const isoX = (mouseWorldX - originX) / tileWidth - (mouseWorldY - originY) / tileHeight;
             const isoY = (mouseWorldX - originX) / tileWidth + (mouseWorldY - originY) / tileHeight;
-            //console.log(isoX, isoY);
 
             if (stepCam > 1 && stepCam <= 16 && deltaY > 0 && opened == false) {
                 stepCam = stepCam / 2; //dezoom
@@ -1134,15 +1071,12 @@ class Game extends Phaser.Scene {
                 else if(stepCam == 16){
                     this.cameras.main.centerOn(this.cameras.main.worldView.centerX + offsetX/2, this.cameras.main.worldView.centerY + offsetY/2);
                 }
-                
             }
 
             if (stepCam == 1) {
                 this.cameras.main.centerOn(1220, 540);
             }
         }, this);
-
-
 
 
         this.input.on("pointerdown", function (pointer) {
@@ -1200,9 +1134,6 @@ class Game extends Phaser.Scene {
         tileHeight = map.tileHeight * layers.enclos.scaleY;
         //################################
 
-
-
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
         let nombreVisiteurs = 40;// Nombre de visiteurs à créer
@@ -1234,8 +1165,7 @@ class Game extends Phaser.Scene {
                 this.visiteur[i].setCollideWorldBounds(false);
                 this.visiteur[i].body.setAllowGravity(false);
 
-
-                this.texte = this.add.text(0, 0, /*visiteurs[i].nom + " " + */visiteurs[i].prenom, { fontSize: '10px', fill: '#000000' });
+                this.texte = this.add.text(0, 0, visiteurs[i].prenom, { fontSize: '10px', fill: '#000000' });
                 this.texte.setOrigin(0.5);
                 this.texte.depth = 4;
                 this.text_visiteur.push(this.texte);
@@ -1247,9 +1177,6 @@ class Game extends Phaser.Scene {
                 this.smile.depth = 4;
                 this.smiley.push(this.smile);
                 this.moveVisiteurToNextTarget(i, cheminIndex, vitesse);
-
-
-
             }
         });
 
@@ -1259,25 +1186,18 @@ class Game extends Phaser.Scene {
                 //console.log(`{x: ${parseInt(x)}, y: ${parseInt(y)} },`);
             }
         });
-        
-        
     }
     wich_direction(x, y, targetx, targety) {
         if (targetx - x < 0 && targety - y < 0) {
-
             return 6;
         }
         if (targetx - x < 0) {
-
             return 0;
         }
         if (targety - y < 0) {
-
             return 9;
         }
-
         return 3;
-
     }
     moveVisiteurToNextTarget(i, chemin, vitesse) {
         if (this.currentTargetIndex[i] >= this.targetCoordinates[chemin].length) {
@@ -1308,15 +1228,9 @@ class Game extends Phaser.Scene {
                     this.visiteur[i].setFrame(this.frame[i][0]);
                     this.frame[i][0] = (this.frame[i][0] + 1) % 3 + this.wich_direction(this.visiteur[i].x, this.visiteur[i].y, target.x, target.y);
                     this.frame[i][1] = 0;
-
-
                 }
                 
-                
                 this.frame[i][1] += 1;
-                //this.frame[i][2] += 1;
-
-                //console.log(this.frame[i])
 
                 this.text_visiteur[i].x = this.visiteur[i].x;
                 this.text_visiteur[i].y = this.visiteur[i].y - 30;
@@ -1332,8 +1246,6 @@ class Game extends Phaser.Scene {
                 //this.frame[i][0] = (this.frame[i][0] + 1) % 3 + this.wich_direction(this.visiteur[i].x, this.visiteur[i].y, chemin);
                 this.visiteur[i].setFrame(this.frame[i][0]);
                 //this.frame[i][1] = 0;
-
-
             }
         });
     }
@@ -1342,7 +1254,7 @@ class Game extends Phaser.Scene {
             this.menu5.visible = true;
             this.groupe.visible = true;
             secret++;
-            if (secret >= 100) {
+            if (secret >= 50) {
                 this.groupe.visible = false;
                 this.menu5.visible = false;
                 secret = false;
@@ -1365,7 +1277,7 @@ class Game extends Phaser.Scene {
         if (temps >= 2000) {
             for(let i = 0; i < animaux_t.length; i++) {
                 const animalToUpdate = animaux_t[i].idAnimal;
-                //const idAnimal = 17; // Remplacez par l'ID de l'animal que vous souhaitez mettre à jour
+                // Remplacé par l'ID de l'animal que vous souhaitez mettre à jour
                 this.updateAnimal(animalToUpdate, this);
                 if (EtatAnimaux[animalToUpdate] == 0) {
                     EtatAnimaux[animalToUpdate] = 1;
@@ -1387,9 +1299,9 @@ class Menu extends Phaser.Scene {
         super({ key: 'Menu' });
     }
     create() {
-
-        posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
-        posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
+        //position souris création
+        //posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
+        //posYTest = this.add.text(2120, 40, '-', { font: 'bold 18px Georgia', fill: '#fff' });
         
         this.stats = this.add.image(2300, 940, 'stats')
         .setInteractive({ useHandCursor: true })
@@ -1409,7 +1321,6 @@ class Menu extends Phaser.Scene {
         this.stats.setScale(0.2);
         this.stats.depth = 14;
         this.stats.visible = true;
-
 
         this.sound1 = this.add.image(628, 380, 'sound')
         .setInteractive({ useHandCursor: false })
@@ -1548,7 +1459,6 @@ class Menu extends Phaser.Scene {
         });
         this.sound_logo.setScale(0.1);
 
-
         this.music1 = this.sound.add('music1', { loop: true });
         this.music1.setVolume(0.5);
         this.music2 = this.sound.add('music2', { loop: true });
@@ -1592,25 +1502,14 @@ class Menu extends Phaser.Scene {
         music_name6.depth = 11;
         music_name6.visible = false;
 
-       // this.level_up = this.sound.add('level_up', { loop: false });
+        this.level_up = this.sound.add('level_up', { loop: false });
+        this.skyrim = this.sound.add('skyrim', { loop: false });
+        this.skyrim.setVolume(0.8);
         this.kashing = this.sound.add('kashing', { loop: false });
-        this.moulaga = this.sound.add('moulaga', { loop: false });
-        this.moulaga.setVolume(1);
+        this.money = this.sound.add('money', { loop: false });
+        this.money.setVolume(1);
         this.mort = this.sound.add('mort', { loop: false });
         this.mort.setVolume(1);
-        
-        this.minecraft = this.sound.add('minecraft', { loop: false });
-        this.minecraft.setVolume(0.32);
-        this.skyrim = this.sound.add('skyrim', { loop: false });
-        this.skyrim.setVolume(0.6);
-        this.skyrim3 = this.sound.add('skyrim3', { loop: false });
-        this.skyrim3.setVolume(1);
-        this.intro_so_long = this.sound.add('intro_so_long', { loop: false });
-        this.intro_so_long.setVolume(1);
-        this.gagaga = this.sound.add('gagaga', { loop: false });
-        this.gagaga.setVolume(0.5);
-
-
 
         this.anim_xp = this.add.image(1224, 72, 'xps');
         this.anim_xp.setScale(1.4);
@@ -1668,7 +1567,6 @@ class Menu extends Phaser.Scene {
         this.etoile.state = 1000;
         this.etoile.depth = 11;
         this.etoile.visible = false;
-
 
         coinText = this.add.text(280, 28, '1000', { font: 'bold 40px Georgia', fill: '#fff' });
         xpText = this.add.text(1220, 6, '0 / ???', { font: 'bold 40px Georgia', fill: '#fff' }).setOrigin(0.5,0);
@@ -1730,13 +1628,11 @@ class Menu extends Phaser.Scene {
         statEtoile.depth = 11;
         statEtoile.visible = false;
 
-
         this.visit = this.add.image(200, 144, 'visiteur_icon');
         this.visit.setScale(0.168);
         this.visit.depth = 14;
         nbvisitText = this.add.text(280, 112, '0', { font: 'bold 40px Georgia', fill: '#fff' });
         
-
         this.menu = this.add.image(1220, 572, 'menu');
         this.menu.setScale(1.2);
         this.menu.depth = 10;
@@ -1785,10 +1681,6 @@ class Menu extends Phaser.Scene {
         TextGameOver3.visible = false;
         
         this.echap = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        this.A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.G = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
-        this.O = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
-        this.S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
         this.x_button = this.add.image(1912, 262, 'x_button')
         .setInteractive({ useHandCursor: true })
@@ -1801,9 +1693,6 @@ class Menu extends Phaser.Scene {
         
         this.regles = this.add.image(1220, 532, 'regles')
             .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => {
-                console.log("§§ DIO §§");
-            })
             .on('pointerup', () => {
                 regles_zou = true;
         });
@@ -1817,7 +1706,6 @@ class Menu extends Phaser.Scene {
         this.hashtag.depth = 10;
         this.hashtag.visible = true;
 
-
         let xView = 0;
         let yView = 0;
         let xMask = 500;
@@ -1828,7 +1716,6 @@ class Menu extends Phaser.Scene {
         viewport.depth = 12;
         const mask = this.add.graphics().fillRect(xMask, yMask, widthMask, heightMask);
         viewport.mask = new Phaser.Display.Masks.GeometryMask(this, mask);
-
 
         this.hashtagText = [];
         this.hashtagText[0] = this.add.text(2100, 200, '-', { font: 'bold 28px Georgia', fill: '#000' });
@@ -1895,7 +1782,6 @@ class Menu extends Phaser.Scene {
         this.hashtagText[20].visible = false;
         this.hashtagText[20].depth = 11;
 
-
         //===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS ===== TABLEAUX ANIMALS =====
         let posCadrey = [0,460,760,1060,1360,1660,460,760,460,760,1060,1360,460,760,460,760,1060,
                          1360,1660,1960,2260,460,760,1060,1360,1660,460,760,1060,1360,1660,460,760,
@@ -1914,7 +1800,6 @@ class Menu extends Phaser.Scene {
         let lvlCadre = [0,0,0,2,2,3,2,2,3,3,4,4,5,5,6,7,7,8,8,9,20,5,6,7,8,9,10,10,12,14,
                         30,11,13,13,15,16,19,17,18,23,24,24,20,20,21,22,25,28,26,27,29];
         let animalsCadre = ['nada','zebre','girafe','suricate','autruche','fennec','elephant','rhino','hyene','serpent','lion','guepard','renne','elan','paresseux','chimpanze','lemurien','koala','panda_roux','gorille','panda','loup','leopard','panthere','ours','tigre','chevre','mouton','alpaga','paon','dodo','bison','bouquetin','ane','loutre','otarie','tortue','crocodile','hippo','requin','baleine','orque','dauphin','raie','beluga','narval','renard','manchot','morse','lion_mer','ours_polaire'];
-
 
         this.sell = [];
         this.descr = [];
@@ -1991,7 +1876,7 @@ class Menu extends Phaser.Scene {
                 .on('pointerdown', () => {
                     if(this.sell[i].y > 360 && this.sell[i].y < 850){
                         if (level >= lvlCadre[i] && animaux_achetes[i] >= 1) {
-                            this.moulaga.play();
+                            this.money.play();
                             this.sell[i].setTint(0xffffff);
                             this.sell[i].setScale(0.172);
                             vente_animal(i, nbEnclos[i]);
@@ -2011,41 +1896,6 @@ class Menu extends Phaser.Scene {
             this.nbA[i].visible = false;
             viewport.add(this.nbA[i]);
         }
-        
-
-
-        //daniel version animal 110
-        this.animals[110] = this.add.image(1220, 500, 'daniel')
-            .setInteractive({ useHandCursor: false })
-        this.animals[110].setScale(6);
-        this.animals[110].depth = 15;
-        this.animals[110].visible = false;
-        //mynthos version animal 111-114
-        this.animals[111] = this.add.image(750, 460, 'myn1')
-        .setInteractive({ useHandCursor: false })
-        this.animals[111].setScale(8);
-        this.animals[111].depth = 15;
-        this.animals[111].visible = false;
-        //viewport.add(this.animals[111]);
-        this.animals[112] = this.add.image(750, 760, 'myn2')
-        .setInteractive({ useHandCursor: false })
-        this.animals[112].setScale(0.6);
-        this.animals[112].depth = 11;
-        this.animals[112].visible = false;
-        //viewport.add(this.animals[112]);
-        this.animals[113] = this.add.image(750, 1060, 'myn3')
-        .setInteractive({ useHandCursor: false })
-        this.animals[113].setScale(1.2);
-        this.animals[113].depth = 11;
-        this.animals[113].visible = false;
-        //viewport.add(this.animals[113]);
-        this.animals[114] = this.add.image(750, 1360, 'myn4')
-        .setInteractive({ useHandCursor: false })
-        this.animals[114].setScale(1.2);
-        this.animals[114].depth = 11;
-        this.animals[114].visible = false;
-        //viewport.add(this.animals[114]);
-
 
         //|||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL |||| DEBUT WHEEL ||||
         let indiceWheel = 0;
@@ -2054,7 +1904,7 @@ class Menu extends Phaser.Scene {
         this.input.on("wheel", function (pointer, gameObjects, deltaX, deltaY, deltaZ) {
             if (this.animals[1].visible == true) {
                 indiceWheel = 1;
-                indiceNb = 5; //on affiche que les 5 premiers
+                indiceNb = 5;
             }
             else if (this.animals[6].visible == true) {
                 indiceWheel = 6;
@@ -2144,44 +1994,20 @@ class Menu extends Phaser.Scene {
                 }
             }
         }, this);
-        
-        
-        //jeux.style.display = 'block';
-        /*jeux.style.display = "block";
-        jeux.style.zIndex = "100"*/
-/*
-        loading.style.display = "none";
-        loading.parentNode.removeChild(loading);
-        */
-        //jeux.style.display = 'block';
-        //loading.style.display = 'none';
-        //loading.style.zIndex = '-1';
-        //loading.parentNode.removeChild(loading);
-        //console.log("CHARGEMENT FINI");
-
     }
     update() {
-        
-
+        //position de la souris sur l'écran :
         //posXTest.setText(game.input.mousePointer.x);
         //posYTest.setText(game.input.mousePointer.y);
 
-
         atm = this;
         hell.then(function (value) {
-
             if (charger == false) {
-                //console.log(value);
                 charger = true;
                 animaux = value.animaux;
                 hashtags = value.hashtags;
                 visiteurs = value.visiteurs;
                 save = db_save_into_tab(value.last_save);
-                //console.log(animaux);
-                //console.log(hashtags);
-                //console.log(save);
-                //console.log("visiteurs");
-                //console.log(visiteurs);
 
                 //parcours animaux
                 for (let i = 0; i < animaux.length; i++) {
@@ -2195,7 +2021,6 @@ class Menu extends Phaser.Scene {
                         }
                         if (animaux[i].nom.toLowerCase() == hashtags[j].hashtag.toLowerCase()) {
                             animaux[i].popularite += 25 * hashtags[j].number;
-                            //console.log(animaux[i]);
                         }
                     }
                     coins = save.coins;
@@ -2204,7 +2029,6 @@ class Menu extends Phaser.Scene {
                     
                     atm.descr[1].setText(animaux[0].nom + " (" + animaux[0].alimentation + ")\n\n" + animaux[0].description + "\n\nPrix : " + animaux[0].prix + "                Depenses : " + animaux[0].depense + "                Popularité : " + animaux[0].popularite);
                     atm.descr[2].setText(animaux[1].nom + " (" + animaux[1].alimentation + ")\n\n" + animaux[1].description + "\n\nPrix : " + animaux[1].prix + "                Depenses : " + animaux[1].depense + "                Popularité : " + animaux[1].popularite);
-                
                 }
             }
 
@@ -2258,30 +2082,18 @@ class Menu extends Phaser.Scene {
                 else{ popuText.setText("0");}
                 popuText.setStyle({fill : '#9200C4'});
                 
-
                 nrbAnimauxText.setText(nbanimaux);
                 nrbAnimauxText.setStyle({ fill: '#0000ff' });
 
-                
-                argentTotauxText.setText(cumul/*.toString(), false*/);
+                argentTotauxText.setText(cumul);
                 argentTotauxText.setStyle({ fill: '#C4CB00' });
                 
-
                 if (monte_ok(cumul) && level < 30) {
                     save.niveau++;
                     level = save.niveau;
                     lvlText.setText(level);
                     indice_level++;
-                    //console.log("next level : " + level);
-                    //atm.level_up.play();
-                    if(level >= 30){
-                        atm.skyrim.play();
-                    }
-                    else{
-                        atm.minecraft.play();
-                    }
-                    //atm.intro_so_long.play();
-
+                    atm.level_up.play();
 
                     if (level >= 1) {
                         atm.descr[1].setText(animaux[0].nom + " (" + animaux[0].alimentation + ")\n\n" + animaux[0].description + "\n\nPrix : " + animaux[0].prix + "                Depenses : " + animaux[0].depense + "                Popularité : " + animaux[0].popularite);
@@ -2394,7 +2206,6 @@ class Menu extends Phaser.Scene {
                         atm.descr[30].setText(animaux[29].nom + " (" + animaux[29].alimentation + ")\n\n" + animaux[29].description + "\n\nPrix : " + animaux[29].prix + "                Depenses : " + animaux[29].depense + "                Popularité : " + animaux[29].popularite);
                     }
                 }
-
             }
             if(speed == "fast"){
                 compteurtick2 = (compteurtick2 + 1)%4;
@@ -2402,7 +2213,6 @@ class Menu extends Phaser.Scene {
             else if(speed == "normal"){
                 compteurtick2 = (compteurtick2 + 1)%35;
             }
-
 
             if(compteurtick3 == 0) {
                 if(atm.hashtagText[0].visible == true && atm.hashtagText[7].text != '-'){
@@ -2432,21 +2242,15 @@ class Menu extends Phaser.Scene {
             }
             compteurtick3 = (compteurtick3+1)%64;
 
-
             if(compteurtick4 == 0) {
                 [nbanimaux, popularitetot] = popularitetot_nbanimaux(save);
-                //console.log(nbanimaux,popularitetot);
                 nbvisit = gain_visiteur(nbanimaux, popularitetot);
-                //console.log(nbvisit,nbanimaux,popularitetot);
                 const gaintemp = gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux);
-                //console.log("benef : ", gaintemp);
                 coins += gaintemp;
                 if(gaintemp > 0){
                     cumul += gaintemp;
                 }
                 else{ }
-                //console.log("coins : ", coins);
-                //console.log("nbvist : ", nbvisit);
             }
             if(speed == "fast"){
                 compteurtick4 = (compteurtick4+1)%10;
@@ -2503,8 +2307,6 @@ class Menu extends Phaser.Scene {
                     tristeText.visible = false;
                     popuText.visible = false;
                     etoileText.visible = false;
-                    atm.animals[110].visible = false;
-                    atm.animals[111].visible = false;
                     atm.x_button.visible = false;
 
                     music_name1.visible = false;
@@ -2755,7 +2557,6 @@ class Menu extends Phaser.Scene {
                 TextGameOver.visible = true;
                 TextGameOver2.visible = true;
                 TextGameOver3.visible = true;
-                //console.log(gameover);
                 if(atm.mort.isPlaying == false && gameover == 0){
                     gameover = 1;
                     atm.mort.play();
@@ -2775,14 +2576,14 @@ class Menu extends Phaser.Scene {
                         win++;
                     }
                 }
-                if(atm.skyrim3.isPlaying == false && win >= 50){
+                if(atm.skyrim.isPlaying == false && win >= 50){
                     atm.win.visible = true;
                     win = 60;
-                    atm.skyrim3.play();
+                    atm.skyrim.play();
                 }
             }
             if(win == 60){
-                if(atm.skyrim3.isPlaying == false){
+                if(atm.skyrim.isPlaying == false){
                     atm.win.visible = false;
                 }
             }
@@ -3014,30 +2815,6 @@ class Menu extends Phaser.Scene {
                 }
                 enclos14 = false;
             }
-
-            if (atm.G.isDown && atm.A.isDown && gagaga == false) {
-                gagaga = true;
-            }
-            if(gagaga == true/* && atm.gagaga.isPlaying == false*/){
-                atm.animals[111].visible = true;
-                opened = true;
-                atm.gagaga.play();
-                gagaga = false;
-            }
-            if(atm.G.isUp && atm.A.isUp && gagaga == true){
-                gagaga = false;
-            }
-            if (atm.S.isDown && atm.O.isDown && intro == false) {
-                intro = true;
-            }
-            if(intro == true/* && atm.gagaga.isPlaying == false*/){
-                atm.animals[110].visible = true;
-                opened = true;
-                atm.intro_so_long.play();
-                intro = false;
-            }
-
-
         });
     }
 }
@@ -3070,6 +2847,5 @@ let config = {
         disableWebAudio: true
     }
 };
-
 let game = new Phaser.Game(config);
 
