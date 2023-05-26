@@ -7,8 +7,11 @@ const puppeteer = require('puppeteer');
 /*##################################################*/
 
 async function gethastag(){
+    /*
+    Fonction qui utilise puppeteer pour recuperer les hashtag pour les afficher sur les visiteurs du zoo
+    */
     
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({ headless: "new" });//lance le navigateur
     const page = await browser.newPage();
     
     // Naviguer jusqu'à la page Twitter
@@ -17,7 +20,7 @@ async function gethastag(){
     // Attendre que la page soit chargée
     await page.waitForSelector('div[data-testid="primaryColumn"]');
     
-
+    //attend 2 secondes pour que la page soit bien chargée
     await new Promise(resolve => setTimeout(resolve, 2000));
   
     const hashtag = await page.$$eval('a[href*="hashtag"]', as => as.map(a => decodeURIComponent(a.href)));//recupere les hashtag dans les liens href du html et les convertit pour avoir les accent ! 

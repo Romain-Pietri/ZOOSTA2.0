@@ -13,15 +13,14 @@ const connection = mysql.createConnection({//passwd root
 /*#                Connection DB                   #*/
 /*#                                                #*/
 /*##################################################*/
-function config_db(){
-
+function config_db(){//cree les differentes tables si elles n'existent pas
     connection.query('CREATE TABLE IF NOT EXISTS animaux( id INT NOT NULL AUTO_INCREMENT, nom VARCHAR(255), enclos INT, alimentation VARCHAR(255), niveau INT, popularite INT ,prix INT, depense INT, description VARCHAR(255), primary key(id))', function(err, results, fields) {
         if (err) throw err;
         //console.log('Table created Animaux');
         }
     );
     
-
+    
     connection.query('CREATE TABLE IF NOT EXISTS hashtag (  id INT NOT NULL AUTO_INCREMENT, number INT NOT NULL ,hashtag varchar(255), primary key(id))', function(err, results, fields) {
         if (err) throw err;
         //console.log('Table created Hashtag');

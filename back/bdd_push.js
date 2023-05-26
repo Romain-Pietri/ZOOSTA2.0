@@ -16,7 +16,7 @@ const connection = bdd_connect.connection;
 
 //ANIMALS
 
-function get_only_hashtag_name(hashtag){
+function get_only_hashtag_name(hashtag){//on recupere les noms des hashtag
     //le premier est toujours 'https://twitter.com/search?q=%2523Panda&src=hashtag_click', on ne veut que panda
     var panda = hashtag[0].split("#")[1];
     panda = panda.split("&")[0];
@@ -32,7 +32,7 @@ function get_only_hashtag_name(hashtag){
 
     return hashtag;
 }
-function getAnimalNamesFromFile(filename) {
+function getAnimalNamesFromFile(filename) {//recupere les noms des animaux de notre fichier json
     const data = fs.readFileSync(filename);
     const animals = JSON.parse(data);
     const names = animals.map(animal => animal.Nom);
@@ -40,7 +40,7 @@ function getAnimalNamesFromFile(filename) {
     return namesLowerCase;
   }
 
-function get_only_animal(hashtag){
+function get_only_animal(hashtag){//on ne garde que les animaux
     var real= [];
     //ouvre le fichier Animaux.json et recupere les noms des animaux en lowercase
     animal = getAnimalNamesFromFile('./JSON/Animaux.json');
@@ -60,7 +60,7 @@ function get_only_animal(hashtag){
 
 
 
-function occur_hashtag(hashtag){
+function occur_hashtag(hashtag){//on compte le nombre de fois qu'un hashtag est present
     //creer un tableau a 2 dimensions tab [][]
     var tab = new Array(hashtag.length);
     for(let i=0 ; i<hashtag.length ; i++){
@@ -80,7 +80,7 @@ function occur_hashtag(hashtag){
     }
     return tab;
 }
-function without_duplicate(tableau) {
+function without_duplicate(tableau) {//on enleve les doublons
     const objSet = new Set();
     return tableau.filter((elem) => {
       if (objSet.has(elem[0])) {
@@ -92,7 +92,7 @@ function without_duplicate(tableau) {
     });
   }
 
-function push_into_db(hashtag){
+function push_into_db(hashtag){//on push dans la bdd
    // hashtag= get_only_hashtag_name(hashtag);
     hashtag = get_only_animal(hashtag);
 
@@ -122,7 +122,7 @@ function push_into_db(hashtag){
 
 //VISITEURS
 
-function push_visiteur(nom, prenom){
+function push_visiteur(nom, prenom){//on push dans la bdd
     connection.query('INSERT INTO visiteur (nom, prenom) VALUES ("'+nom+'", "'+prenom+'")', function(err, results, fields) {
         if (err) throw err;
         //console.log('Value inserted');
@@ -130,7 +130,7 @@ function push_visiteur(nom, prenom){
     );
 }
 
-function new_game(){
+function new_game(){//s'il n'y a pas de save, on en cree une
     connection.query('INSERT INTO SAVE (niveau) VALUES (1)', function(err, results, fields) {
     if (err) throw err;
         //console.log('Value inserted');
@@ -139,7 +139,7 @@ function new_game(){
     
 }
 
-function push_animaux(){
+function push_animaux(){//Quand on lance le jeu, on push les animaux dans la bdd
     connection.query('DROP TABLE animaux', function(err, results, fields) {
         if (err) throw err;
         //console.log('Table dropped');

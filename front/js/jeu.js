@@ -174,6 +174,7 @@ let temps = 0;
 
 
 function hello() {
+    //Demande au serveur de lui donner les données nécessaires pour le jeu
     const data = fetch('/hello', {
         method: 'POST',
         headers: {
@@ -192,6 +193,7 @@ function hello() {
 const hell = hello();
 
 function ec_n_to_tab(ec_n) {
+    //prend la chaine de caractere qui correspond au enclo n et renvoie un tableau d'entier
     let tab = [];
     let last_space = 0;
     if (ec_n != null) {
@@ -255,6 +257,7 @@ function db_save_into_tab(save) {
 }
 
 function popularitetot_nbanimaux(save) {
+    //fait la somme de la popularité de tout les animaux et renvoie un tableau avec le nombre d'animaux et la popularité totale
     let nbanimaux = 0;
     for (let i = 0; i < save.ec_na.length; i++) {
         nbanimaux += save.ec_na[i].length;
@@ -269,6 +272,7 @@ function popularitetot_nbanimaux(save) {
 }
 
 function gain_visiteur(nbanimaux, popularitetot) {
+    //renvoie le nombre de visiteur en fonction du nombre d'animaux et de la popularité totale
     if (nbanimaux == 0) {
         return 0;
     }
@@ -286,6 +290,7 @@ function gain_visiteur(nbanimaux, popularitetot) {
 }
 
 function gain_argent(nbvisit, nbanimaux, popularitetot) {
+    //renvoie le gain d'argent en fonction du nombre de visiteur, du nombre d'animaux et de la popularité totale
     if (nbanimaux == 0) {
         return 0;
     }
