@@ -1,5 +1,5 @@
 
-// ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ==== VARIABLES ====
+// ======================== TOUTES LES VARIABLES GLOBALES NECESSAIRES ========================
 let nbanimaux = 0;
 let animauxTotaux = 0;
 let charger = false;
@@ -115,7 +115,7 @@ let enclos12 = false;
 let enclos13 = false;
 let enclos14 = false;
 
-//variable
+//variable pour les noms des animaux
 const nomsAnimaux = {
     1: 'zebre',
     2: 'girafe',
@@ -292,6 +292,7 @@ function gain_argent(nbvisit, nbanimaux, popularitetot) {
     return Math.round((10 * nbvisit * (popularitetot / (nbanimaux * 150))));
 }
 
+//verification si cumul est suffisant pour passer au level suivant
 function monte_ok(cumul) {
     if(cumul > cumul_requis[indice_level]){
         return true;
@@ -299,7 +300,7 @@ function monte_ok(cumul) {
     return false
 }
 
-//&&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&& CALCUL POUR CUMUL_REQUIS &&&&&
+// ===========================  VARIBLES ET CALCULS POUR cumul_requis  ===========================
 let indice_level = 1;
 let cumul_requis = [];
 cumul_requis[0] = 2000;
@@ -322,16 +323,16 @@ else if(mode == "normal"){
     }
 }
 cumul_requis[30] = "max";
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
 
 function how_many_money(niveau) {
     return Math.floor(Math.sqrt(1000000 * niveau, 1.5))
 }
 
+//nombre d'animaux max par enclos pour l'affichage
 let maxEnclos = [0, 114, 56, 68, 64, 84, 78, 78, 94, 78, 36, 40, 63, 12, 18];
-
+//vérification de coins et si suffisant, achat de l'animal (et lancement de l'affichage de l'animal)
 function achat_animal(i, en_c) {
-    console.log(en_c);
     if (animaux[i - 1].prix <= coins && animauxActuel_enclos[en_c-1] <= maxEnclos[en_c]) {
         coins -= animaux[i - 1].prix;
         save.ec_na[en_c - 1].push(i);
@@ -340,6 +341,7 @@ function achat_animal(i, en_c) {
     }
 }
 
+//vérification si l'animal est possédé et si oui, vente de l'animal (et disparition)
 function vente_animal(i, en_c) {
     if(animaux_achetes[i] >= 1){
         coins += Math.floor(animaux[i - 1].prix / 2);
@@ -385,6 +387,7 @@ class Boot extends Phaser.Scene {
     constructor() {
         super({ key: 'Boot' });
     }
+    //importation de toutes les images
     preload() {
         this.load.image('background', '../map/background.png');
 
@@ -597,9 +600,9 @@ class Boot extends Phaser.Scene {
         this.load.audio('money', ['../audio/money.wav']);
         this.load.audio('mort', ['../audio/mort.mp3']);
     }
+    //lancement des scènes
     create() {
         this.scene.start('Game');
-        this.scene.start('HUD');
         this.scene.start('Menu');
     }
 }
@@ -700,7 +703,7 @@ class Game extends Phaser.Scene {
         this.frame = [];
         this.smiley = [];
     }
-    // Fonction pour supprimer un animal du tableau et de la scène
+    //fonction pour supprimer un animal du tableau et de la scène
     suppressionAnimal(idAnimal, scene) {
         let enclosIndex;
         if (1 <= idAnimal && idAnimal <= 5) {
@@ -749,6 +752,7 @@ class Game extends Phaser.Scene {
             }
         }
     }
+    //affichage de l'animal
     afficherAnimal(idAnimal, scene) {
         // Vérification de l'ID de l'animal et détermination de l'index de l'enclos correspondant
         let enclosIndex;
@@ -862,6 +866,7 @@ class Game extends Phaser.Scene {
         // Définition du groupe d'animaux
 
     }
+
     updateAnimal(idAnimal, scene) {
         const groupeAnimal = scene.animauxGroup;
         const animalToUpdate = groupeAnimal.getChildren().find(child => child.idAnimal === idAnimal);
@@ -902,6 +907,7 @@ class Game extends Phaser.Scene {
             }
         }
     }
+    //création d'images, de la caméra (et du zoom), de la map
     create() {
         this.menu5 = this.add.image(1220, 572, 'menu5');
         this.menu5.setScale(1.28);
@@ -956,11 +962,7 @@ class Game extends Phaser.Scene {
 
             if (tile && testPosX == testPosX2 && testPosY == testPosY2) {
                 //console.log(`Clicked on tile (${tile.x}, ${tile.y}) in layer '${tile.layer.name}'`);
-                if(tile.x == 31 && tile.y == 41){
-                    gagaga = true;
-                    console.log(gagaga);
-                }
-                else if (tile.x <= 41 && tile.y <= 21) {
+                if (tile.x <= 41 && tile.y <= 21) {
                     //console.log('plaine droite');
                     enclos8 = true;
                 }
@@ -1130,9 +1132,9 @@ class Game extends Phaser.Scene {
         //################################
         //# --   Fin de la caméra    --  #
         //################################
+
         tileWidth = map.tileWidth * layers.enclos.scaleX;
         tileHeight = map.tileHeight * layers.enclos.scaleY;
-        //################################
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -1187,6 +1189,7 @@ class Game extends Phaser.Scene {
             }
         });
     }
+
     wich_direction(x, y, targetx, targety) {
         if (targetx - x < 0 && targety - y < 0) {
             return 6;
@@ -1199,6 +1202,7 @@ class Game extends Phaser.Scene {
         }
         return 3;
     }
+
     moveVisiteurToNextTarget(i, chemin, vitesse) {
         if (this.currentTargetIndex[i] >= this.targetCoordinates[chemin].length) {
             // Toutes les cibles ont été atteintes, arrêter le déplacement
@@ -1249,6 +1253,7 @@ class Game extends Phaser.Scene {
             }
         });
     }
+    //actualisation immédiate de la scène
     update() {
         if (secret) {
             this.menu5.visible = true;
@@ -1298,6 +1303,7 @@ class Menu extends Phaser.Scene {
     constructor() {
         super({ key: 'Menu' });
     }
+    //création (images) des menus/sons/cadres/animaux non affectés par la caméra (le zoom)
     create() {
         //position souris création
         //posXTest = this.add.text(2120, 10, '-', { font: 'bold 18px Georgia', fill: '#fff' });
@@ -1958,10 +1964,6 @@ class Menu extends Phaser.Scene {
                 indiceWheel = 48;
                 indiceNb = 3;
             }
-            else if (this.animals[111].visible == true) {
-                indiceWheel = 111;
-                indiceNb = 4;
-            }
             //wheel
             if (opened == true && this.menu.visible == true && this.animals[indiceWheel].visible == true) {
                 if (deltaY < 0 && this.animals[indiceWheel].y > 450) {
@@ -1995,6 +1997,7 @@ class Menu extends Phaser.Scene {
             }
         }, this);
     }
+    //actualisation immédiate de la scène
     update() {
         //position de la souris sur l'écran :
         //posXTest.setText(game.input.mousePointer.x);
@@ -2013,6 +2016,7 @@ class Menu extends Phaser.Scene {
                 for (let i = 0; i < animaux.length; i++) {
                     for (let j = 0; j < hashtags.length; j++) {
                         if (j <= 20) {
+                            //récupération des hashtags
                             atm.hashtagText[j].setText('#'+hashtags[j].hashtag+' x'+hashtags[j].number);
                             if(hashtagVedette < hashtags[j].number){
                                 hashtagVedette = hashtags[j].number;
@@ -2033,11 +2037,12 @@ class Menu extends Phaser.Scene {
             }
 
             if (compteurtick2 == 0) {
-
+                //actualisation des valeurs de coins / nombre visiteurs / animation de la barre d'expérience
                 xps = (xps + 100) % 1000;
                 coinText.setText(coins);
                 nbvisitText.setText(nbvisit);
                 xpText.setText(cumul + ' / ' + cumul_requis[indice_level]);
+                //si frameP = 0, barre vide | si frameP = 18, barre pleine
                 frameP = Math.floor((cumul_requis[indice_level]-cumul_requis[indice_level-1]) / 18);
                 if(level < 30){
                     atm.anim_xp.setFrame(Math.floor((cumul-cumul_requis[indice_level-1])/frameP)%19);
@@ -2050,11 +2055,11 @@ class Menu extends Phaser.Scene {
                 not_stonksText.setText(depensee(save, animaux));
                 not_stonksText.setStyle({ fill: '#ff0000' });
                 
-                // Calculez la valeur du texte
+                // valeur du texte
                 const valeurTexte = gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux);
 
                 let couleurTexte = '#0000ff';
-                // Définissez la couleur du texte en fonction de la valeur
+                // couleur du texte en fonction de la valeur
                 if(valeurTexte < 0) {
                     couleurTexte = '#ff0000';
                 }
@@ -2062,7 +2067,7 @@ class Menu extends Phaser.Scene {
                     couleurTexte = '#00ff00';
                 }
 
-                // Créez le texte avec la couleur définie
+                // texte avec la couleur définie
                 stonks2Text.setText(gain_argent(nbvisit, nbanimaux, popularitetot) - depensee(save, animaux).toString());
                 stonks2Text.setStyle({ fill: couleurTexte });
 
@@ -2088,6 +2093,7 @@ class Menu extends Phaser.Scene {
                 argentTotauxText.setText(cumul);
                 argentTotauxText.setStyle({ fill: '#C4CB00' });
                 
+                //level suivant, actualisation et déblocage des nouveaux animaux
                 if (monte_ok(cumul) && level < 30) {
                     save.niveau++;
                     level = save.niveau;
@@ -2214,6 +2220,7 @@ class Menu extends Phaser.Scene {
                 compteurtick2 = (compteurtick2 + 1)%35;
             }
 
+            //changement de pages automatique des hashtags
             if(compteurtick3 == 0) {
                 if(atm.hashtagText[0].visible == true && atm.hashtagText[7].text != '-'){
                     for(let i = 0; i < 7; i++){
@@ -2242,6 +2249,7 @@ class Menu extends Phaser.Scene {
             }
             compteurtick3 = (compteurtick3+1)%64;
 
+            //calculs des gains/pertes
             if(compteurtick4 == 0) {
                 [nbanimaux, popularitetot] = popularitetot_nbanimaux(save);
                 nbvisit = gain_visiteur(nbanimaux, popularitetot);
@@ -2260,9 +2268,9 @@ class Menu extends Phaser.Scene {
             }
 
 
-            //######## GESTION TOUCHES/CLICKS AVEC VARIABLES ######## GESTION TOUCHES/CLICKS AVEC VARIABLES ########
+            // ========================= GESTION TOUCHES/CLICKS AVEC VARIABLES =========================
 
-            // ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ====== AFFICHAGE FENETRES ======
+            // =================== AFFICHAGE FENETRES ===================
             //MENU REGLES
             if(regles_zou == true){
                 if(compteurtick5 == 0) {
@@ -2276,7 +2284,8 @@ class Menu extends Phaser.Scene {
                     regles_zou = false;
                 }
             }
-            //MENU ECHAP
+
+            //ECHAP pour quitter les menus
             if (atm.echap.isDown || echap == true) {
                 if (opened == true) {
                     atm.menu.visible = false;
@@ -2546,7 +2555,6 @@ class Menu extends Phaser.Scene {
             if(coins < 0){
                 for (let i = 0; i < animaux_t.length;i++){
                     const id2 = animaux_t[i].idAnimal;
-                    //console.log(animaux[id2-1].prix);
                     venteTotale += (animaux[id2-1].prix/2);    
                 }
             }
@@ -2588,9 +2596,9 @@ class Menu extends Phaser.Scene {
                 }
             }
 
-            //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            //$$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$
-            //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            //$$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$ ENCLOS ANIMAUX $$$$$
+            //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             //MENU ENCLOS1
             if (enclos1 == true) {
                 if (opened == false) {
@@ -2819,7 +2827,7 @@ class Menu extends Phaser.Scene {
     }
 }
 
-
+//configuration du jeu et lancement via Phaser
 let config = {
     type: Phaser.AUTO,
     parent: 'big-head',
